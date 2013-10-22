@@ -50,7 +50,7 @@
 		<table border="0" class="cuadrado" align="center" width="60%"
 			cellpadding="2">
 			<tr>
-				<td class="azulAjustado"><bean:message key='SIIF.label.Nombre'/></td>
+				<td class="azulAjustado"><bean:message key='SIIG.label.Nombre'/></td>
 				<td class="azulAjustado"></td>
 			</tr>
 			<%String clase=""; %>
@@ -59,7 +59,7 @@
 				<tr id="tr${i.count}" class="botonerab <%=clase%>">
 					<td><c:out value="${periodo.periodo}" /></td>
 					<td><a
-						href="javascript:mostrarDatos(${periodo.id},${i.count});"><bean:message key='SIIF.label.Editar'/></a>
+						href="javascript:mostrarDatos(${periodo.id},${i.count});"><bean:message key='SIIG.label.Editar'/></a>
 					</td>
 				</tr>
 			</c:forEach>
