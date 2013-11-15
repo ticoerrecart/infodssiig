@@ -9,7 +9,7 @@
 <table class="header">
 
 	<tr>
-		<td width="20%" height="100%"><img height="80%" width="100%" src="../../imagenes/LOGOSIIM2.jpg">
+		<td width="20%" height="100%"><img height="80%" width="100%" src="../../imagenes/logoSIIA.jpg">
 		</td>
 		<td width="60%" style="text-align: center; font-weight: bold"><jsp:useBean
 			id="now" class="java.util.Date" /> <br>

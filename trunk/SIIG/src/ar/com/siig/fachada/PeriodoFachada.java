@@ -72,7 +72,8 @@ public class PeriodoFachada{
 	
 	public void modificacionPeriodo(PeriodoDTO PeriodoDTO) throws NegocioException{
 
-		Periodo Periodo = PeriodoDAO.getPeriodoPorId(PeriodoDTO.getId());	
+		Periodo Periodo = PeriodoDAO.getPeriodoPorId(PeriodoDTO.getId());
+
 		PeriodoDAO.alta_modficacion_Periodo(ProviderDominio.getPeriodo(Periodo,PeriodoDTO));		
 	}
 }

@@ -10,6 +10,7 @@ import ar.com.siig.dto.LocalidadDTO;
 import ar.com.siig.dto.PeriodoDTO;
 import ar.com.siig.dto.RolDTO;
 import ar.com.siig.dto.UsuarioDTO;
+import ar.com.siig.dto.VencimientoPeriodoDTO;
 import ar.com.siig.enums.TipoDeEntidad;
 import ar.com.siig.negocio.Entidad;
 import ar.com.siig.negocio.ItemMenu;
@@ -20,6 +21,7 @@ import ar.com.siig.negocio.RecursosNaturales;
 import ar.com.siig.negocio.Rol;
 import ar.com.siig.negocio.TipoProducto;
 import ar.com.siig.negocio.Usuario;
+import ar.com.siig.negocio.VencimientoPeriodo;
 import ar.com.siig.utils.Fecha;
 
 public abstract class ProviderDominio {
@@ -42,13 +44,39 @@ public abstract class ProviderDominio {
 
 		Periodo periodo = new Periodo();
 		periodo.setPeriodo(periodoDTO.getPeriodo());
-
+		
+		for (VencimientoPeriodoDTO vencimientoDTO : periodoDTO.getVencimientoPeriodoDTO()) {
+			periodo.getVencimientoPeriodo().add(ProviderDominio.getVencimientoPeriodo(periodo,vencimientoDTO));
+		}
+		
 		return periodo;
 	}
 
+	public static VencimientoPeriodo getVencimientoPeriodo(Periodo periodo, VencimientoPeriodoDTO vencimientoPeriodoDTO){
+		
+		VencimientoPeriodo vencimientoPeriodo = new VencimientoPeriodo();
+		
+		vencimientoPeriodo.setPeriodo(periodo);
+		vencimientoPeriodo.setFecha(Fecha.stringDDMMAAAAToUtilDate(vencimientoPeriodoDTO.getFecha()));;
+		
+		return vencimientoPeriodo;
+	}
+	
 	public static Periodo getPeriodo(Periodo periodo, PeriodoDTO periodoDTO) {
 	
 		periodo.setPeriodo(periodoDTO.getPeriodo());
+		
+		for (VencimientoPeriodoDTO vencDTO : periodoDTO.getVencimientoPeriodoDTO()) {
+			
+			for (VencimientoPeriodo venc : periodo.getVencimientoPeriodo()) {
+				
+				if(vencDTO.getId().longValue() == venc.getId().longValue()){
+					
+					venc.setFecha(Fecha.stringDDMMAAAAToUtilDate(vencDTO.getFecha()));
+				}
+			}
+		}
+		
 		return periodo;
 	}
 

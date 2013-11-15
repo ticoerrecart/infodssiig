@@ -3,6 +3,7 @@ package ar.com.siig.providers;
 import java.util.ArrayList;
 import java.util.List;
 
+import ar.com.siig.utils.Fecha;
 import ar.com.siig.dto.EntidadDTO;
 import ar.com.siig.dto.ItemMenuDTO;
 import ar.com.siig.dto.LocalidadDTO;
@@ -10,6 +11,7 @@ import ar.com.siig.dto.PeriodoDTO;
 import ar.com.siig.dto.RolDTO;
 import ar.com.siig.dto.TipoProductoDTO;
 import ar.com.siig.dto.UsuarioDTO;
+import ar.com.siig.dto.VencimientoPeriodoDTO;
 import ar.com.siig.negocio.Entidad;
 import ar.com.siig.negocio.ItemMenu;
 import ar.com.siig.negocio.Localidad;
@@ -17,6 +19,7 @@ import ar.com.siig.negocio.Periodo;
 import ar.com.siig.negocio.Rol;
 import ar.com.siig.negocio.TipoProducto;
 import ar.com.siig.negocio.Usuario;
+import ar.com.siig.negocio.VencimientoPeriodo;
 
 public abstract class ProviderDTO {
 
@@ -94,9 +97,25 @@ public abstract class ProviderDTO {
 		periodoDTO.setId(periodo.getId());
 		periodoDTO.setPeriodo(periodo.getPeriodo());
 
+		for (VencimientoPeriodo vencimientoPeriodo : periodo.getVencimientoPeriodo()) {
+			
+			periodoDTO.getVencimientoPeriodoDTO().add(ProviderDTO.getVencimientoPeriodoDTO(periodoDTO,vencimientoPeriodo));
+		}
+		
 		return periodoDTO;
 	}
 
+	public static VencimientoPeriodoDTO getVencimientoPeriodoDTO(PeriodoDTO periodoDTO, VencimientoPeriodo vencimientoPeriodo){
+		
+		VencimientoPeriodoDTO vencimientoPeriodoDTO = new VencimientoPeriodoDTO();
+		
+		vencimientoPeriodoDTO.setId(vencimientoPeriodo.getId());
+		vencimientoPeriodoDTO.setPeriodoDTO(periodoDTO);
+		vencimientoPeriodoDTO.setFecha(Fecha.getFechaDDMMAAAASlash(Fecha.dateToStringDDMMAAAA(vencimientoPeriodo.getFecha())));
+		
+		return vencimientoPeriodoDTO;
+	}
+	
 	public static EntidadDTO getEntidadDTO(Entidad entidad) {
 
 		EntidadDTO entidadDTO = new EntidadDTO();

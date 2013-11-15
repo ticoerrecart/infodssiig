@@ -31,6 +31,7 @@
 		<mapping class='ar.com.siig.negocio.Productor' />
 		<mapping class='ar.com.siig.negocio.TipoProducto' />
 		<mapping class='ar.com.siig.negocio.Reporte' />
+		<mapping class='ar.com.siig.negocio.VencimientoPeriodo' />
 		
 	</session-factory>
 </hibernate-configuration>
