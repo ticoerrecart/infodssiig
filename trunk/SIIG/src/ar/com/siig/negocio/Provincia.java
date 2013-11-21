@@ -1,38 +1,28 @@
 package ar.com.siig.negocio;
 
-import javax.persistence.Column;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
 @Entity
-public class Localidad {
+public class Provincia {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Column(nullable = false)
 	private String nombre;
 
-	@ManyToOne()
-	@Cascade(value = CascadeType.SAVE_UPDATE)
-	@JoinColumn(name = "provincia_fk")
-	private Provincia provincia;
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+	@OneToMany(mappedBy = "provincia")
+	@Cascade(value = { CascadeType.SAVE_UPDATE, CascadeType.DELETE_ORPHAN })
+	private List<Localidad> localidades;
 
 	public Long getId() {
 		return id;
@@ -42,11 +32,20 @@ public class Localidad {
 		this.id = id;
 	}
 
-	public Provincia getProvincia() {
-		return provincia;
+	public String getNombre() {
+		return nombre;
 	}
 
-	public void setProvincia(Provincia provincia) {
-		this.provincia = provincia;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
+
+	public List<Localidad> getLocalidades() {
+		return localidades;
+	}
+
+	public void setLocalidades(List<Localidad> localidades) {
+		this.localidades = localidades;
+	}
+
 }

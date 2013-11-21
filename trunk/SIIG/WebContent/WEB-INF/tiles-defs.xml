@@ -37,6 +37,27 @@
 		<put name="title" value="SIIGs" />
 		<put name="body" value="/jsp/recuperarLocalidades.jsp" />
 	</definition>
+	
+	<definition name=".recuperarLocalidades" extends=".base">
+		<put name="title" value="SIIGs" />
+		<put name="body" value="/jsp/recuperarLocalidades.jsp" />
+	</definition>
+	
+	<definition name=".altaProvincia" extends=".base">
+		<put name="title" value="SIIGs" />
+		<put name="body" value="/jsp/altaProvincia.jsp" />
+	</definition>	
+
+	<definition name=".recuperarProvincias" extends=".base">
+		<put name="title" value="SIIGs" />
+		<put name="body" value="/jsp/recuperarProvincias.jsp" />
+	</definition>	
+
+	<definition name=".modificacionLocalidad" extends=".base">
+		<put name="title" value="SIIGs" />
+		<put name="body" value="/jsp/modificacionLocalidad.jsp" />
+	</definition>		
+	
 	<!-- FIN LOCALIDAD -->
 
 	<!-- PERIODO -->
