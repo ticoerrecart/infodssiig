@@ -33,6 +33,7 @@
 		<mapping class='ar.com.siig.negocio.TipoProducto' />
 		<mapping class='ar.com.siig.negocio.Reporte' />
 		<mapping class='ar.com.siig.negocio.VencimientoPeriodo' />
+		<mapping class='ar.com.siig.negocio.CanonMarcaSenial' />
 		
 	</session-factory>
 </hibernate-configuration>
