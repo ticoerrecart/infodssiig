@@ -8,23 +8,34 @@
 	src="<html:rewrite page='/js/funcUtiles.js'/>"></script>
 <script type="text/javascript">
 	function submitir(){
-		validarForm("localidadFormId","../localidad","validarLocalidadForm","LocalidadForm");
+		validarForm("provinciaFormId","../localidad","validarProvinciaForm","ProvinciaForm");
 	}
 </script>
 
 
 <%-- errores de validaciones AJAX --%>
 <div id="errores" class="rojoAdvertencia">${error}</div>
-<div id="exitoGrabado" class="verdeExito">${exitoGrabado}</div>
 
-<html:form action="localidad" styleId="localidadFormId">
+<html:form action="provincia" styleId="provinciaFormId">
+	<c:choose>
+		<c:when test="${empty metodo}">
+			<html:hidden property="metodo" value="${param.metodo}" />
+		</c:when>
+		<c:otherwise>
+			<html:hidden property="metodo" value="${metodo}" />
+		</c:otherwise>
+	</c:choose>
+	<html:hidden property="provinciaDTO.id" value="${provincia.id}" />
 
-	<html:hidden property="metodo" value="altaLocalidad" />
-
-	<table border="0" class="cuadrado" align="center" width="60%" cellpadding="2">
+	<table border="0" class="cuadrado" align="center" width="60%"
+		cellpadding="2">
 		<tr>
 			<td colspan="2" class="azulAjustado">
-				<bean:message key='SIIG.titulo.AltaLocalidad'/>
+				<c:choose>
+					<c:when test="${metodo == 'altaProvincia'}">
+						<bean:message key='SIIG.titulo.AltaProvincia'/>
+					</c:when>
+				</c:choose>
 			</td>
 		</tr>
 		<tr>
@@ -33,22 +44,10 @@
 		<tr>
 			<td width="40%" class="botoneralNegritaRight"><bean:message key='SIIG.label.Nombre'/></td>
 			<td align="left">
-				<html:text styleClass="botonerab" property="localidadDTO.nombre"
+				<html:text styleClass="botonerab" property="provinciaDTO.nombre" value="${provincia.nombre}" 
 							onkeypress="return evitarAutoSubmit(event)"/>
 			</td>
 		</tr>
-		<tr>
-			<td width="40%" class="botoneralNegritaRight"><bean:message key='SIIG.label.Provincia'/></td>
-			<td align="left">
-				<select class="botonerab" name="localidadDTO.provinciaDTO.id">
-					<c:forEach items="${provincias}" var="provincia" varStatus="i">
-						<option value="<c:out value='${provincia.id}'></c:out>">
-							<c:out value="${provincia.nombre}"></c:out>
-						</option>							
-					</c:forEach>
-				</select>				
-			</td>
-		</tr>		
 		<tr>
 			<td height="20" colspan="2"></td>
 		</tr>
@@ -56,9 +55,12 @@
 			<td height="20" colspan="2">
 				<input type="button" class="botonerab" value="Aceptar" id="enviar"
 						onclick="javascript:submitir();"> 
-				<input type="button" class="botonerab" value="Cancelar"
-						onclick="javascript:parent.location= contextRoot() +  '/jsp.do?page=.index'">
-
+				<c:choose>
+					<c:when test="${empty metodo}">
+						<input type="button" class="botonerab" value="Cancelar"
+							onclick="javascript:parent.location= contextRoot() +  '/jsp.do?page=.index'">
+					</c:when>
+				</c:choose>
 			</td>
 		</tr>
 		<tr>

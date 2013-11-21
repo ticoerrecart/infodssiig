@@ -10,7 +10,7 @@
 <script>
 	var tr = null;
 	var clase = null;
-	function mostrarDatos(idLocalidad,idTr){
+	function mostrarDatos(idProvincia,idTr){
 		$('#exitoGrabado').empty();
 		if(tr!=null){
 			$('#tr'+tr).attr("class", clase);	
@@ -22,14 +22,13 @@
 		$('#divCargando').show();	
 		$('#divModificacion').html("");
 		
-		$('#divModificacion').load('../../localidad.do?metodo=cargarLocalidadAModificar&id=' + idLocalidad);
+		$('#divModificacion').load('../../provincia.do?metodo=cargarProvinciaAModificar&id=' + idProvincia);
 		$('#divModificacion').hide();
-		//$('#divModificacion').fadeIn(600);
+		$('#divModificacion').fadeIn(600);
 
 		Concurrent.Thread.create(function(){
 		    while ($('#divModificacion').html() == "") {}
 		    $('#divCargando').hide();
-		    $('#divModificacion').show(600);
 		});
 	}
 </script>
@@ -40,7 +39,7 @@
 	cellpadding="2">
 	<tr>
 		<td class="azulAjustado">
-			<bean:message key='SIIG.titulo.ModificacionLocalidad'/>
+			<bean:message key='SIIG.titulo.ModificacionProvincia'/>
 		</td>
 	</tr>
 	<tr>
@@ -55,12 +54,12 @@
 				<td class="azulAjustado"></td>
 			</tr>
 			<%String clase=""; %>
-			<c:forEach items="${localidades}" var="localidad" varStatus="i">
+			<c:forEach items="${provincias}" var="provincia" varStatus="i">
 				<%clase=(clase.equals("")?"par":""); %>
 				<tr id="tr${i.count}" class="botonerab <%=clase%>">
-					<td><c:out value="${localidad.nombre}" /></td>
+					<td><c:out value="${provincia.nombre}" /></td>
 					<td><a
-						href="javascript:mostrarDatos(${localidad.id},${i.count});"><bean:message key='SIIG.label.Editar'/></a>
+						href="javascript:mostrarDatos(${provincia.id},${i.count});"><bean:message key='SIIG.label.Editar'/></a>
 					</td>
 				</tr>
 			</c:forEach>
