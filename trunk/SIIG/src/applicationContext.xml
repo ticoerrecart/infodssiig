@@ -66,6 +66,7 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 	<bean id="usuarioDAO" class="ar.com.siig.dao.UsuarioDAO" parent="abstractRepository" />
 	<bean id="tipoProductoDAO" class="ar.com.siig.dao.TipoProductoDAO" parent="abstractRepository" />
 	<bean id="reportesDAO" class="ar.com.siig.dao.ReportesDAO" parent="abstractRepository" />
+	<bean id="marcaSenialDAO" class="ar.com.siig.dao.MarcaSenialDAO" parent="abstractRepository" />
 	
 	
 	<!--  *******************-->
@@ -103,6 +104,9 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 	</bean>
 	<bean id="reportesFachada" class="ar.com.siig.fachada.ReportesFachada">
 		<constructor-arg ref="reportesDAO" />
+	</bean>
+	<bean id="marcaSenialFachada" class="ar.com.siig.fachada.MarcaSenialFachada">
+		<constructor-arg ref="marcaSenialDAO" />
 	</bean>
 
 	<!--  *******************-->
