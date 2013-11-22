@@ -1,7 +1,5 @@
 package ar.com.siig.negocio;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
@@ -16,7 +14,8 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -60,6 +59,16 @@ public class Entidad implements Comparable<Entidad> {
 	
 	private Integer codigoPostal;
 
+	@ManyToOne()
+	@Cascade(value = CascadeType.ALL)	
+	@JoinColumn(name = "marca_fk")
+	private MarcaSenial marca;	
+
+	@ManyToOne()
+	@Cascade(value = CascadeType.ALL)	
+	@JoinColumn(name = "senial_fk")
+	private MarcaSenial senial;	
+	
 	/**
 	 * Cada subclase debe implementar éste método.
 	 * 
@@ -179,4 +188,19 @@ public class Entidad implements Comparable<Entidad> {
 		this.tipoDocumento = tipoDocumento;
 	}
 
+	public MarcaSenial getMarca() {
+		return marca;
+	}
+
+	public void setMarca(MarcaSenial marca) {
+		this.marca = marca;
+	}
+
+	public MarcaSenial getSenial() {
+		return senial;
+	}
+
+	public void setSenial(MarcaSenial senial) {
+		this.senial = senial;
+	}	
 }
