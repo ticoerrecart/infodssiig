@@ -123,7 +123,11 @@ public class Constantes {
 	public static final String EXITO_MODIFICACION_TIPO_PRODUCTO = "El Tipo de Producto se ha modificado con exito";
 	// FIN TIPO DE PRODUCTO
 	
-	//CANONO MARCA SEÑAL
+	//MARCA SEÑAL
 	public static final String EXITO_MODIFICACION_CANON_MARCA_SENIAL = "El monto de la Marca/Señal se ha modificado con exito";
-	// FIN CANONO MARCA SEÑAL	
+
+	public static final String EXITO_ALTA_MARCA = "La Marca se ha dado de alta con exito";
+	
+	public static final String EXITO_ALTA_SENIAL = "La Señal se ha dado de alta con exito";
+	// FIN MARCA SEÑAL	
 }

@@ -110,6 +110,12 @@
 		<put name="title" value="SIIGs" />
 		<put name="body" value="/jsp/recuperarMarcasSeniales.jsp" />
 	</definition>
+
+	<definition name=".altaRenovacionMarcaSenial"
+		extends=".base">
+		<put name="title" value="SIIGs" />
+		<put name="body" value="/jsp/altaRenovacionMarcaSenial.jsp" />
+	</definition>	
 	<!-- FIN MARCA SEÑAL -->
 
 	<definition name=".error" extends=".base">

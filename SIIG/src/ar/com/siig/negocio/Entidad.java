@@ -1,5 +1,8 @@
 package ar.com.siig.negocio;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
@@ -14,11 +17,13 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Where;
 
 import ar.com.siig.enums.TipoDocumento;
 
@@ -58,16 +63,14 @@ public class Entidad implements Comparable<Entidad> {
 	private TipoDocumento tipoDocumento;	
 	
 	private Integer codigoPostal;
+	
+	@OneToMany(mappedBy = "productor")
+	@Cascade(value = {CascadeType.SAVE_UPDATE,CascadeType.DELETE_ORPHAN })
+	private List<Marca> marcas;	
 
-	@ManyToOne()
-	@Cascade(value = CascadeType.ALL)	
-	@JoinColumn(name = "marca_fk")
-	private MarcaSenial marca;	
-
-	@ManyToOne()
-	@Cascade(value = CascadeType.ALL)	
-	@JoinColumn(name = "senial_fk")
-	private MarcaSenial senial;	
+	@OneToMany(mappedBy = "productor")
+	@Cascade(value = {CascadeType.SAVE_UPDATE,CascadeType.DELETE_ORPHAN })
+	private List<Senial> seniales;	
 	
 	/**
 	 * Cada subclase debe implementar éste método.
@@ -188,19 +191,20 @@ public class Entidad implements Comparable<Entidad> {
 		this.tipoDocumento = tipoDocumento;
 	}
 
-	public MarcaSenial getMarca() {
-		return marca;
+	public List<Marca> getMarcas() {
+		return marcas;
 	}
 
-	public void setMarca(MarcaSenial marca) {
-		this.marca = marca;
+	public void setMarcas(List<Marca> marcas) {
+		this.marcas = marcas;
 	}
 
-	public MarcaSenial getSenial() {
-		return senial;
+	public List<Senial> getSeniales() {
+		return seniales;
 	}
 
-	public void setSenial(MarcaSenial senial) {
-		this.senial = senial;
-	}	
+	public void setSeniales(List<Senial> seniales) {
+		this.seniales = seniales;
+	}
+
 }

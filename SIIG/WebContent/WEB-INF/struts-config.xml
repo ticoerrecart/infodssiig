@@ -27,6 +27,9 @@
 		<form-bean name="canonMarcaSenialForm"
 			type="ar.com.siig.struts.actions.forms.CanonMarcaSenialForm">
 		</form-bean>
+		<form-bean name="marcaSenialForm"
+			type="ar.com.siig.struts.actions.forms.MarcaSenialForm">
+		</form-bean>		
 		
 	</form-beans>
 
@@ -153,7 +156,7 @@
 		</action>
 		<!-- FIN TIPO PRODUCTO -->		
 		
-		<!-- CANON MARCA SEÑAL -->
+		<!-- MARCA SEÑAL -->
 		<action path="/canonMarcaSenial" type="ar.com.siig.struts.actions.MarcaSenialAction"
 			parameter="metodo" name="canonMarcaSenialForm" scope="request">
 			<forward name="exitoRecuperarMarcasSeniales" path=".recuperarMarcasSeniales" />
@@ -161,7 +164,12 @@
 			<forward name="exitoModificacionCanonMarcaSenial"
 				path="/canonMarcaSenial.do?metodo=cargarCanonMarcaSenial" />			
 		</action>
-		<!-- FIN CANON MARCA SEÑAL -->		
+		
+		<action path="/marcaSenial" type="ar.com.siig.struts.actions.MarcaSenialAction"
+			parameter="metodo" name="marcaSenialForm" scope="request">
+			<forward name="exitoCargarAltaRenovacionMarcaSenial" path=".altaRenovacionMarcaSenial" />			
+		</action>		
+		<!-- FIN MARCA SEÑAL -->		
 		
 	</action-mappings>
 

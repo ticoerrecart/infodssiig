@@ -35,6 +35,8 @@
 		<mapping class='ar.com.siig.negocio.VencimientoPeriodo' />
 		<mapping class='ar.com.siig.negocio.CanonMarcaSenial' />
 		<mapping class='ar.com.siig.negocio.MarcaSenial' />
+		<mapping class='ar.com.siig.negocio.Marca' />
+		<mapping class='ar.com.siig.negocio.Senial' />
 		<mapping class='ar.com.siig.negocio.BoletaDeposito' />
 		<mapping class='ar.com.siig.negocio.Autorizacion' />
 		<mapping class='ar.com.siig.negocio.Autorizado' />
