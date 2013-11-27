@@ -2,22 +2,29 @@ package ar.com.siig.providers;
 
 import java.util.ArrayList;
 
+import ar.com.siig.dto.BoletaDepositoDTO;
 import ar.com.siig.dto.EntidadDTO;
 import ar.com.siig.dto.LocalidadDTO;
+import ar.com.siig.dto.MarcaSenialDTO;
 import ar.com.siig.dto.PeriodoDTO;
 import ar.com.siig.dto.ProvinciaDTO;
 import ar.com.siig.dto.RolDTO;
 import ar.com.siig.dto.UsuarioDTO;
 import ar.com.siig.dto.VencimientoPeriodoDTO;
 import ar.com.siig.enums.TipoDeEntidad;
+import ar.com.siig.enums.TipoMarcaSenial;
+import ar.com.siig.negocio.BoletaDeposito;
 import ar.com.siig.negocio.Entidad;
 import ar.com.siig.negocio.ItemMenu;
 import ar.com.siig.negocio.Localidad;
+import ar.com.siig.negocio.Marca;
+import ar.com.siig.negocio.MarcaSenial;
 import ar.com.siig.negocio.Periodo;
 import ar.com.siig.negocio.Productor;
 import ar.com.siig.negocio.Provincia;
 import ar.com.siig.negocio.RecursosNaturales;
 import ar.com.siig.negocio.Rol;
+import ar.com.siig.negocio.Senial;
 import ar.com.siig.negocio.Usuario;
 import ar.com.siig.negocio.VencimientoPeriodo;
 import ar.com.siig.utils.Fecha;
@@ -86,6 +93,7 @@ public abstract class ProviderDominio {
 		return periodo;
 	}
 
+	//Se usa en el alta de Entidad, por lo tanto no seteo las Marcas y Señales pq no tiene.
 	public static Entidad getEntidad(EntidadDTO entidadDTO, Localidad localidad) {
 
 		Entidad entidad = null;
@@ -107,10 +115,11 @@ public abstract class ProviderDominio {
 		entidad.setDni(entidadDTO.getDni());
 		entidad.setTipoDocumento(entidadDTO.getTipoDocumento());
 		entidad.setCodigoPostal(entidadDTO.getCodigoPostal());
-
+				
 		return entidad;
 	}
 
+	//Se usa en la modificacion de Entidad, por lo tanto no seteo las Marcas y Señales pq no se modifican.
 	public static Entidad getEntidad(Entidad entidad, EntidadDTO entidadDTO,
 			Localidad localidad) {
 
@@ -195,4 +204,45 @@ public abstract class ProviderDominio {
 		return localidad;
 	}
 
+	public static Marca getMarca(MarcaSenialDTO marcaSenialDTO, Entidad entidad){
+		
+		Marca marca = new Marca();
+		
+		marca.setFechaVencimiento(Fecha.stringDDMMAAAAToUtilDate(marcaSenialDTO.getFechaVencimiento()));
+		marca.setId(marcaSenialDTO.getId());
+		marca.setImagen(marcaSenialDTO.getImagen());
+		marca.setNumero(marcaSenialDTO.getNumero());
+		marca.setBoletaDeposito(ProviderDominio.getBoletaDeposito(marcaSenialDTO.getBoletaDeposito()));
+		marca.setProductor(entidad);
+		
+		return marca;
+	}
+	
+	public static Senial getSenial(MarcaSenialDTO marcaSenialDTO, Entidad entidad){
+		
+		Senial senial = new Senial();
+		
+		senial.setFechaVencimiento(Fecha.stringDDMMAAAAToUtilDate(marcaSenialDTO.getFechaVencimiento()));
+		senial.setId(marcaSenialDTO.getId());
+		senial.setImagen(marcaSenialDTO.getImagen());
+		senial.setNumero(marcaSenialDTO.getNumero());
+		senial.setBoletaDeposito(ProviderDominio.getBoletaDeposito(marcaSenialDTO.getBoletaDeposito()));
+		senial.setProductor(entidad);
+		
+		return senial;
+	}	
+	
+	public static BoletaDeposito getBoletaDeposito(BoletaDepositoDTO boletaDTO){
+		
+		BoletaDeposito boleta = new BoletaDeposito();
+		if(boletaDTO.getFechaPago() != null && !boletaDTO.getFechaPago().equals("")){
+			boleta.setFechaPago(Fecha.stringDDMMAAAAToUtilDate(boletaDTO.getFechaPago()));
+		}	
+		boleta.setFechaVencimiento(Fecha.stringDDMMAAAAToUtilDate(boletaDTO.getFechaVencimiento()));
+		boleta.setId(boletaDTO.getId());
+		boleta.setMonto(boletaDTO.getMonto());
+		boleta.setNumero(boletaDTO.getNumero());
+		
+		return boleta;
+	}
 }

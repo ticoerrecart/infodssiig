@@ -7,6 +7,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import ar.com.siig.enums.TipoMarcaSenial;
+
 @Entity
 public class CanonMarcaSenial {
 
@@ -17,8 +19,6 @@ public class CanonMarcaSenial {
 	private double monto;
 	
 	private String tipo;
-	
-	//private Date fecha;
 	
 	public Long getId() {
 		return id;
@@ -38,12 +38,4 @@ public class CanonMarcaSenial {
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
-	/*public Date getFecha() {
-		return fecha;
-	}
-	public void setFecha(Date fecha) {
-		this.fecha = fecha;
-	}*/
-	
-	
 }

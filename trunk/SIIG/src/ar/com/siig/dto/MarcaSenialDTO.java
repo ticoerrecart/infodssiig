@@ -2,9 +2,14 @@ package ar.com.siig.dto;
 
 import java.sql.Blob;
 
+import ar.com.siig.negocio.Entidad;
+import ar.com.siig.negocio.Productor;
+
 public class MarcaSenialDTO {
 
 	private Long id;
+	
+	private String tipo;
 	
 	private String numero;
 	
@@ -12,6 +17,16 @@ public class MarcaSenialDTO {
 	
 	private Blob imagen;
 
+	private BoletaDepositoDTO boletaDeposito;
+	
+	private EntidadDTO productor;
+	
+	public MarcaSenialDTO(){
+		
+		boletaDeposito = new BoletaDepositoDTO();
+		productor = new EntidadDTO();
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -42,5 +57,29 @@ public class MarcaSenialDTO {
 
 	public void setImagen(Blob imagen) {
 		this.imagen = imagen;
+	}
+
+	public BoletaDepositoDTO getBoletaDeposito() {
+		return boletaDeposito;
+	}
+
+	public void setBoletaDeposito(BoletaDepositoDTO boletaDeposito) {
+		this.boletaDeposito = boletaDeposito;
+	}
+
+	public EntidadDTO getProductor() {
+		return productor;
+	}
+
+	public void setProductor(EntidadDTO productor) {
+		this.productor = productor;
+	}
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
 }

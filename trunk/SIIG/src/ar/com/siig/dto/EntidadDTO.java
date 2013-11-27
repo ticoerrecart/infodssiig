@@ -1,5 +1,8 @@
 package ar.com.siig.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ar.com.siig.enums.TipoDocumento;
 
 public class EntidadDTO {
@@ -34,6 +37,17 @@ public class EntidadDTO {
 	
 	private LocalidadDTO localidad;
 
+	private List<MarcaSenialDTO> marcas;
+	
+	private List<MarcaSenialDTO> seniales;
+	
+	public EntidadDTO(){
+		
+		localidad = new LocalidadDTO();		
+		marcas = new ArrayList<MarcaSenialDTO>();
+		seniales = new ArrayList<MarcaSenialDTO>();
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -161,4 +175,21 @@ public class EntidadDTO {
 	public void setTipoDocumentoStr(String tipoDocumento){
 		this.tipoDocumento = TipoDocumento.valueOf(tipoDocumento);
 	}
+
+	public List<MarcaSenialDTO> getMarcas() {
+		return marcas;
+	}
+
+	public void setMarcas(List<MarcaSenialDTO> marcas) {
+		this.marcas = marcas;
+	}
+
+	public List<MarcaSenialDTO> getSeniales() {
+		return seniales;
+	}
+
+	public void setSeniales(List<MarcaSenialDTO> seniales) {
+		this.seniales = seniales;
+	}
+
 }

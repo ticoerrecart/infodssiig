@@ -2,7 +2,7 @@ package ar.com.siig.enums;
 
 public enum TipoMarcaSenial {
 
-	Marca("Marca"), Senial("Senial");
+	Marca("Marca"), Senial("Señal");
 	
 	private String descripcion;
 

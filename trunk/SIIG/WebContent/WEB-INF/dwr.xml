@@ -19,6 +19,9 @@
 		<convert converter="bean" match="ar.com.siig.dto.PeriodoDTO">
 			<param name="include" value="id,periodo" />
 		</convert>
+		<convert converter="bean" match="ar.com.siig.negocio.CanonMarcaSenial">
+			<param name="include" value="id,monto,tipo" />
+		</convert>
 
 		<create creator="spring" javascript="RolFachada">
 			<param name="beanName" value="rolFachada" />
@@ -31,6 +34,9 @@
 		</create>		
 		<create creator="spring" javascript="PeriodoFachada">
 			<param name="beanName" value="periodoFachada" />
+		</create>
+		<create creator="spring" javascript="MarcaSenialFachada">
+			<param name="beanName" value="marcaSenialFachada" />
 		</create>
 
 	</allow>

@@ -3,19 +3,28 @@ package ar.com.siig.negocio;
 import java.sql.Blob;
 import java.util.Date;
 
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
-@Entity
+@MappedSuperclass
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@DiscriminatorColumn(name = "tipoMarcaSenial", discriminatorType = DiscriminatorType.STRING)
+@DiscriminatorValue("MarcaSenial")
 public class MarcaSenial {
 
 	@Id
@@ -32,6 +41,11 @@ public class MarcaSenial {
 	@JoinColumn(name = "boletaDeposito_fk")
 	@Cascade(value = CascadeType.ALL)
 	private BoletaDeposito boletaDeposito;		
+	
+	@ManyToOne()
+	@Cascade(value = CascadeType.SAVE_UPDATE)
+	@JoinColumn(name = "productor_fk")	
+	private Entidad productor;
 	
 	public Long getId() {
 		return id;
@@ -72,4 +86,14 @@ public class MarcaSenial {
 	public void setBoletaDeposito(BoletaDeposito boletaDeposito) {
 		this.boletaDeposito = boletaDeposito;
 	}
+
+	public Entidad getProductor() {
+		return productor;
+	}
+
+	public void setProductor(Entidad productor) {
+		this.productor = productor;
+	}
+	
+	//public abstract String getIdTipoMarcaSenial();
 }

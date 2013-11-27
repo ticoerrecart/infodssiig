@@ -3,21 +3,27 @@ package ar.com.siig.providers;
 import java.util.ArrayList;
 import java.util.List;
 
+import ar.com.siig.dto.BoletaDepositoDTO;
 import ar.com.siig.dto.EntidadDTO;
 import ar.com.siig.dto.ItemMenuDTO;
 import ar.com.siig.dto.LocalidadDTO;
+import ar.com.siig.dto.MarcaSenialDTO;
 import ar.com.siig.dto.PeriodoDTO;
 import ar.com.siig.dto.ProvinciaDTO;
 import ar.com.siig.dto.RolDTO;
 import ar.com.siig.dto.TipoProductoDTO;
 import ar.com.siig.dto.UsuarioDTO;
 import ar.com.siig.dto.VencimientoPeriodoDTO;
+import ar.com.siig.negocio.BoletaDeposito;
 import ar.com.siig.negocio.Entidad;
 import ar.com.siig.negocio.ItemMenu;
 import ar.com.siig.negocio.Localidad;
+import ar.com.siig.negocio.Marca;
+import ar.com.siig.negocio.MarcaSenial;
 import ar.com.siig.negocio.Periodo;
 import ar.com.siig.negocio.Provincia;
 import ar.com.siig.negocio.Rol;
+import ar.com.siig.negocio.Senial;
 import ar.com.siig.negocio.TipoProducto;
 import ar.com.siig.negocio.Usuario;
 import ar.com.siig.negocio.VencimientoPeriodo;
@@ -133,6 +139,18 @@ public abstract class ProviderDTO {
 		entidadDTO.setTipoDocumento(entidad.getTipoDocumento());
 		entidadDTO.setCodigoPostal(entidad.getCodigoPostal());
 
+		List<MarcaSenialDTO> listaMarcasDTO = new ArrayList<MarcaSenialDTO>();
+		for (Marca marca : entidad.getMarcas()) {
+			listaMarcasDTO.add(getMarcaSenialDTO(marca));
+		}
+		entidadDTO.setMarcas(listaMarcasDTO);
+
+		List<MarcaSenialDTO> listaSenialesDTO = new ArrayList<MarcaSenialDTO>();
+		for (Senial senial : entidad.getSeniales()) {
+			listaSenialesDTO.add(getMarcaSenialDTO(senial));
+		}
+		entidadDTO.setSeniales(listaSenialesDTO);		
+
 		return entidadDTO;
 	}
 
@@ -167,4 +185,33 @@ public abstract class ProviderDTO {
 		return localidadDTO;
 	}
 
+	public static MarcaSenialDTO getMarcaSenialDTO(MarcaSenial marcaSenial){
+		
+		MarcaSenialDTO marcaSenialDTO = new MarcaSenialDTO();
+		//marcaSenialDTO.setTipo(marcaSenial.getIdTipoMarcaSenial());
+		marcaSenialDTO.setBoletaDeposito(getBoletaDepositoDTO(marcaSenial.getBoletaDeposito()));
+		marcaSenialDTO.setFechaVencimiento(Fecha.getFechaDDMMAAAASlash(
+					  					   Fecha.dateToStringDDMMAAAA(marcaSenial.getFechaVencimiento())));
+		marcaSenialDTO.setId(marcaSenial.getId());
+		marcaSenialDTO.setImagen(marcaSenial.getImagen());
+		marcaSenialDTO.setNumero(marcaSenial.getNumero());
+		
+		return marcaSenialDTO;
+	}
+	
+	public static BoletaDepositoDTO getBoletaDepositoDTO(BoletaDeposito boleta){
+		
+		BoletaDepositoDTO boletaDTO = new BoletaDepositoDTO();
+		if(boleta.getFechaPago() != null && !boleta.getFechaPago().equals("")){
+			boletaDTO.setFechaPago(Fecha.getFechaDDMMAAAASlash(
+					Fecha.dateToStringDDMMAAAA(boleta.getFechaPago())));
+		}	
+		boletaDTO.setFechaVencimiento(Fecha.getFechaDDMMAAAASlash(
+				   					  Fecha.dateToStringDDMMAAAA(boleta.getFechaVencimiento())));
+		boletaDTO.setId(boleta.getId());
+		boletaDTO.setMonto(boleta.getMonto());
+		boletaDTO.setNumero(boleta.getNumero());
+		
+		return boletaDTO;
+	}
 }
