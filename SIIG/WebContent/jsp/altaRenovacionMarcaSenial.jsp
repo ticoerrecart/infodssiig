@@ -24,6 +24,7 @@
 	});
 
 	function submitir(){
+		$('#exito').html("");
 		validarForm("marcaSenialFormId","../marcaSenial","validarMarcaSenialForm","MarcaSenialForm");
 	}
 
@@ -49,6 +50,9 @@
 <%-- errores de validaciones AJAX --%>
 <div id="errores" class="rojoAdvertencia">
 	${error}
+</div>
+<div id="exito" class="verdeExito">
+	${exitoGrabado}
 </div>
 <html:form action="marcaSenial" styleId="marcaSenialFormId" enctype="multipart/form-data">
 	<html:hidden property="metodo" value="altaRenovacionMarcaSenial"/>

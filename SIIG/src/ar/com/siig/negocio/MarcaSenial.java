@@ -39,7 +39,7 @@ public class MarcaSenial {
 
 	@ManyToOne()
 	@JoinColumn(name = "boletaDeposito_fk")
-	@Cascade(value = CascadeType.ALL)
+	@Cascade(value = {CascadeType.SAVE_UPDATE,CascadeType.DELETE_ORPHAN })
 	private BoletaDeposito boletaDeposito;		
 	
 	@ManyToOne()

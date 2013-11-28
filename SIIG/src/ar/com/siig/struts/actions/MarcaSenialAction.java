@@ -125,8 +125,8 @@ public class MarcaSenialAction extends ValidadorAction {
 
 			request.setAttribute("productores",listaProductores);
 			request.setAttribute("tipoMarcaSenial",marcaSenialFachada.recuperarTipoMarcaSenial());
-			request.setAttribute("canonMarcaSenial",marcaSenialFachada.recuperarCanonMarcaSenial(TipoMarcaSenial.Marca.getName()));
-			
+			request.setAttribute("canonMarcaSenial",marcaSenialFachada.recuperarCanonMarcaSenial(TipoMarcaSenial.Marca.getName()));			
+					
 		} catch (Throwable t) {
 			MyLogger.logError(t);
 			request.setAttribute("error", "Error Inesperado");
@@ -158,6 +158,63 @@ public class MarcaSenialAction extends ValidadorAction {
 			}else{
 				request.setAttribute("exitoGrabado", Constantes.EXITO_ALTA_SENIAL);	
 			}							
+			
+		} catch (Throwable t) {
+			MyLogger.logError(t);
+			request.setAttribute("error", "Error Inesperado");
+			strForward = "error";
+		}
+		return mapping.findForward(strForward);
+	}	
+	
+	@SuppressWarnings("unchecked")
+	public ActionForward cargarPagoBoletasMarcaSenial(
+			ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+
+		String strForward = "exitoCargarPagoBoletasMarcaSenial";
+
+		try {
+			WebApplicationContext ctx = getWebApplicationContext();
+			EntidadFachada entidadFachada = (EntidadFachada) ctx
+												.getBean("entidadFachada");
+			MarcaSenialFachada marcaSenialFachada = (MarcaSenialFachada) ctx
+												.getBean("marcaSenialFachada");		
+			
+			List<EntidadDTO> listaProductores = entidadFachada.getProductoresDTO();
+
+			request.setAttribute("productores",listaProductores);
+			request.setAttribute("tipoMarcaSenial",marcaSenialFachada.recuperarTipoMarcaSenial());			
+			
+		} catch (Throwable t) {
+			MyLogger.logError(t);
+			request.setAttribute("error", "Error Inesperado");
+			strForward = "error";
+		}
+		return mapping.findForward(strForward);
+	}	
+	
+	@SuppressWarnings("unchecked")
+	public ActionForward cargarMarcasSenialesParaPagoBoletas(
+			ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+
+		String strForward = "exitoCargarMarcasSenialesParaPagoBoletas";
+
+		try {
+			WebApplicationContext ctx = getWebApplicationContext();
+			EntidadFachada entidadFachada = (EntidadFachada) ctx
+												.getBean("entidadFachada");
+			
+			String idProd = request.getParameter("idProductor");
+			String idTipo = request.getParameter("idTipo");
+			EntidadDTO productor = entidadFachada.getEntidadDTO(Long.valueOf(idProd));
+			
+			if(idTipo.equalsIgnoreCase(TipoMarcaSenial.Marca.getName())){
+				request.setAttribute("listaMarcaSenial", productor.getMarcas());
+			}else{
+				request.setAttribute("listaMarcaSenial", productor.getSeniales());
+			}
 			
 		} catch (Throwable t) {
 			MyLogger.logError(t);
