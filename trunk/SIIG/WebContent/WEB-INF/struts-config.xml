@@ -167,7 +167,12 @@
 		
 		<action path="/marcaSenial" type="ar.com.siig.struts.actions.MarcaSenialAction"
 			parameter="metodo" name="marcaSenialForm" scope="request">
-			<forward name="exitoCargarAltaRenovacionMarcaSenial" path=".altaRenovacionMarcaSenial" />			
+			<forward name="exitoCargarAltaRenovacionMarcaSenial" path=".altaRenovacionMarcaSenial" />
+			<forward name="exitoAltaRenovacionMarcaSenial" path="/marcaSenial.do?metodo=cargarAltaRenovacionMarcaSenial" />
+			
+			<forward name="exitoCargarPagoBoletasMarcaSenial" path=".pagoBoletasMarcaSenial" />
+			<forward name="exitoCargarMarcasSenialesParaPagoBoletas" path="/jsp/bloquePagoBoletasMarcaSenial.jsp" />	
+													
 		</action>		
 		<!-- FIN MARCA SEÑAL -->		
 		

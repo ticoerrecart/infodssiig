@@ -10,8 +10,9 @@ import ar.com.siig.dto.MarcaSenialDTO;
 import ar.com.siig.enums.TipoMarcaSenial;
 import ar.com.siig.negocio.CanonMarcaSenial;
 import ar.com.siig.negocio.Entidad;
-import ar.com.siig.negocio.MarcaSenial;
 import ar.com.siig.providers.ProviderDominio;
+import ar.com.siig.negocio.exception.NegocioException;
+import ar.com.siig.utils.MyLogger;
 
 @Transactional(rollbackFor = { Throwable.class })
 public class MarcaSenialFachada {
@@ -82,5 +83,16 @@ public class MarcaSenialFachada {
 		}else{
 			productor.getSeniales().add(ProviderDominio.getSenial(marcaSenialDTO,productor));
 		}
+	}
+	
+	public String registrarPagoBoletaDeposito(Long idMarcaSenial, String fechaPago, String tipo) 
+		throws NegocioException
+	{
+		try{
+			return marcaSenialDAO.registrarPagoBoletaDeposito(idMarcaSenial,fechaPago,tipo);
+		} catch (Throwable t) {
+			MyLogger.logError(t);
+			throw new NegocioException("Error Inesperado");
+		}			
 	}
 }
