@@ -6,18 +6,12 @@
  */
 package ar.com.siig.struts.utils;
 
-import java.util.ArrayList;
 import java.util.GregorianCalendar;
-import java.util.List;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.beanutils.BeanPropertyValueEqualsPredicate;
-import org.apache.commons.collections.CollectionUtils;
-
 import ar.com.siig.utils.DateUtils;
-import ar.com.siig.utils.MathUtils;
 
 /**
  * @author rdiaz
@@ -472,10 +466,12 @@ public abstract class Validator {
 	public static boolean validarFormatoPeriodo(String periodo,
 			StringBuffer pError) {
 		try {
-			Pattern pattern = Pattern.compile("^[0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]");
+			Pattern pattern = Pattern
+					.compile("^[0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]");
 			Matcher matcher = pattern.matcher(periodo);
 			if (!matcher.matches()) {
-				addErrorXML(pError, "El formato del periodo debe ser AAAA-AAAA. Ej 2011-2012");
+				addErrorXML(pError,
+						"El formato del periodo debe ser AAAA-AAAA. Ej 2011-2012");
 				return false;
 			}
 			String[] strArray = periodo.split("-");
@@ -483,12 +479,14 @@ public abstract class Validator {
 			int n2 = Integer.parseInt(strArray[1]);
 
 			if (n + 1 != n2) {
-				addErrorXML(pError, "Los Años del periodo deben ser consecutivos");
+				addErrorXML(pError,
+						"Los Años del periodo deben ser consecutivos");
 				return false;
 			}
 			return true;
 		} catch (Exception e) {
-			addErrorXML(pError, "El formato del periodo debe ser AAAA-AAAA. Ej 2011-2012");
+			addErrorXML(pError,
+					"El formato del periodo debe ser AAAA-AAAA. Ej 2011-2012");
 			return false;
 		}
 	}
@@ -521,90 +519,68 @@ public abstract class Validator {
 		return true;
 	}
 
-	/*public static boolean validarBoletasDeposito(
-			List<BoletaDepositoDTO> boletas, double montoTotal,
+	public static boolean validarRequerido(String idCampo, String leyendaCampo,
 			StringBuffer pError) {
 
-		if (boletas.size() == 0) {
-			addErrorXML(pError,
-					"La Cantidad de Boletas de Deposito debe ser un numero mayor a 0");
-			return false;
-		}
-
-		double montoSumaBoletas = 0;
-		List<BoletaDepositoDTO> listaBoletas = new ArrayList<BoletaDepositoDTO>();
-		for (BoletaDepositoDTO boleta : boletas) {
-			if (!boleta.esNula() && !boleta.getAnulado()) {
-				if (listaBoletas.size() == 0) {
-					// tengo q crear una nueva porq sino no anda, se borra de la
-					// coleccion
-					BoletaDepositoDTO b = new BoletaDepositoDTO();
-					b.setNumero(boleta.getNumero());
-					listaBoletas.add(b);
-				} else {
-					BoletaDepositoDTO boletaEncontrada = (BoletaDepositoDTO) CollectionUtils
-							.find(listaBoletas,
-									new BeanPropertyValueEqualsPredicate(
-											"numero", boleta.getNumero()));
-					if (boletaEncontrada == null) {
-						// tengo q crear una nueva porq sino no anda, se borra
-						// de la
-						// coleccion
-						BoletaDepositoDTO b = new BoletaDepositoDTO();
-						b.setNumero(boleta.getNumero());
-						listaBoletas.add(b);
-					} else {
-						addErrorXML(pError,
-								"Los Números de las Boletas de Deposito no se pueden repetir");
-						return false;
-					}
-				}
-
-				montoSumaBoletas = montoSumaBoletas + boleta.getMonto();
-				if (boleta.getNumero() <= 0) {
-					addErrorXML(pError,
-							"Faltan datos en el Nro de Boleta de Deposito");
-					return false;
-				}
-
-				if (boleta.getConcepto() == null
-						|| boleta.getConcepto().equals("")) {
-					addErrorXML(pError,
-							"Faltan datos en el Concepto de la Boleta de Deposito");
-					return false;
-				}
-
-				if (boleta.getArea() == null || boleta.getArea().equals("")) {
-					addErrorXML(pError,
-							"Faltan datos en el Area de la Boleta de Deposito");
-					return false;
-				}
-
-				if (boleta.getFechaVencimiento() == null
-						|| boleta.getFechaVencimiento().equals("")) {
-					addErrorXML(pError,
-							"Faltan datos en la Fecha de Vencimiento de la Boleta de Deposito");
-					return false;
-				}
-
-				if (boleta.getMonto() <= 0.0) {
-					addErrorXML(pError,
-							"Faltan datos en el monto de la Boleta de Deposito");
-					return false;
-				}
-
-			}
-		}// end for
-
-		montoSumaBoletas = MathUtils.round(montoSumaBoletas, 2);
-
-		if (montoSumaBoletas != montoTotal) {
-			addErrorXML(
-					pError,
-					"La suma de los montos de las Boletas de Deposito debe ser igual al Importe Total");
+		if (idCampo == null || idCampo.equals("")
+				|| (idCampo != null && Long.parseLong(idCampo) <= 0)) {
+			addErrorXML(pError, leyendaCampo + " es un dato obligatorio");
 			return false;
 		}
 		return true;
-	}*/
+	}
+
+	/*
+	 * public static boolean validarBoletasDeposito( List<BoletaDepositoDTO>
+	 * boletas, double montoTotal, StringBuffer pError) {
+	 * 
+	 * if (boletas.size() == 0) { addErrorXML(pError,
+	 * "La Cantidad de Boletas de Deposito debe ser un numero mayor a 0");
+	 * return false; }
+	 * 
+	 * double montoSumaBoletas = 0; List<BoletaDepositoDTO> listaBoletas = new
+	 * ArrayList<BoletaDepositoDTO>(); for (BoletaDepositoDTO boleta : boletas)
+	 * { if (!boleta.esNula() && !boleta.getAnulado()) { if (listaBoletas.size()
+	 * == 0) { // tengo q crear una nueva porq sino no anda, se borra de la //
+	 * coleccion BoletaDepositoDTO b = new BoletaDepositoDTO();
+	 * b.setNumero(boleta.getNumero()); listaBoletas.add(b); } else {
+	 * BoletaDepositoDTO boletaEncontrada = (BoletaDepositoDTO) CollectionUtils
+	 * .find(listaBoletas, new BeanPropertyValueEqualsPredicate( "numero",
+	 * boleta.getNumero())); if (boletaEncontrada == null) { // tengo q crear
+	 * una nueva porq sino no anda, se borra // de la // coleccion
+	 * BoletaDepositoDTO b = new BoletaDepositoDTO();
+	 * b.setNumero(boleta.getNumero()); listaBoletas.add(b); } else {
+	 * addErrorXML(pError,
+	 * "Los Números de las Boletas de Deposito no se pueden repetir"); return
+	 * false; } }
+	 * 
+	 * montoSumaBoletas = montoSumaBoletas + boleta.getMonto(); if
+	 * (boleta.getNumero() <= 0) { addErrorXML(pError,
+	 * "Faltan datos en el Nro de Boleta de Deposito"); return false; }
+	 * 
+	 * if (boleta.getConcepto() == null || boleta.getConcepto().equals("")) {
+	 * addErrorXML(pError,
+	 * "Faltan datos en el Concepto de la Boleta de Deposito"); return false; }
+	 * 
+	 * if (boleta.getArea() == null || boleta.getArea().equals("")) {
+	 * addErrorXML(pError, "Faltan datos en el Area de la Boleta de Deposito");
+	 * return false; }
+	 * 
+	 * if (boleta.getFechaVencimiento() == null ||
+	 * boleta.getFechaVencimiento().equals("")) { addErrorXML(pError,
+	 * "Faltan datos en la Fecha de Vencimiento de la Boleta de Deposito");
+	 * return false; }
+	 * 
+	 * if (boleta.getMonto() <= 0.0) { addErrorXML(pError,
+	 * "Faltan datos en el monto de la Boleta de Deposito"); return false; }
+	 * 
+	 * } }// end for
+	 * 
+	 * montoSumaBoletas = MathUtils.round(montoSumaBoletas, 2);
+	 * 
+	 * if (montoSumaBoletas != montoTotal) { addErrorXML( pError,
+	 * "La suma de los montos de las Boletas de Deposito debe ser igual al Importe Total"
+	 * ); return false; } return true; }
+	 */
 
 }
