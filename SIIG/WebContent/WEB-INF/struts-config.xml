@@ -30,6 +30,9 @@
 		<form-bean name="marcaSenialForm"
 			type="ar.com.siig.struts.actions.forms.MarcaSenialForm">
 		</form-bean>		
+		<form-bean name="autorizacionForm"
+			type="ar.com.siig.struts.actions.forms.AutorizacionForm">
+		</form-bean>
 		
 	</form-beans>
 
@@ -164,7 +167,6 @@
 			<forward name="exitoModificacionCanonMarcaSenial"
 				path="/canonMarcaSenial.do?metodo=cargarCanonMarcaSenial" />			
 		</action>
-		
 		<action path="/marcaSenial" type="ar.com.siig.struts.actions.MarcaSenialAction"
 			parameter="metodo" name="marcaSenialForm" scope="request">
 			<forward name="exitoCargarAltaRenovacionMarcaSenial" path=".altaRenovacionMarcaSenial" />
@@ -175,7 +177,14 @@
 													
 		</action>		
 		<!-- FIN MARCA SEÑAL -->		
-		
+
+		<!-- AUTORIZACION -->
+		<action path="/autorizacion" type="ar.com.siig.struts.actions.AutorizacionAction"
+			parameter="metodo" name="autorizacionForm" scope="request">
+			<forward name="cargarAltaAutorizacion" path=".altaAutorizacion" />
+			<forward name="exitoAltaAutorizacion" path=".altaAutorizacion" />
+		</action>
+		<!-- FIN AUTORIZACION -->
 	</action-mappings>
 
 	<message-resources parameter="ar.com.siig.struts.resources.application" />

@@ -3,6 +3,7 @@ package ar.com.siig.providers;
 import java.util.ArrayList;
 import java.util.List;
 
+import ar.com.siig.dto.AutorizadoDTO;
 import ar.com.siig.dto.BoletaDepositoDTO;
 import ar.com.siig.dto.EntidadDTO;
 import ar.com.siig.dto.ItemMenuDTO;
@@ -11,9 +12,11 @@ import ar.com.siig.dto.MarcaSenialDTO;
 import ar.com.siig.dto.PeriodoDTO;
 import ar.com.siig.dto.ProvinciaDTO;
 import ar.com.siig.dto.RolDTO;
+import ar.com.siig.dto.TipoAutorizacionDTO;
 import ar.com.siig.dto.TipoProductoDTO;
 import ar.com.siig.dto.UsuarioDTO;
 import ar.com.siig.dto.VencimientoPeriodoDTO;
+import ar.com.siig.negocio.Autorizado;
 import ar.com.siig.negocio.BoletaDeposito;
 import ar.com.siig.negocio.Entidad;
 import ar.com.siig.negocio.ItemMenu;
@@ -24,6 +27,7 @@ import ar.com.siig.negocio.Periodo;
 import ar.com.siig.negocio.Provincia;
 import ar.com.siig.negocio.Rol;
 import ar.com.siig.negocio.Senial;
+import ar.com.siig.negocio.TipoAutorizacion;
 import ar.com.siig.negocio.TipoProducto;
 import ar.com.siig.negocio.Usuario;
 import ar.com.siig.negocio.VencimientoPeriodo;
@@ -214,4 +218,21 @@ public abstract class ProviderDTO {
 		
 		return boletaDTO;
 	}
+	
+	public static AutorizadoDTO getAutorizadoDTO(Autorizado autorizado) {
+		AutorizadoDTO autorizadoDTO = new AutorizadoDTO();
+		autorizadoDTO.setId(autorizado.getId());
+		autorizadoDTO.setDni(autorizado.getDni());
+		autorizadoDTO.setNombre(autorizado.getNombre());
+		return autorizadoDTO;
+	}
+
+	public static TipoAutorizacionDTO getTipoAutorizacionDTO(
+			TipoAutorizacion tipoAutorizacion) {
+		TipoAutorizacionDTO tipoAutorizacionDTO = new TipoAutorizacionDTO();
+		tipoAutorizacionDTO.setId(tipoAutorizacion.getId());
+		tipoAutorizacionDTO.setDescripcion(tipoAutorizacion.getDescripcion());
+		return tipoAutorizacionDTO;
+	}
+
 }

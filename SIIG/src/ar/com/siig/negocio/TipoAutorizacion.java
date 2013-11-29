@@ -11,40 +11,19 @@ public class TipoAutorizacion {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
-	private String campania;
-	
-	private String renovacion;
-	
-	private String libre;
 
-	public String getCampania() {
-		return campania;
+	private String descripcion;
+
+	public String getDescripcion() {
+		return descripcion;
 	}
 
-	public void setCampania(String campania) {
-		this.campania = campania;
-	}
-
-	public String getRenovacion() {
-		return renovacion;
-	}
-
-	public void setRenovacion(String renovacion) {
-		this.renovacion = renovacion;
-	}
-
-	public String getLibre() {
-		return libre;
-	}
-
-	public void setLibre(String libre) {
-		this.libre = libre;
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 
 	public Long getId() {
 		return id;
 	}
-	
-	
+
 }

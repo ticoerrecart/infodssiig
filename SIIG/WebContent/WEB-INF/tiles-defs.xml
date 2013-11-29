@@ -124,6 +124,13 @@
 	</definition>			
 	<!-- FIN MARCA SEÑAL -->
 
+	<!-- AUTORIZACION -->
+	<definition name=".altaAutorizacion"
+		extends=".base">
+		<put name="title" value="SIIGs" />
+		<put name="body" value="/jsp/altaAutorizacion.jsp" />
+	</definition>
+	<!-- FIN AUTORIZACION -->
 	<definition name=".error" extends=".base">
 		<put name="title" value="Error en SIIGs" />
 		<put name="body" value="/jsp/error.jsp" />

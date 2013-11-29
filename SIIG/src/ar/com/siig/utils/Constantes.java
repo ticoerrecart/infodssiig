@@ -129,5 +129,10 @@ public class Constantes {
 	public static final String EXITO_ALTA_MARCA = "La Marca se ha dado de alta con exito";
 	
 	public static final String EXITO_ALTA_SENIAL = "La Señal se ha dado de alta con exito";
-	// FIN MARCA SEÑAL	
+	// FIN MARCA SEÑAL
+	
+	// AUTORIZACION
+	public static final String EXITO_ALTA_AUTORIZACION = "La Autorizacion se ha dado de alta con exito";
+	
+	// FIN AUTORIZACION
 }
