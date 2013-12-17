@@ -26,6 +26,7 @@
 		<mapping class='ar.com.siig.negocio.Usuario' />
 		<mapping class='ar.com.siig.negocio.Localidad' />
 		<mapping class='ar.com.siig.negocio.Provincia' />
+		<mapping class='ar.com.siig.negocio.Establecimiento' />		
 		<mapping class='ar.com.siig.negocio.Periodo' />
 		<mapping class='ar.com.siig.negocio.Entidad' />
 		<mapping class='ar.com.siig.negocio.RecursosNaturales' />
