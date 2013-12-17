@@ -60,6 +60,7 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 	<bean id="menuDAO" class="ar.com.siig.dao.MenuDAO" parent="abstractRepository" />
 	<bean id="loginDAO" class="ar.com.siig.dao.LoginDAO" parent="abstractRepository" />
 	<bean id="localidadDAO" class="ar.com.siig.dao.LocalidadDAO" parent="abstractRepository" />
+	<bean id="establecimientoDAO" class="ar.com.siig.dao.EstablecimientoDAO" parent="abstractRepository" />
 	<bean id="periodoDAO" class="ar.com.siig.dao.PeriodoDAO" parent="abstractRepository" />	
 	<bean id="entidadDAO" class="ar.com.siig.dao.EntidadDAO" parent="abstractRepository" />	
 	<bean id="rolDAO" class="ar.com.siig.dao.RolDAO" parent="abstractRepository" />
@@ -82,6 +83,10 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 	<bean id="localidadFachada" class="ar.com.siig.fachada.LocalidadFachada">
 		<constructor-arg ref="localidadDAO" />
 	</bean>
+	<bean id="establecimientoFachada" class="ar.com.siig.fachada.EstablecimientoFachada">
+		<constructor-arg ref="establecimientoDAO" />
+		<constructor-arg ref="localidadDAO" />
+	</bean>	
 	<bean id="periodoFachada" class="ar.com.siig.fachada.PeriodoFachada">
 		<constructor-arg ref="periodoDAO" />
 	</bean>

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import ar.com.siig.dto.BoletaDepositoDTO;
 import ar.com.siig.dto.EntidadDTO;
+import ar.com.siig.dto.EstablecimientoDTO;
 import ar.com.siig.dto.LocalidadDTO;
 import ar.com.siig.dto.MarcaSenialDTO;
 import ar.com.siig.dto.PeriodoDTO;
@@ -12,13 +13,12 @@ import ar.com.siig.dto.RolDTO;
 import ar.com.siig.dto.UsuarioDTO;
 import ar.com.siig.dto.VencimientoPeriodoDTO;
 import ar.com.siig.enums.TipoDeEntidad;
-import ar.com.siig.enums.TipoMarcaSenial;
 import ar.com.siig.negocio.BoletaDeposito;
 import ar.com.siig.negocio.Entidad;
+import ar.com.siig.negocio.Establecimiento;
 import ar.com.siig.negocio.ItemMenu;
 import ar.com.siig.negocio.Localidad;
 import ar.com.siig.negocio.Marca;
-import ar.com.siig.negocio.MarcaSenial;
 import ar.com.siig.negocio.Periodo;
 import ar.com.siig.negocio.Productor;
 import ar.com.siig.negocio.Provincia;
@@ -204,6 +204,21 @@ public abstract class ProviderDominio {
 		return localidad;
 	}
 
+	public static Establecimiento getEstablecimiento(
+			EstablecimientoDTO establecimientoDTO, Localidad localidad) {
+		Establecimiento establecimiento = new Establecimiento();
+		establecimiento.setNombre(establecimientoDTO.getNombre());
+		establecimiento.setLocalidad(localidad);
+		return establecimiento;
+	}
+
+	public static Establecimiento getEstablecimiento(
+			EstablecimientoDTO establecimientoDTO, Establecimiento establecimiento,  Localidad localidad) {
+		establecimiento.setNombre(establecimientoDTO.getNombre());
+		establecimiento.setLocalidad(localidad);
+		return establecimiento;
+	}
+	
 	public static Marca getMarca(MarcaSenialDTO marcaSenialDTO, Entidad entidad){
 		
 		Marca marca = new Marca();

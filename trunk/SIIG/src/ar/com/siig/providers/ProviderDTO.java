@@ -6,6 +6,7 @@ import java.util.List;
 import ar.com.siig.dto.AutorizadoDTO;
 import ar.com.siig.dto.BoletaDepositoDTO;
 import ar.com.siig.dto.EntidadDTO;
+import ar.com.siig.dto.EstablecimientoDTO;
 import ar.com.siig.dto.ItemMenuDTO;
 import ar.com.siig.dto.LocalidadDTO;
 import ar.com.siig.dto.MarcaSenialDTO;
@@ -19,6 +20,7 @@ import ar.com.siig.dto.VencimientoPeriodoDTO;
 import ar.com.siig.negocio.Autorizado;
 import ar.com.siig.negocio.BoletaDeposito;
 import ar.com.siig.negocio.Entidad;
+import ar.com.siig.negocio.Establecimiento;
 import ar.com.siig.negocio.ItemMenu;
 import ar.com.siig.negocio.Localidad;
 import ar.com.siig.negocio.Marca;
@@ -159,34 +161,35 @@ public abstract class ProviderDTO {
 	}
 
 	public static TipoProductoDTO getTipoProductoDTO(TipoProducto tipoProducto) {
-
 		TipoProductoDTO tipoProdDTO = new TipoProductoDTO();
 		tipoProdDTO.setId(tipoProducto.getId());
 		tipoProdDTO.setNombre(tipoProducto.getNombre());
-
 		return tipoProdDTO;
 	}
 
 	public static ProvinciaDTO getProvinciaDTO(Provincia provincia) {
-
 		ProvinciaDTO provinciaDTO = new ProvinciaDTO();
-
 		provinciaDTO.setId(provincia.getId());
 		provinciaDTO.setNombre(provincia.getNombre());
-
 		return provinciaDTO;
 	}
 
 	public static LocalidadDTO getLocalidadDTO(Localidad localidad) {
-
 		LocalidadDTO localidadDTO = new LocalidadDTO();
-
 		localidadDTO.setId(localidad.getId());
 		localidadDTO.setNombre(localidad.getNombre());
 		localidadDTO.setProvinciaDTO(ProviderDTO.getProvinciaDTO(localidad
 				.getProvincia()));
-
 		return localidadDTO;
+	}
+
+	public static EstablecimientoDTO getEstablecimientoDTO(
+			Establecimiento establecimiento) {
+		EstablecimientoDTO establecimientoDTO = new EstablecimientoDTO();
+		establecimientoDTO.setId(establecimiento.getId());
+		establecimientoDTO.setNombre(establecimiento.getNombre());
+		establecimientoDTO.setLocalidadDTO(ProviderDTO.getLocalidadDTO(establecimiento.getLocalidad()));
+		return establecimientoDTO;
 	}
 
 	public static MarcaSenialDTO getMarcaSenialDTO(MarcaSenial marcaSenial){
