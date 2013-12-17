@@ -130,9 +130,25 @@ public class Constantes {
 	
 	public static final String EXITO_ALTA_SENIAL = "La Señal se ha dado de alta con exito";
 	// FIN MARCA SEÑAL
-	
+
 	// AUTORIZACION
 	public static final String EXITO_ALTA_AUTORIZACION = "La Autorizacion se ha dado de alta con exito";
 	
 	// FIN AUTORIZACION
+
+	// ESTABLECIMIENTO
+	public static final String EXISTE_ESTABLECIMIENTO = "Ya existe un Establecimiento con este nombre";
+
+	public static final String EXITO_ALTA_ESTABLECIMIENTO = "El Establecimiento se ha dado de alta con exito";
+
+	public static final String EXITO_MODIFICACION_ESTABLECIMIENTO = "El Establecimiento se ha modificado con exito";
+
+	public static final String ERROR_ALTA_ESTABLECIMIENTO = "Ha ocurrido un error en el alta del Establecimiento";
+
+	public static final String ERROR_RECUPERACION_ESTABLECIMIENTO = "Ha ocurrido un error en la recuperación del Establecimiento";
+
+	public static final String ERROR_RECUPERACION_ESTABLECIMIENTOS = "Ha ocurrido un error en la recuperación de los establecimientos";
+
+	public static final String EXISTE_ESTABLECIMIENTO_DESTINO = "Ya existe un Establecimiento con éste nombre para esta Localidad";
+	// FIN ESTABLECIMIENTO
 }

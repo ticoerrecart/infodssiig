@@ -60,6 +60,30 @@
 	
 	<!-- FIN LOCALIDAD -->
 
+
+	<!-- ESTABLECIMIENTO -->
+	<definition name=".altaEstablecimiento" extends=".base">
+		<put name="title" value="SIIGs" />
+		<put name="body" value="/jsp/altaEstablecimiento.jsp" />
+	</definition>
+
+	<definition name=".recuperarEstablecimientos" extends=".base">
+		<put name="title" value="SIIGs" />
+		<put name="body" value="/jsp/recuperarEstablecimientos.jsp" />
+	</definition>
+	
+	<definition name=".recuperarEstablecimientos" extends=".base">
+		<put name="title" value="SIIGs" />
+		<put name="body" value="/jsp/recuperarEstablecimientos.jsp" />
+	</definition>
+
+	<definition name=".modificacionEstablecimiento" extends=".base">
+		<put name="title" value="SIIGs" />
+		<put name="body" value="/jsp/modificacionEstablecimiento.jsp" />
+	</definition>		
+	
+	<!-- FIN ESTABLECIMIENTO -->
+
 	<!-- PERIODO -->
 	<definition name=".altaPeriodo" extends=".base">
 		<put name="title" value="SIIGs" />
