@@ -11,7 +11,10 @@
 		</form-bean>	
 		<form-bean name="provinciaForm" 
 			type="ar.com.siig.struts.actions.forms.ProvinciaForm">			
-		</form-bean>		
+		</form-bean>
+		<form-bean name="establecimientoForm"
+			type="ar.com.siig.struts.actions.forms.EstablecimientoForm">
+		</form-bean>	
 		<form-bean name="periodoForm"
 			type="ar.com.siig.struts.actions.forms.PeriodoForm">
 		</form-bean>
@@ -94,6 +97,25 @@
 								
 		</action>									
 		<!-- FIN LOCALIDAD -->	
+		
+		<!-- ESTABLECIMIENTO -->
+
+		<action path="/cargarEstablecimientosAModificar" type="ar.com.siig.struts.actions.EstablecimientoAction"
+			parameter="metodo">
+			<forward name="exitoRecuperarEstablecimientos" path=".recuperarEstablecimientos" />
+		</action>
+							
+				
+		<action path="/establecimiento" type="ar.com.siig.struts.actions.EstablecimientoAction"
+				parameter="metodo" name="establecimientoForm" scope="request">		
+			<forward name="exitoCargarAltaEstablecimiento" path=".altaEstablecimiento" />
+			<forward name="exitoAltaEstablecimiento" path="/establecimiento.do?metodo=cargarAltaEstablecimiento" />
+			<forward name="exitoCargarModificacionEstablecimiento" path=".modificacionEstablecimiento" />
+			<forward name="exitoCargarEstablecimientoAModificar" path="/jsp/bloqueModificacionEstablecimiento.jsp" />
+			<forward name="exitoModificacionEstablecimiento" path="/establecimiento.do?metodo=cargarModificacionEstablecimiento" />
+								
+		</action>									
+		<!-- FIN ESTABLECIMIENTO -->	
 		
 		<!-- PERIODO -->
 		<action path="/periodo" type="ar.com.siig.struts.actions.PeriodoAction"

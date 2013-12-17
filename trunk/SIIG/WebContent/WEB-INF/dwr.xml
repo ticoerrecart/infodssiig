@@ -16,6 +16,9 @@
 		<convert converter="bean" match="ar.com.siig.dto.LocalidadDTO">
 			<param name="include" value="id,nombre" />
 		</convert>
+		<convert converter="bean" match="ar.com.siig.dto.EstablecimientoDTO">
+			<param name="include" value="id,nombre" />
+		</convert>		
 		<convert converter="bean" match="ar.com.siig.dto.PeriodoDTO">
 			<param name="include" value="id,periodo" />
 		</convert>
@@ -31,7 +34,10 @@
 		</create>			
 		<create creator="spring" javascript="LocalidadFachada">
 			<param name="beanName" value="localidadFachada" />
-		</create>		
+		</create>
+		<create creator="spring" javascript="EstablecimientoFachada">
+			<param name="beanName" value="establecimientoFachada" />
+		</create>
 		<create creator="spring" javascript="PeriodoFachada">
 			<param name="beanName" value="periodoFachada" />
 		</create>
