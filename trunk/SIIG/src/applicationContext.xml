@@ -68,6 +68,9 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 	<bean id="tipoProductoDAO" class="ar.com.siig.dao.TipoProductoDAO" parent="abstractRepository" />
 	<bean id="reportesDAO" class="ar.com.siig.dao.ReportesDAO" parent="abstractRepository" />
 	<bean id="marcaSenialDAO" class="ar.com.siig.dao.MarcaSenialDAO" parent="abstractRepository" />
+	<bean id="autorizadoDAO" class="ar.com.siig.dao.AutorizadoDAO" parent="abstractRepository" />
+	<bean id="autorizacionDAO" class="ar.com.siig.dao.AutorizacionDAO" parent="abstractRepository" />
+	<bean id="tipoAutorizacionDAO" class="ar.com.siig.dao.TipoAutorizacionDAO" parent="abstractRepository" />
 	
 	
 	<!--  *******************-->
@@ -113,6 +116,21 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 	<bean id="marcaSenialFachada" class="ar.com.siig.fachada.MarcaSenialFachada">
 		<constructor-arg ref="marcaSenialDAO" />
 		<constructor-arg ref="entidadFachada" />
+	</bean>
+
+	<bean id="autorizadoFachada" class="ar.com.siig.fachada.AutorizadoFachada">
+		<constructor-arg ref="autorizadoDAO" />
+	</bean>
+
+	<bean id="autorizacionFachada" class="ar.com.siig.fachada.AutorizacionFachada">
+		<constructor-arg ref="autorizacionDAO" />
+		<constructor-arg ref="entidadDAO" />
+		<constructor-arg ref="autorizadoDAO" />
+		<constructor-arg ref="tipoAutorizacionDAO" />
+	</bean>
+	
+	<bean id="tipoAutorizacionFachada" class="ar.com.siig.fachada.TipoAutorizacionFachada">
+		<constructor-arg ref="tipoAutorizacionDAO" />
 	</bean>
 
 	<!--  *******************-->
