@@ -40,7 +40,7 @@ public class AutorizacionAction extends ValidadorAction {
 
 			// recuperar productores (1 productor)
 			request.setAttribute("productores",
-					entidadFachada.getEntidadesDTO());
+					entidadFachada.getProductoresDTO());
 			// recuperar autorizados (1 autorizado)
 			request.setAttribute("autorizados",
 					autorizadoFachada.getAutorizadosDTO());
