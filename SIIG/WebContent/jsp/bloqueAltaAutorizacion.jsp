@@ -46,7 +46,8 @@
 					</select>
 				</c:when>
 				<c:otherwise>
-					<input type="text" readonly="readonly" class="botonerab" name="autorizacion.productor.id" value="${productor.nombre}" size="30">
+					<input type="text" readonly="readonly" class="botonerab" value="${autorizacion.productor.nombre}" size="30">
+					<input type="hidden" name="autorizacion.productor.id" value="${autorizacion.productor.id}">
 				</c:otherwise>
 			</c:choose></td>
 		</tr>
@@ -54,14 +55,23 @@
 		<tr>
 			<td width="45%" class="botoneralNegritaRight"><bean:message key='SIIG.label.Autorizado'/></td>
 			<td align="left">
-				<select id="selectAutorizado" class="botonerab" name="autorizacion.autorizado.id">
-					<option value="-1">-Seleccione un Autorizado-</option>
-					<c:forEach items="${autorizados}" var="autorizado" varStatus="i">
-						<option value="<c:out value='${autorizado.id}'></c:out>">
-							<c:out value="${autorizado.nombre}"></c:out>
-						</option>
-					</c:forEach>
-				</select>
+				<c:choose>
+					<c:when test="${metodo=='altaAutorizacion'}">
+						<select id="selectAutorizado" class="botonerab" name="autorizacion.autorizado.id">
+							<option value="-1">-Seleccione un Autorizado-</option>
+							<c:forEach items="${autorizados}" var="autorizado" varStatus="i">
+								<option value="<c:out value='${autorizado.id}'></c:out>">
+									<c:out value="${autorizado.nombre}"></c:out>
+								</option>
+							</c:forEach>
+						</select>
+					</c:when>
+					
+					<c:otherwise>
+						<input type="text" readonly="readonly" class="botonerab" value="${autorizacion.autorizado.nombre}" size="30">
+						<input type="hidden" name="autorizacion.autorizado.id" value="${autorizacion.autorizado.id}">
+					</c:otherwise>
+				</c:choose>
 			</td>
 		</tr>
 
@@ -83,7 +93,7 @@
 					
 					<c:choose>
 						<c:when test="${tipoAutorizacion.habilitado}">
-							checkeado
+							<input type="checkbox" name="autorizacion.tiposDeAutorizacion[${i.index}].id" value="${tipoAutorizacion.id}" checked="checked"/>
 						</c:when>
 						<c:otherwise>
 							<input type="checkbox" name="autorizacion.tiposDeAutorizacion[${i.index}].id" value="${tipoAutorizacion.id}"/>

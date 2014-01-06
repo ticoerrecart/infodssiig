@@ -154,6 +154,12 @@
 		<put name="title" value="SIIGs" />
 		<put name="body" value="/jsp/altaAutorizacion.jsp" />
 	</definition>
+	
+	<definition name=".recuperarAutorizaciones" extends=".base">
+		<put name="title" value="SIIGs" />
+		<put name="body" value="/jsp/recuperarAutorizaciones.jsp" />
+	</definition>
+	
 	<!-- FIN AUTORIZACION -->
 
 	<!-- GUIA -->

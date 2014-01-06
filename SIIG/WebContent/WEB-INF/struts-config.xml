@@ -210,7 +210,15 @@
 			parameter="metodo" name="autorizacionForm" scope="request">
 			<forward name="cargarAltaAutorizacion" path=".altaAutorizacion" />
 			<forward name="exitoAltaAutorizacion" path=".altaAutorizacion" />
+			<forward name="exitoCargarAutorizacionAModificar" path="/jsp/bloqueAltaAutorizacion.jsp" />
+			<forward name="exitoModificacionAutorizacion" path="/cargarAutorizacionesAModificar.do?metodo=cargarAutorizacionesAModificar" />
 		</action>
+		
+		<action path="/cargarAutorizacionesAModificar" type="ar.com.siig.struts.actions.AutorizacionAction"
+			parameter="metodo">
+			<forward name="exitoRecuperarAutorizaciones" path=".recuperarAutorizaciones" />
+		</action>
+		
 		<!-- FIN AUTORIZACION -->
 		
 		<!-- GUIA -->
