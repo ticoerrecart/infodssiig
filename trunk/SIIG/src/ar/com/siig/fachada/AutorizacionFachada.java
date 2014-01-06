@@ -1,5 +1,8 @@
 package ar.com.siig.fachada;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.transaction.annotation.Transactional;
 
 import ar.com.siig.dao.AutorizacionDAO;
@@ -12,6 +15,7 @@ import ar.com.siig.negocio.Autorizacion;
 import ar.com.siig.negocio.Autorizado;
 import ar.com.siig.negocio.Productor;
 import ar.com.siig.negocio.TipoAutorizacion;
+
 @Transactional(rollbackFor = { Throwable.class })
 public class AutorizacionFachada {
 
@@ -51,10 +55,29 @@ public class AutorizacionFachada {
 
 		autorizacionDAO.altaAutorizacion(autorizacion);
 	}
-	
-	
-	public boolean existeAutorizacion(AutorizacionDTO autorizacionDTO){
+
+	public boolean existeAutorizacion(AutorizacionDTO autorizacionDTO) {
 		return autorizacionDAO.existeAutorizacion(autorizacionDTO);
 	}
 
+	public List<Autorizacion> getAutorizaciones() {
+		return autorizacionDAO.getAutorizaciones();
+	}
+
+	public Autorizacion getAutorizacion(Long id) {
+		return autorizacionDAO.getAutorizacion(id);
+	}
+
+	public void modificacionAutorizacion(AutorizacionDTO autorizacionDTO) {
+		List<TipoAutorizacion> autorizaciones = new ArrayList<TipoAutorizacion>();
+		for (TipoAutorizacionDTO dto : autorizacionDTO.getTiposDeAutorizacion()) {
+			if (dto != null) {
+				TipoAutorizacion tipoAutorizacion = tipoAutorizacionDAO
+						.getTipoAutorizacion(dto.getId());
+				autorizaciones.add(tipoAutorizacion);
+			}
+		}
+
+		autorizacionDAO.modificacionAutorizacion(autorizacionDTO, autorizaciones);
+	}
 }

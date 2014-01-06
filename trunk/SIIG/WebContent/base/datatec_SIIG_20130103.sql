@@ -243,7 +243,7 @@ CREATE TABLE `itemmenu` (
 
 LOCK TABLES `itemmenu` WRITE;
 /*!40000 ALTER TABLE `itemmenu` DISABLE KEYS */;
-INSERT INTO `itemmenu` VALUES (1,'Salir',4,NULL,NULL),(2,'Salir de la Aplicación',NULL,'/login.do?metodo=logout',1),(3,'Usuarios',2,NULL,NULL),(4,'Alta de Usuario',NULL,'/usuario.do?metodo=cargarAltaUsuario',3),(5,'Modificaciónn de Usuario',NULL,'/cargarUsuariosAModificar.do?metodo=cargarUsuariosAModificar',3),(6,'Datos del Sistema',1,NULL,NULL),(7,'Localidad',NULL,NULL,6),(8,'Alta de Localidad',NULL,'/localidad.do?metodo=cargarAltaLocalidad',7),(9,'Modificación de Localidad',NULL,'/localidad.do?metodo=cargarModificacionLocalidad',7),(10,'Período',NULL,NULL,6),(11,'Alta de Período',NULL,'/jsp.do?page=.altaPeriodo&metodo=altaPeriodo',10),(12,'Modificación de Período',NULL,'/cargarPeriodosAModificar.do?metodo=cargarPeriodosAModificar',10),(13,'Entidad',NULL,NULL,6),(14,'Alta de Entidad',NULL,'/entidad.do?metodo=cargarAltaEntidad',13),(15,'Modificación de Entidad',NULL,'/cargarEntidadesAModificar.do?metodo=cargarEntidadesAModificar',13),(16,'Alta de Provincia',NULL,'/jsp.do?page=.altaProvincia&metodo=altaProvincia',7),(17,'Modificación de Provincia',NULL,'/provincia.do?metodo=cargarProvinciasAModificar',7),(18,'Marca/Señal',NULL,NULL,6),(19,'Modificación Canon',NULL,'/canonMarcaSenial.do?metodo=cargarCanonMarcaSenial',18),(20,'Autorizaciones',3,NULL,NULL),(21,'Alta de Autorizacion',NULL,'/autorizacion.do?metodo=cargarAltaAutorizacion',20);
+INSERT INTO `itemmenu` VALUES (1,'Salir',4,NULL,NULL),(2,'Salir de la Aplicación',NULL,'/login.do?metodo=logout',1),(3,'Usuarios',2,NULL,NULL),(4,'Alta de Usuario',NULL,'/usuario.do?metodo=cargarAltaUsuario',3),(5,'Modificaciónn de Usuario',NULL,'/cargarUsuariosAModificar.do?metodo=cargarUsuariosAModificar',3),(6,'Datos del Sistema',1,NULL,NULL),(7,'Localidad',NULL,NULL,6),(8,'Alta de Localidad',NULL,'/localidad.do?metodo=cargarAltaLocalidad',7),(9,'Modificación de Localidad',NULL,'/localidad.do?metodo=cargarModificacionLocalidad',7),(10,'Período',NULL,NULL,6),(11,'Alta de Período',NULL,'/jsp.do?page=.altaPeriodo&metodo=altaPeriodo',10),(12,'Modificación de Período',NULL,'/cargarPeriodosAModificar.do?metodo=cargarPeriodosAModificar',10),(13,'Entidad',NULL,NULL,6),(14,'Alta de Entidad',NULL,'/entidad.do?metodo=cargarAltaEntidad',13),(15,'Modificación de Entidad',NULL,'/cargarEntidadesAModificar.do?metodo=cargarEntidadesAModificar',13),(16,'Alta de Provincia',NULL,'/jsp.do?page=.altaProvincia&metodo=altaProvincia',7),(17,'Modificación de Provincia',NULL,'/provincia.do?metodo=cargarProvinciasAModificar',7),(18,'Marca/Señal',NULL,NULL,6),(19,'Modificación Canon',NULL,'/canonMarcaSenial.do?metodo=cargarCanonMarcaSenial',18),(20,'Autorizaciones',3,NULL,NULL),(21,'Alta de Autorizacion',NULL,'/autorizacion.do?metodo=cargarAltaAutorizacion',20),(22,'Modificacion de Autorizacion',NULL,'/cargarAutorizacionesAModificar.do?metodo=cargarAutorizacionesAModificar',20);
 /*!40000 ALTER TABLE `itemmenu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -453,7 +453,7 @@ CREATE TABLE `rol_item` (
 
 LOCK TABLES `rol_item` WRITE;
 /*!40000 ALTER TABLE `rol_item` DISABLE KEYS */;
-INSERT INTO `rol_item` VALUES (2,1),(2,2),(2,3),(2,4),(2,5),(2,6),(2,7),(2,8),(2,9),(2,10),(2,11),(2,12),(2,13),(2,14),(2,15),(2,16),(2,17),(2,18),(2,19),(2,20),(2,21);
+INSERT INTO `rol_item` VALUES (2,1),(2,2),(2,3),(2,4),(2,5),(2,6),(2,7),(2,8),(2,9),(2,10),(2,11),(2,12),(2,13),(2,14),(2,15),(2,16),(2,17),(2,18),(2,19),(2,20),(2,21),(2,22);
 /*!40000 ALTER TABLE `rol_item` ENABLE KEYS */;
 UNLOCK TABLES;
 

@@ -134,6 +134,8 @@ public class Constantes {
 	// AUTORIZACION
 	public static final String EXITO_ALTA_AUTORIZACION = "La Autorizacion se ha dado de alta con exito";
 	
+	public static final String EXITO_MODIFICACION_AUTORIZACION = "La Autorizacion se ha modificado con exito";
+	
 	// FIN AUTORIZACION
 
 	// ESTABLECIMIENTO
