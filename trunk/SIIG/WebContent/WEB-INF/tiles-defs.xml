@@ -155,6 +155,15 @@
 		<put name="body" value="/jsp/altaAutorizacion.jsp" />
 	</definition>
 	<!-- FIN AUTORIZACION -->
+
+	<!-- GUIA -->
+	<definition name=".altaLegalizacionGuia"
+		extends=".base">
+		<put name="title" value="SIIGs" />
+		<put name="body" value="/jsp/altaLegalizacionGuia.jsp" />
+	</definition>
+	<!-- FIN GUIA -->
+
 	<definition name=".error" extends=".base">
 		<put name="title" value="Error en SIIGs" />
 		<put name="body" value="/jsp/error.jsp" />

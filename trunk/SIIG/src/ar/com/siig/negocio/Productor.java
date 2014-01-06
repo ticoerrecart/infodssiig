@@ -1,6 +1,7 @@
 package ar.com.siig.negocio;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.DiscriminatorValue;
@@ -41,4 +42,21 @@ public class Productor extends Entidad {
 		this.autorizaciones.add(autorizacion);
 	}
 
+	public Marca getUltimaMarca(){
+		
+		if(this.getMarcas() != null && !this.getMarcas().isEmpty()){
+			Collections.sort(this.getMarcas());
+			return this.getMarcas().get(this.getMarcas().size()-1);
+		}	
+		return null;
+	}
+
+	public Senial getUltimaSenial(){
+		
+		if(this.getSeniales() != null && !this.getSeniales().isEmpty()){
+			Collections.sort(this.getSeniales());
+			return this.getSeniales().get(this.getSeniales().size()-1);
+		}	
+		return null;
+	}	
 }

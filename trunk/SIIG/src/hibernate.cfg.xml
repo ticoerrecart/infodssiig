@@ -42,6 +42,7 @@
 		<mapping class='ar.com.siig.negocio.Autorizacion' />
 		<mapping class='ar.com.siig.negocio.Autorizado' />
 		<mapping class='ar.com.siig.negocio.TipoAutorizacion' />
+		<mapping class='ar.com.siig.negocio.Guia' />		
 		
 	</session-factory>
 </hibernate-configuration>

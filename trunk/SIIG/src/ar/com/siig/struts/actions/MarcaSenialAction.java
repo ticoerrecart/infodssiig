@@ -11,17 +11,13 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.mysql.jdbc.Blob;
-
 import ar.com.siig.dto.EntidadDTO;
 import ar.com.siig.enums.TipoMarcaSenial;
 import ar.com.siig.fachada.EntidadFachada;
 import ar.com.siig.fachada.MarcaSenialFachada;
-import ar.com.siig.fachada.PeriodoFachada;
 import ar.com.siig.negocio.CanonMarcaSenial;
 import ar.com.siig.struts.actions.forms.CanonMarcaSenialForm;
 import ar.com.siig.struts.actions.forms.MarcaSenialForm;
-import ar.com.siig.struts.actions.forms.PeriodoForm;
 import ar.com.siig.struts.utils.Validator;
 import ar.com.siig.utils.Constantes;
 import ar.com.siig.utils.MyLogger;
@@ -251,7 +247,7 @@ public class MarcaSenialAction extends ValidadorAction {
 		
 		ok1 = Validator.requerido(marcaSenialForm.getMarcaSenial().getNumero(), "Número", error);
 		ok2 = Validator.requerido(marcaSenialForm.getMarcaSenial().getFechaVencimiento(),"Fecha de Vencimiento", error);
-		ok3 = Validator.requerido(marcaSenialForm.getNombreImagen(),"Imagen", error);
+		ok3 = Validator.requerido(marcaSenialForm.getMarcaSenial().getNombreImagen(),"Imagen", error);
 		ok4 = Validator.validarEnteroMayorQue(0, String.valueOf(marcaSenialForm.getMarcaSenial().getBoletaDeposito().getNumero()),
 												"Número de Boleta de Deposito", error);
 		ok5 = Validator.validarDoubleMayorQue(0, String.valueOf(marcaSenialForm.getMarcaSenial().getBoletaDeposito().getMonto()),

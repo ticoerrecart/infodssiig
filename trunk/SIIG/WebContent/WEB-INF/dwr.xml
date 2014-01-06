@@ -25,6 +25,9 @@
 		<convert converter="bean" match="ar.com.siig.negocio.CanonMarcaSenial">
 			<param name="include" value="id,monto,tipo" />
 		</convert>
+		<convert converter="bean" match="ar.com.siig.dto.MarcaSenialDTO">
+			<param name="include" value="id,tipo,numero,nombreImagen" />
+		</convert>
 
 		<create creator="spring" javascript="RolFachada">
 			<param name="beanName" value="rolFachada" />

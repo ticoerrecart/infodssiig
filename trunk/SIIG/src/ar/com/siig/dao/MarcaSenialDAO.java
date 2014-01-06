@@ -9,6 +9,7 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import ar.com.siig.enums.TipoMarcaSenial;
 import ar.com.siig.negocio.CanonMarcaSenial;
 import ar.com.siig.negocio.Marca;
+import ar.com.siig.negocio.Productor;
 import ar.com.siig.negocio.Senial;
 import ar.com.siig.utils.DateUtils;
 
@@ -56,5 +57,19 @@ public class MarcaSenialDAO extends HibernateDaoSupport {
 		}
 				
 		return fechaPago;
-	}	
+	}
+	
+	public Marca getMarcaDTO(Long idProductor){
+		
+		Productor productor = (Productor)getHibernateTemplate().get(Productor.class, idProductor);
+		return productor.getUltimaMarca();
+		
+	}
+	
+	public Senial getSenialDTO(Long idProductor){
+		
+		Productor productor = (Productor)getHibernateTemplate().get(Productor.class, idProductor);
+		return productor.getUltimaSenial();
+		
+	}		
 }

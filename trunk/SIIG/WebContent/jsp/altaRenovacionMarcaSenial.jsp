@@ -105,7 +105,7 @@
 			<td class="botoneralNegritaRight"><bean:message key='SIIG.label.Imagen'/></td>
 			<td align="left">
 				<input id="idImagen" type="file" name="imagen" onchange="javascript:cargoImagen();">
-				<input id="idNomImg" name="nombreImagen" type="hidden">
+				<input id="idNomImg" name="marcaSenial.nombreImagen" type="hidden">
 			</td>
 		</tr>			
 		<tr>

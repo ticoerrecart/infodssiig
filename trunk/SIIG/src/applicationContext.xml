@@ -71,6 +71,7 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 	<bean id="autorizadoDAO" class="ar.com.siig.dao.AutorizadoDAO" parent="abstractRepository" />
 	<bean id="autorizacionDAO" class="ar.com.siig.dao.AutorizacionDAO" parent="abstractRepository" />
 	<bean id="tipoAutorizacionDAO" class="ar.com.siig.dao.TipoAutorizacionDAO" parent="abstractRepository" />
+	<bean id="guiaDAO" class="ar.com.siig.dao.GuiaDAO" parent="abstractRepository" />
 	
 	
 	<!--  *******************-->
@@ -131,6 +132,11 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 	
 	<bean id="tipoAutorizacionFachada" class="ar.com.siig.fachada.TipoAutorizacionFachada">
 		<constructor-arg ref="tipoAutorizacionDAO" />
+	</bean>
+
+	<bean id="guiaFachada" class="ar.com.siig.fachada.GuiaFachada">
+		<constructor-arg ref="guiaDAO" />
+		<constructor-arg ref="entidadDAO" />
 	</bean>
 
 	<!--  *******************-->
