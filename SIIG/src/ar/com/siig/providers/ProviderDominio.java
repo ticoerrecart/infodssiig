@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import ar.com.siig.dto.BoletaDepositoDTO;
 import ar.com.siig.dto.EntidadDTO;
 import ar.com.siig.dto.EstablecimientoDTO;
+import ar.com.siig.dto.GuiaDTO;
 import ar.com.siig.dto.LocalidadDTO;
 import ar.com.siig.dto.MarcaSenialDTO;
 import ar.com.siig.dto.PeriodoDTO;
@@ -16,6 +17,7 @@ import ar.com.siig.enums.TipoDeEntidad;
 import ar.com.siig.negocio.BoletaDeposito;
 import ar.com.siig.negocio.Entidad;
 import ar.com.siig.negocio.Establecimiento;
+import ar.com.siig.negocio.Guia;
 import ar.com.siig.negocio.ItemMenu;
 import ar.com.siig.negocio.Localidad;
 import ar.com.siig.negocio.Marca;
@@ -229,6 +231,7 @@ public abstract class ProviderDominio {
 		marca.setNumero(marcaSenialDTO.getNumero());
 		marca.setBoletaDeposito(ProviderDominio.getBoletaDeposito(marcaSenialDTO.getBoletaDeposito()));
 		marca.setProductor(entidad);
+		marca.setNombreImagen(marcaSenialDTO.getNombreImagen());
 		
 		return marca;
 	}
@@ -243,6 +246,7 @@ public abstract class ProviderDominio {
 		senial.setNumero(marcaSenialDTO.getNumero());
 		senial.setBoletaDeposito(ProviderDominio.getBoletaDeposito(marcaSenialDTO.getBoletaDeposito()));
 		senial.setProductor(entidad);
+		senial.setNombreImagen(marcaSenialDTO.getNombreImagen());
 		
 		return senial;
 	}	
@@ -260,4 +264,18 @@ public abstract class ProviderDominio {
 		
 		return boleta;
 	}
+	
+	public static Guia getGuia(GuiaDTO guiaDTO, Marca marca, Productor productor, Senial senial){
+		
+		Guia guia = new Guia();
+		guia.setFechaLegalizacion(Fecha.stringDDMMAAAAToUtilDate(guiaDTO.getFechaLegalizacion()));
+		guia.setMarca(marca);
+		guia.setNumero(guiaDTO.getNumero());
+		guia.setNumeroInterno(guiaDTO.getNumeroInterno());
+		guia.setPeriodo(guiaDTO.getPeriodo());
+		guia.setProductor(productor);
+		guia.setSenial(senial);
+		
+		return guia;
+	}	
 }

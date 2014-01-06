@@ -17,6 +17,8 @@ public class MarcaSenialDTO {
 	
 	private Blob imagen;
 
+	private String nombreImagen;
+	
 	private BoletaDepositoDTO boletaDeposito;
 	
 	private EntidadDTO productor;
@@ -81,5 +83,13 @@ public class MarcaSenialDTO {
 
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
+	}
+
+	public String getNombreImagen() {
+		return nombreImagen;
+	}
+
+	public void setNombreImagen(String nombreImagen) {
+		this.nombreImagen = nombreImagen;
 	}
 }

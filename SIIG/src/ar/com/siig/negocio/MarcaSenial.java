@@ -25,7 +25,7 @@ import org.hibernate.annotations.CascadeType;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @DiscriminatorColumn(name = "tipoMarcaSenial", discriminatorType = DiscriminatorType.STRING)
 @DiscriminatorValue("MarcaSenial")
-public class MarcaSenial {
+public abstract class MarcaSenial implements Comparable<MarcaSenial>{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -37,6 +37,8 @@ public class MarcaSenial {
 	
 	private Blob imagen;
 
+	private String nombreImagen;
+	
 	@ManyToOne()
 	@JoinColumn(name = "boletaDeposito_fk")
 	@Cascade(value = {CascadeType.SAVE_UPDATE,CascadeType.DELETE_ORPHAN })
@@ -94,6 +96,23 @@ public class MarcaSenial {
 	public void setProductor(Entidad productor) {
 		this.productor = productor;
 	}
+
+	@Override
+	public int compareTo(MarcaSenial o) {
+		
+		return this.getFechaVencimiento().compareTo(o.getFechaVencimiento());
+	}
 	
-	//public abstract String getIdTipoMarcaSenial();
+	public abstract String getIdTipoMarcaSenial();
+	
+	public abstract String getTipoMarcaSenial();
+
+	public String getNombreImagen() {
+		return nombreImagen;
+	}
+
+	public void setNombreImagen(String nombreImagen) {
+		this.nombreImagen = nombreImagen;
+	}
+	
 }

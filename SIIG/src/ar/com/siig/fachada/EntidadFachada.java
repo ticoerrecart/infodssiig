@@ -182,4 +182,9 @@ public class EntidadFachada {
 	public Productor getProductor(Long id) {
 		return entidadDAO.getProductor(id);
 	}
+	
+	public long recuperarCantGuias(Long idProdcutor, String periodo){
+		
+		return entidadDAO.recuperarCantGuias(idProdcutor,periodo);
+	}
 }

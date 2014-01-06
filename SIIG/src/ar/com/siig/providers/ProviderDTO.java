@@ -195,7 +195,7 @@ public abstract class ProviderDTO {
 	public static MarcaSenialDTO getMarcaSenialDTO(MarcaSenial marcaSenial){
 		
 		MarcaSenialDTO marcaSenialDTO = new MarcaSenialDTO();
-		//marcaSenialDTO.setTipo(marcaSenial.getIdTipoMarcaSenial());
+		marcaSenialDTO.setTipo(marcaSenial.getIdTipoMarcaSenial());
 		marcaSenialDTO.setBoletaDeposito(getBoletaDepositoDTO(marcaSenial.getBoletaDeposito()));
 		marcaSenialDTO.setFechaVencimiento(Fecha.getFechaDDMMAAAASlash(
 					  					   Fecha.dateToStringDDMMAAAA(marcaSenial.getFechaVencimiento())));

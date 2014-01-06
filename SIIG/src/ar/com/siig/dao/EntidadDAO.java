@@ -9,6 +9,7 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import ar.com.siig.enums.TipoDeEntidad;
 import ar.com.siig.negocio.Entidad;
+import ar.com.siig.negocio.Guia;
 import ar.com.siig.negocio.Localidad;
 import ar.com.siig.negocio.Productor;
 import ar.com.siig.negocio.RecursosNaturales;
@@ -120,4 +121,14 @@ public class EntidadDAO extends HibernateDaoSupport {
 
 		return (Productor) getHibernateTemplate().get(Productor.class, id);
 	}
+	
+	public long recuperarCantGuias(Long idProdcutor, String periodo){
+		
+		Criteria criteria = getSession().createCriteria(Guia.class);
+		criteria.add(Restrictions.eq("periodo", periodo));
+		criteria.add(Restrictions.eq("productor.id", idProdcutor));
+		List<Guia> guias = criteria.list();
+
+		return guias.size();
+	}	
 }

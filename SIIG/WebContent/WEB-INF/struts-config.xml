@@ -36,6 +36,11 @@
 		<form-bean name="autorizacionForm"
 			type="ar.com.siig.struts.actions.forms.AutorizacionForm">
 		</form-bean>
+
+		<form-bean name="guiaForm"
+			type="ar.com.siig.struts.actions.forms.GuiaForm">
+		</form-bean>		
+		
 		
 	</form-beans>
 
@@ -207,6 +212,15 @@
 			<forward name="exitoAltaAutorizacion" path=".altaAutorizacion" />
 		</action>
 		<!-- FIN AUTORIZACION -->
+		
+		<!-- GUIA -->
+		<action path="/guia" type="ar.com.siig.struts.actions.GuiaAction"
+			parameter="metodo" name="guiaForm" scope="request">
+			<forward name="exitoCargaAltaLegalizacionGuia" path=".altaLegalizacionGuia" />
+			<forward name="exitoAltaLegalizacionGuia" path="/guia.do?metodo=cargarAltaLegalizacionGuia" />
+		</action>
+		<!-- FIN GUIA -->		
+		
 	</action-mappings>
 
 	<message-resources parameter="ar.com.siig.struts.resources.application" />

@@ -151,4 +151,10 @@ public class Constantes {
 
 	public static final String EXISTE_ESTABLECIMIENTO_DESTINO = "Ya existe un Establecimiento con éste nombre para esta Localidad";
 	// FIN ESTABLECIMIENTO
+	
+	//GUIA
+	public static final String NRO_GUIA_EXISTENTE = "El número de Guía ya existe, especifique otro";
+	
+	public static final String EXITO_ALTA_GUIA = "La Guía se ha dado de alta con exito";
+	//FIN GUIA
 }
