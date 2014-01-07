@@ -117,14 +117,17 @@ public class MarcaSenialFachada {
 		Marca marca = marcaSenialDAO.getMarcaDTO(idProductor);
 		if(marca != null){
 
+			StringBuffer nombreImg = new StringBuffer(marca.getNombreImagen());			
+			nombreImg.insert(nombreImg.indexOf("."), marca.getId());			
+			
 			FileOutputStream fos = new FileOutputStream(new File(path+
-					File.separatorChar+marca.getNombreImagen()));			
+					File.separatorChar+nombreImg));			
 			InputOutput.copyStream(marca.getImagen().getBinaryStream(),fos);
 			
 			MarcaSenialDTO m = ProviderDTO.getMarcaSenialDTO(marca);
 			//m.setNombreImagen(path+File.separatorChar+marca.getNombreImagen());
 			//m.setNombreImagen(".."+File.separatorChar+".."+File.separatorChar+"imagenes"+File.separatorChar+marca.getNombreImagen());
-			m.setNombreImagen(marca.getNombreImagen());
+			m.setNombreImagen(nombreImg.toString());
 			return m;
 		}
 		return null;
@@ -139,13 +142,16 @@ public class MarcaSenialFachada {
 		Senial senial = marcaSenialDAO.getSenialDTO(idProductor);
 		if(senial != null){
 		
+			StringBuffer nombreImg = new StringBuffer(senial.getNombreImagen());			
+			nombreImg.insert(nombreImg.indexOf("."), senial.getId());			
+			
 			FileOutputStream fos = new FileOutputStream(new File(path+
-					File.separatorChar+senial.getNombreImagen()));			
+					File.separatorChar+nombreImg));			
 			InputOutput.copyStream(senial.getImagen().getBinaryStream(),fos);			
 			
 			MarcaSenialDTO s = ProviderDTO.getMarcaSenialDTO(senial);
 			//s.setNombreImagen(".."+File.separatorChar+".."+File.separatorChar+"imagenes"+File.separatorChar+senial.getNombreImagen());
-			s.setNombreImagen(senial.getNombreImagen());
+			s.setNombreImagen(nombreImg.toString());
 			return s;
 		}
 		return null;
