@@ -170,6 +170,22 @@
 	</definition>
 	<!-- FIN GUIA -->
 
+
+	<!-- AUTORIZADO -->
+	<definition name=".altaAutorizado"
+		extends=".base">
+		<put name="title" value="SIIGs" />
+		<put name="body" value="/jsp/altaAutorizado.jsp" />
+	</definition>
+
+	<definition name=".recuperarAutorizados"
+		extends=".base">
+		<put name="title" value="SIIGs" />
+		<put name="body" value="/jsp/recuperarAutorizados.jsp" />
+	</definition>
+	<!-- FIN AUTORIZADO -->
+
+
 	<definition name=".error" extends=".base">
 		<put name="title" value="Error en SIIGs" />
 		<put name="body" value="/jsp/error.jsp" />

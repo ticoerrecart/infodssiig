@@ -122,20 +122,20 @@ public class Constantes {
 	// TIPO DE PRODUCTO
 	public static final String EXITO_MODIFICACION_TIPO_PRODUCTO = "El Tipo de Producto se ha modificado con exito";
 	// FIN TIPO DE PRODUCTO
-	
-	//MARCA SEÑAL
+
+	// MARCA SEÑAL
 	public static final String EXITO_MODIFICACION_CANON_MARCA_SENIAL = "El monto de la Marca/Señal se ha modificado con exito";
 
 	public static final String EXITO_ALTA_MARCA = "La Marca se ha dado de alta con exito";
-	
+
 	public static final String EXITO_ALTA_SENIAL = "La Señal se ha dado de alta con exito";
 	// FIN MARCA SEÑAL
 
 	// AUTORIZACION
 	public static final String EXITO_ALTA_AUTORIZACION = "La Autorizacion se ha dado de alta con exito";
-	
+
 	public static final String EXITO_MODIFICACION_AUTORIZACION = "La Autorizacion se ha modificado con exito";
-	
+
 	// FIN AUTORIZACION
 
 	// ESTABLECIMIENTO
@@ -153,10 +153,18 @@ public class Constantes {
 
 	public static final String EXISTE_ESTABLECIMIENTO_DESTINO = "Ya existe un Establecimiento con éste nombre para esta Localidad";
 	// FIN ESTABLECIMIENTO
-	
-	//GUIA
+
+	// GUIA
 	public static final String NRO_GUIA_EXISTENTE = "El número de Guía ya existe, especifique otro";
-	
+
 	public static final String EXITO_ALTA_GUIA = "La Guía se ha dado de alta con exito";
-	//FIN GUIA
+	// FIN GUIA
+
+	// AUTORIZADO
+	public static final String EXISTE_AUTORIZADO = "Ya existe un Autorizado con éste Nombre y/o Dni";
+
+	public static final String EXITO_ALTA_AUTORIZADO = "El Autorizado se ha dado de alta con exito";
+
+	public static final String EXITO_MODIFICACION_AUTORIZADO = "El Autorizado se ha dado modificado con exito";
+	// FIN AUTORIZADO
 }
