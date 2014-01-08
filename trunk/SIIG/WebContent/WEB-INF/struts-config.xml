@@ -41,6 +41,9 @@
 			type="ar.com.siig.struts.actions.forms.GuiaForm">
 		</form-bean>		
 		
+		<form-bean name="autorizadoForm"
+			type="ar.com.siig.struts.actions.forms.AutorizadoForm">
+		</form-bean>		
 		
 	</form-beans>
 
@@ -64,7 +67,7 @@
 			<forward name=".altaProvincia" path=".altaProvincia" />			
 			<forward name=".altaPeriodo" path=".altaPeriodo" />
 			<forward name=".reporteGenerico" path=".reporteGenerico" />
-								
+			<forward name=".altaAutorizado" path=".altaAutorizado" />
 		</action>
 
 		<!-- LOGIN -->
@@ -227,8 +230,24 @@
 			<forward name="exitoCargaAltaLegalizacionGuia" path=".altaLegalizacionGuia" />
 			<forward name="exitoAltaLegalizacionGuia" path="/guia.do?metodo=cargarAltaLegalizacionGuia" />
 		</action>
-		<!-- FIN GUIA -->		
+		<!-- FIN GUIA -->
+
+		<!-- AUTORIZADO -->
+		<action path="/autorizado" type="ar.com.siig.struts.actions.AutorizadoAction"
+			parameter="metodo" name="autorizadoForm" scope="request">
+			<forward name="exitoAltaAutorizado" path="/jsp.do?page=.altaAutorizado&amp;metodo=altaAutorizado" />
+			<forward name="exitoRecuperarAutorizados" path=".recuperarAutorizados" />
+			<forward name="exitoCargarAutorizadoAModificar" path="/jsp/bloqueAltaAutorizado.jsp" />
+			<forward name="exitoModificacionAutorizado" path="/cargarAutorizadosAModificar.do?metodo=cargarAutorizadosAModificar" />
+		</action>
 		
+		<action path="/cargarAutorizadosAModificar" type="ar.com.siig.struts.actions.AutorizadoAction"
+			parameter="metodo">
+			<forward name="exitoRecuperarAutorizados" path=".recuperarAutorizados" />
+			
+		</action>
+		<!-- FIN AUTORIZADO -->
+
 	</action-mappings>
 
 	<message-resources parameter="ar.com.siig.struts.resources.application" />
