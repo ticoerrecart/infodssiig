@@ -12,11 +12,13 @@ import ar.com.siig.dto.MarcaSenialDTO;
 import ar.com.siig.dto.PeriodoDTO;
 import ar.com.siig.dto.ProvinciaDTO;
 import ar.com.siig.dto.RolDTO;
+import ar.com.siig.dto.TipoAnimalDTO;
 import ar.com.siig.dto.UsuarioDTO;
 import ar.com.siig.dto.VencimientoPeriodoDTO;
 import ar.com.siig.enums.TipoDeEntidad;
 import ar.com.siig.negocio.Autorizado;
 import ar.com.siig.negocio.BoletaDeposito;
+import ar.com.siig.negocio.Categoria;
 import ar.com.siig.negocio.Entidad;
 import ar.com.siig.negocio.Establecimiento;
 import ar.com.siig.negocio.Guia;
@@ -29,6 +31,7 @@ import ar.com.siig.negocio.Provincia;
 import ar.com.siig.negocio.RecursosNaturales;
 import ar.com.siig.negocio.Rol;
 import ar.com.siig.negocio.Senial;
+import ar.com.siig.negocio.TipoAnimal;
 import ar.com.siig.negocio.Usuario;
 import ar.com.siig.negocio.VencimientoPeriodo;
 import ar.com.siig.utils.Fecha;
@@ -299,5 +302,14 @@ public abstract class ProviderDominio {
 		autorizado.setNombre(autorizadoDTO.getNombre());
 		autorizado.setDni(autorizadoDTO.getDni());
 		return autorizado;
+	}
+
+	public static TipoAnimal getTipoAnimal(TipoAnimalDTO tipoAnimalDTO,
+			Categoria categoria) {
+		TipoAnimal tipoAnimal = new TipoAnimal();
+		tipoAnimal.setDescripcion(tipoAnimalDTO.getDescripcion());
+		tipoAnimal.setCategoria(categoria);
+		tipoAnimal.setValor(Double.valueOf(tipoAnimalDTO.getValor()));
+		return tipoAnimal;
 	}
 }

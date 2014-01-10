@@ -185,7 +185,20 @@
 	</definition>
 	<!-- FIN AUTORIZADO -->
 
+	<!-- TIPOANIMAL -->
+	<definition name=".altaTipoAnimal"
+		extends=".base">
+		<put name="title" value="SIIGs" />
+		<put name="body" value="/jsp/altaTipoAnimal.jsp" />
+	</definition>
 
+	<definition name=".recuperarTipoAnimales"
+		extends=".base">
+		<put name="title" value="SIIGs" />
+		<put name="body" value="/jsp/recuperarTipoAnimales.jsp" />
+	</definition>
+	<!-- FIN TIPOANIMAL -->
+	
 	<definition name=".error" extends=".base">
 		<put name="title" value="Error en SIIGs" />
 		<put name="body" value="/jsp/error.jsp" />

@@ -13,6 +13,7 @@ import ar.com.siig.dto.MarcaSenialDTO;
 import ar.com.siig.dto.PeriodoDTO;
 import ar.com.siig.dto.ProvinciaDTO;
 import ar.com.siig.dto.RolDTO;
+import ar.com.siig.dto.TipoAnimalDTO;
 import ar.com.siig.dto.TipoAutorizacionDTO;
 import ar.com.siig.dto.TipoProductoDTO;
 import ar.com.siig.dto.UsuarioDTO;
@@ -29,6 +30,7 @@ import ar.com.siig.negocio.Periodo;
 import ar.com.siig.negocio.Provincia;
 import ar.com.siig.negocio.Rol;
 import ar.com.siig.negocio.Senial;
+import ar.com.siig.negocio.TipoAnimal;
 import ar.com.siig.negocio.TipoAutorizacion;
 import ar.com.siig.negocio.TipoProducto;
 import ar.com.siig.negocio.Usuario;
@@ -155,7 +157,7 @@ public abstract class ProviderDTO {
 		for (Senial senial : entidad.getSeniales()) {
 			listaSenialesDTO.add(getMarcaSenialDTO(senial));
 		}
-		entidadDTO.setSeniales(listaSenialesDTO);		
+		entidadDTO.setSeniales(listaSenialesDTO);
 
 		return entidadDTO;
 	}
@@ -188,40 +190,42 @@ public abstract class ProviderDTO {
 		EstablecimientoDTO establecimientoDTO = new EstablecimientoDTO();
 		establecimientoDTO.setId(establecimiento.getId());
 		establecimientoDTO.setNombre(establecimiento.getNombre());
-		establecimientoDTO.setLocalidadDTO(ProviderDTO.getLocalidadDTO(establecimiento.getLocalidad()));
+		establecimientoDTO.setLocalidadDTO(ProviderDTO
+				.getLocalidadDTO(establecimiento.getLocalidad()));
 		return establecimientoDTO;
 	}
 
-	public static MarcaSenialDTO getMarcaSenialDTO(MarcaSenial marcaSenial){
-		
+	public static MarcaSenialDTO getMarcaSenialDTO(MarcaSenial marcaSenial) {
+
 		MarcaSenialDTO marcaSenialDTO = new MarcaSenialDTO();
 		marcaSenialDTO.setTipo(marcaSenial.getIdTipoMarcaSenial());
-		marcaSenialDTO.setBoletaDeposito(getBoletaDepositoDTO(marcaSenial.getBoletaDeposito()));
-		marcaSenialDTO.setFechaVencimiento(Fecha.getFechaDDMMAAAASlash(
-					  					   Fecha.dateToStringDDMMAAAA(marcaSenial.getFechaVencimiento())));
+		marcaSenialDTO.setBoletaDeposito(getBoletaDepositoDTO(marcaSenial
+				.getBoletaDeposito()));
+		marcaSenialDTO.setFechaVencimiento(Fecha.getFechaDDMMAAAASlash(Fecha
+				.dateToStringDDMMAAAA(marcaSenial.getFechaVencimiento())));
 		marcaSenialDTO.setId(marcaSenial.getId());
 		marcaSenialDTO.setImagen(marcaSenial.getImagen());
 		marcaSenialDTO.setNumero(marcaSenial.getNumero());
-		
+
 		return marcaSenialDTO;
 	}
-	
-	public static BoletaDepositoDTO getBoletaDepositoDTO(BoletaDeposito boleta){
-		
+
+	public static BoletaDepositoDTO getBoletaDepositoDTO(BoletaDeposito boleta) {
+
 		BoletaDepositoDTO boletaDTO = new BoletaDepositoDTO();
-		if(boleta.getFechaPago() != null && !boleta.getFechaPago().equals("")){
-			boletaDTO.setFechaPago(Fecha.getFechaDDMMAAAASlash(
-					Fecha.dateToStringDDMMAAAA(boleta.getFechaPago())));
-		}	
-		boletaDTO.setFechaVencimiento(Fecha.getFechaDDMMAAAASlash(
-				   					  Fecha.dateToStringDDMMAAAA(boleta.getFechaVencimiento())));
+		if (boleta.getFechaPago() != null && !boleta.getFechaPago().equals("")) {
+			boletaDTO.setFechaPago(Fecha.getFechaDDMMAAAASlash(Fecha
+					.dateToStringDDMMAAAA(boleta.getFechaPago())));
+		}
+		boletaDTO.setFechaVencimiento(Fecha.getFechaDDMMAAAASlash(Fecha
+				.dateToStringDDMMAAAA(boleta.getFechaVencimiento())));
 		boletaDTO.setId(boleta.getId());
 		boletaDTO.setMonto(boleta.getMonto());
 		boletaDTO.setNumero(boleta.getNumero());
-		
+
 		return boletaDTO;
 	}
-	
+
 	public static AutorizadoDTO getAutorizadoDTO(Autorizado autorizado) {
 		AutorizadoDTO autorizadoDTO = new AutorizadoDTO();
 		autorizadoDTO.setId(autorizado.getId());
@@ -238,4 +242,16 @@ public abstract class ProviderDTO {
 		return tipoAutorizacionDTO;
 	}
 
+	public static TipoAnimalDTO getTipoAnimalDTO(TipoAnimal tipoAnimal) {
+		TipoAnimalDTO tipoAnimalDTO = new TipoAnimalDTO();
+		tipoAnimalDTO.setId(tipoAnimal.getId());
+		tipoAnimalDTO.setDescripcion(tipoAnimal.getDescripcion());
+		tipoAnimalDTO.setIdCategoria(tipoAnimal.getCategoria().getId());
+		tipoAnimalDTO.setDescripcionCategoria(tipoAnimal.getCategoria()
+				.getDescripcion());
+		tipoAnimalDTO.setSuperCategoriaTipoAnimal(tipoAnimal.getCategoria()
+				.getSuperCategoriaTipoAnimal());
+		tipoAnimalDTO.setValor(tipoAnimal.getValor().toString());
+		return tipoAnimalDTO;
+	}
 }

@@ -44,6 +44,10 @@
 		<form-bean name="autorizadoForm"
 			type="ar.com.siig.struts.actions.forms.AutorizadoForm">
 		</form-bean>		
+
+		<form-bean name="tipoAnimalForm"
+			type="ar.com.siig.struts.actions.forms.TipoAnimalForm">
+		</form-bean>
 		
 	</form-beans>
 
@@ -247,6 +251,23 @@
 			
 		</action>
 		<!-- FIN AUTORIZADO -->
+
+		<!-- TIPOANIMAL -->
+		<action path="/tipoAnimal" type="ar.com.siig.struts.actions.TipoAnimalAction"
+			parameter="metodo" name="tipoAnimalForm" scope="request">
+			<forward name="exitoCargarAltaTipoAnimal" path=".altaTipoAnimal" />
+			<forward name="exitoAltaTipoAnimal" path="/tipoAnimal.do?metodo=cargarAltaTipoAnimal" />
+			<forward name="exitoRecuperarTipoAnimales" path=".recuperarTipoAnimales" />
+			<forward name="exitoCargarTipoAnimalAModificar" path="/jsp/bloqueAltaTipoAnimal.jsp" />
+			<forward name="exitoModificacionTipoAnimal" path="/cargarTipoAnimalesAModificar.do?metodo=cargarTipoAnimalesAModificar" />
+		</action>
+		
+		<action path="/cargarTipoAnimalesAModificar" type="ar.com.siig.struts.actions.TipoAnimalAction"
+			parameter="metodo">
+			<forward name="exitoRecuperarTipoAnimales" path=".recuperarTipoAnimales" />
+			
+		</action>
+		<!-- FIN TIPOANIMAL -->
 
 	</action-mappings>
 
