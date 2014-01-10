@@ -167,4 +167,12 @@ public class Constantes {
 
 	public static final String EXITO_MODIFICACION_AUTORIZADO = "El Autorizado se ha dado modificado con exito";
 	// FIN AUTORIZADO
+	
+	// TIPOANIMAL
+	public static final String EXISTE_TIPO_ANIMAL = "Ya existe un Tipo de Animal con éste Nombre";
+
+	public static final String EXITO_ALTA_TIPO_ANIMAL = "El Tipo de Animal se ha dado de alta con exito";
+
+	public static final String EXITO_MODIFICACION_TIPO_ANIMAL = "El Tipo de Animal se ha dado modificado con exito";
+	// FIN TIPOANIMAL	
 }
