@@ -21,9 +21,9 @@ function pagarBoleta(idTipoMarcaSenial,id){
 }
 
 function registrarPago(){
-	alert($('#idMarcaSenial').val());
+
 	var fechaPago = $('#idFechaPagoDatePicker').val();
-	alert(fechaPago);
+
 	if(fechaPago != ""){
 		idTipo = $('#idMarcaSenial').val();			
 		cerrarVentanaPagoBoleta();
