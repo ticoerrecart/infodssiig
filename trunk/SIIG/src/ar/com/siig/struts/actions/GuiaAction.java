@@ -99,7 +99,7 @@ public class GuiaAction extends ValidadorAction {
 			request.setAttribute("periodo", periodo);
 			request.setAttribute("productores", entidadFachada.getProductoresDTO());
 			request.setAttribute("periodos", periodoFachada.getPeriodosDTO());
-			request.setAttribute("titulo", "Consulta de Legalización de Guías");
+			request.setAttribute("titulo", "Consulta de Guías Legalizadas");
 			request.setAttribute("urlDetalle",
 					"../../guia.do?metodo=recuperarLegalizacionGuias");			
 			
