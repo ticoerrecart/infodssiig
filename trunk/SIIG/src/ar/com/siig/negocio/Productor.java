@@ -46,7 +46,7 @@ public class Productor extends Entidad {
 		
 		if(this.getMarcas() != null && !this.getMarcas().isEmpty()){
 			Collections.sort(this.getMarcas());
-			return this.getMarcas().get(this.getMarcas().size()-1);
+			return this.getMarcas().get(0);
 		}	
 		return null;
 	}
@@ -55,7 +55,7 @@ public class Productor extends Entidad {
 		
 		if(this.getSeniales() != null && !this.getSeniales().isEmpty()){
 			Collections.sort(this.getSeniales());
-			return this.getSeniales().get(this.getSeniales().size()-1);
+			return this.getSeniales().get(0);
 		}	
 		return null;
 	}	

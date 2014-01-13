@@ -7,6 +7,7 @@ import ar.com.siig.dto.AutorizadoDTO;
 import ar.com.siig.dto.BoletaDepositoDTO;
 import ar.com.siig.dto.EntidadDTO;
 import ar.com.siig.dto.EstablecimientoDTO;
+import ar.com.siig.dto.GuiaDTO;
 import ar.com.siig.dto.ItemMenuDTO;
 import ar.com.siig.dto.LocalidadDTO;
 import ar.com.siig.dto.MarcaSenialDTO;
@@ -22,6 +23,7 @@ import ar.com.siig.negocio.Autorizado;
 import ar.com.siig.negocio.BoletaDeposito;
 import ar.com.siig.negocio.Entidad;
 import ar.com.siig.negocio.Establecimiento;
+import ar.com.siig.negocio.Guia;
 import ar.com.siig.negocio.ItemMenu;
 import ar.com.siig.negocio.Localidad;
 import ar.com.siig.negocio.Marca;
@@ -206,6 +208,7 @@ public abstract class ProviderDTO {
 		marcaSenialDTO.setId(marcaSenial.getId());
 		marcaSenialDTO.setImagen(marcaSenial.getImagen());
 		marcaSenialDTO.setNumero(marcaSenial.getNumero());
+		marcaSenialDTO.setNombreImagen(marcaSenial.getNombreImagen());
 
 		return marcaSenialDTO;
 	}
@@ -253,5 +256,22 @@ public abstract class ProviderDTO {
 				.getSuperCategoriaTipoAnimal());
 		tipoAnimalDTO.setValor(tipoAnimal.getValor().toString());
 		return tipoAnimalDTO;
+	}	
+	
+	public static GuiaDTO getGuiaDTO(Guia guia){
+		
+		GuiaDTO guiaDTO = new GuiaDTO();
+		
+		guiaDTO.setFechaLegalizacion(Fecha.getFechaDDMMAAAASlash(Fecha.dateToStringDDMMAAAA(
+																	guia.getFechaLegalizacion())));
+		guiaDTO.setId(guia.getId());
+		guiaDTO.setMarcaSenial(ProviderDTO.getMarcaSenialDTO(
+				(guia.getMarca() != null)?guia.getMarca():guia.getSenial()));
+		guiaDTO.setNumero(guia.getNumero());
+		guiaDTO.setNumeroInterno(guia.getNumeroInterno());
+		guiaDTO.setPeriodo(guia.getPeriodo());
+		guiaDTO.setProductor(ProviderDTO.getEntidadDTO(guia.getProductor()));
+		
+		return guiaDTO;
 	}
 }
