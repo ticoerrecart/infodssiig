@@ -48,7 +48,7 @@ function volver(){
 		cellpadding="2">
 		<tr>
 			<td colspan="4" class="azulAjustado">
-				Legalización de Guía
+				Guía Legalizada
 			</td>
 		</tr>
 		<tr>
