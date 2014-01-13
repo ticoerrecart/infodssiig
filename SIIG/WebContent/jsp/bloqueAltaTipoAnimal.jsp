@@ -6,6 +6,7 @@
 	src="<html:rewrite page='/js/validacionAjax.js'/>"></script>
 <script type="text/javascript"
 	src="<html:rewrite page='/js/funcUtiles.js'/>"></script>
+<script type="text/javascript" src="<html:rewrite page='/js/validarNum.js'/>"></script>	
 <script type="text/javascript">
 	function submitir(){
 		validarForm("tipoAnimalFormId","../tipoAnimal","validarTipoAnimalForm","TipoAnimalForm");
@@ -65,7 +66,7 @@
 			<td width="40%" class="botoneralNegritaRight"><bean:message key='SIIG.label.Valor'/></td>
 			<td align="left">
 				<html:text styleClass="botonerab" property="tipoAnimal.valor" value="${tipoAnimal.valor}" 
-							onkeypress="return evitarAutoSubmit(event)"/>
+							onkeypress="javascript:esNumericoConDecimal(event);return evitarAutoSubmit(event)" />
 			</td>
 		</tr>
 
