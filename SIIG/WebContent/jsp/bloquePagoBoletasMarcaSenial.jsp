@@ -10,18 +10,20 @@
 var idTipo;
 var boton;
 var idFechaPago;
-function pagarBoleta(idTipo,id){
+function pagarBoleta(idTipoMarcaSenial,id){
 
 	boton = 'idBotonPago'+id;
 	idFechaPago = 'idFechaPago'+id;
-	$('#idMarcaSenial').val(idTipo);
+
+	$('#idMarcaSenial').val(idTipoMarcaSenial);
 	$( "#idFechaPagoDatePicker" ).datepicker({ dateFormat: 'dd/mm/yy'});	
 	$('#dialogo').dialog({title: 'Registrar Pago Boleta de Deposito', height: 200, width: 500, modal: true});	
 }
 
 function registrarPago(){
-	
+	alert($('#idMarcaSenial').val());
 	var fechaPago = $('#idFechaPagoDatePicker').val();
+	alert(fechaPago);
 	if(fechaPago != ""){
 		idTipo = $('#idMarcaSenial').val();			
 		cerrarVentanaPagoBoleta();
@@ -102,9 +104,13 @@ function cerrarVentanaPagoBoleta(){
 					<c:forEach items="${listaMarcaSenial}" var="tipo" varStatus="ind">
 						<tr>
 							<td class="botonerab" ><c:out value="${tipo.numero}"></c:out></td>
-							<td class="botonerab" ><c:out value="${tipo.fechaVencimiento}"></c:out></td>
+							<td class="botonerab" >
+								<fmt:formatDate value="${tipo.fechaVencimiento}" pattern="dd/MM/yyyy" />
+							</td>
 							<td class="botonerab" ><c:out value="${tipo.boletaDeposito.numero}"></c:out></td>
-							<td class="botonerab" ><c:out value="${tipo.boletaDeposito.fechaVencimiento}"></c:out></td>
+							<td class="botonerab" >
+								<fmt:formatDate value="${tipo.boletaDeposito.fechaVencimiento}" pattern="dd/MM/yyyy" />
+							</td>
 							<td class="botonerab" >$<c:out value="${tipo.boletaDeposito.monto}"></c:out></td>
 							<td class="botonerab" id="idFechaPago${ind.index}">							
 								<c:choose>
@@ -113,7 +119,7 @@ function cerrarVentanaPagoBoleta(){
 													value="Pagar" onclick="pagarBoleta(${tipo.id},'${ind.index}');">
 									</c:when>
 									<c:otherwise>
-										<c:out value="${tipo.boletaDeposito.fechaPago}"></c:out>
+										<fmt:formatDate value="${tipo.boletaDeposito.fechaPago}" pattern="dd/MM/yyyy" />
 									</c:otherwise>				
 								</c:choose>					
 							</td>

@@ -100,7 +100,8 @@ public abstract class MarcaSenial implements Comparable<MarcaSenial>{
 	@Override
 	public int compareTo(MarcaSenial o) {
 		
-		return this.getFechaVencimiento().compareTo(o.getFechaVencimiento());
+		// Lo multiplico por -1 para que ordene de mayor a menor
+		return this.getFechaVencimiento().compareTo(o.getFechaVencimiento())*-1;
 	}
 	
 	public abstract String getIdTipoMarcaSenial();

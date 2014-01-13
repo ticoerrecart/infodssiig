@@ -168,6 +168,16 @@
 		<put name="title" value="SIIGs" />
 		<put name="body" value="/jsp/altaLegalizacionGuia.jsp" />
 	</definition>
+	<definition name=".consultaGeneralGuia"
+		extends=".base">
+		<put name="title" value="SIIGs" />
+		<put name="body" value="/jsp/consultaGeneralGuia.jsp" />
+	</definition>		
+	<definition name=".consultaGuiaLegalizada"
+		extends=".base">
+		<put name="title" value="SIIGs" />
+		<put name="body" value="/jsp/consultaGuiaLegalizada.jsp" />
+	</definition>		
 	<!-- FIN GUIA -->
 
 

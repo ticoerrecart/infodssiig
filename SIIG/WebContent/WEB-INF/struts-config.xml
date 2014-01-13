@@ -233,6 +233,9 @@
 			parameter="metodo" name="guiaForm" scope="request">
 			<forward name="exitoCargaAltaLegalizacionGuia" path=".altaLegalizacionGuia" />
 			<forward name="exitoAltaLegalizacionGuia" path="/guia.do?metodo=cargarAltaLegalizacionGuia" />
+			<forward name="exitoConsultaLegalizacionGuias" path=".consultaGeneralGuia" />
+			<forward name="exitoRecuperarLegalizacionGuias" path="/jsp/bloqueConsultaLegalizacionGuias.jsp" />
+			<forward name="exitoCargarGuiaLegalizada" path=".consultaGuiaLegalizada" />
 		</action>
 		<!-- FIN GUIA -->
 

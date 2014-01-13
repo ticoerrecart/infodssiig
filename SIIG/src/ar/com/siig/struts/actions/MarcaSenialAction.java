@@ -1,5 +1,6 @@
 package ar.com.siig.struts.actions;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,7 @@ import ar.com.siig.enums.TipoMarcaSenial;
 import ar.com.siig.fachada.EntidadFachada;
 import ar.com.siig.fachada.MarcaSenialFachada;
 import ar.com.siig.negocio.CanonMarcaSenial;
+import ar.com.siig.negocio.Productor;
 import ar.com.siig.struts.actions.forms.CanonMarcaSenialForm;
 import ar.com.siig.struts.actions.forms.MarcaSenialForm;
 import ar.com.siig.struts.utils.Validator;
@@ -204,11 +206,14 @@ public class MarcaSenialAction extends ValidadorAction {
 			
 			String idProd = request.getParameter("idProductor");
 			String idTipo = request.getParameter("idTipo");
-			EntidadDTO productor = entidadFachada.getEntidadDTO(Long.valueOf(idProd));
+			//EntidadDTO productor = entidadFachada.getEntidadDTO(Long.valueOf(idProd));
+			Productor productor = entidadFachada.getProductor(Long.valueOf(idProd));
 			
 			if(idTipo.equalsIgnoreCase(TipoMarcaSenial.Marca.getName())){
+				Collections.sort(productor.getMarcas());
 				request.setAttribute("listaMarcaSenial", productor.getMarcas());
 			}else{
+				Collections.sort(productor.getSeniales());
 				request.setAttribute("listaMarcaSenial", productor.getSeniales());
 			}
 			
