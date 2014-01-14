@@ -174,5 +174,14 @@ public class Constantes {
 	public static final String EXITO_ALTA_TIPO_ANIMAL = "El Tipo de Animal se ha dado de alta con exito";
 
 	public static final String EXITO_MODIFICACION_TIPO_ANIMAL = "El Tipo de Animal se ha dado modificado con exito";
-	// FIN TIPOANIMAL	
+	// FIN TIPOANIMAL
+
+	// DENUNCIA
+	public static final String EXISTE_DENUNCIA = "Ya existe una Denuncia con este número";
+	
+	public static final String ERROR_ALTA_DENUNCIA = "Ha ocurrido un error en el alta de la denuncia";
+
+	public static final Object EXITO_ALTA_DENUNCIA = "La Denuncia se ha dado de alta con exito";
+	
+	// FIN DENUNCIA
 }

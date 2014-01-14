@@ -5,6 +5,7 @@ import java.util.List;
 
 import ar.com.siig.dto.AutorizadoDTO;
 import ar.com.siig.dto.BoletaDepositoDTO;
+import ar.com.siig.dto.DenunciaDTO;
 import ar.com.siig.dto.EntidadDTO;
 import ar.com.siig.dto.EstablecimientoDTO;
 import ar.com.siig.dto.GuiaDTO;
@@ -21,6 +22,7 @@ import ar.com.siig.dto.UsuarioDTO;
 import ar.com.siig.dto.VencimientoPeriodoDTO;
 import ar.com.siig.negocio.Autorizado;
 import ar.com.siig.negocio.BoletaDeposito;
+import ar.com.siig.negocio.Denuncia;
 import ar.com.siig.negocio.Entidad;
 import ar.com.siig.negocio.Establecimiento;
 import ar.com.siig.negocio.Guia;
@@ -243,6 +245,13 @@ public abstract class ProviderDTO {
 		tipoAutorizacionDTO.setId(tipoAutorizacion.getId());
 		tipoAutorizacionDTO.setDescripcion(tipoAutorizacion.getDescripcion());
 		return tipoAutorizacionDTO;
+	}
+
+	public static DenunciaDTO getDenunciaDTO(Denuncia denuncia) {
+		DenunciaDTO denunciaDTO = new DenunciaDTO();
+		denunciaDTO.setId(denuncia.getId());
+		denunciaDTO.setNumeroDeDenuncia(denuncia.getNumeroDeDenuncia());
+		return denunciaDTO;
 	}
 
 	public static TipoAnimalDTO getTipoAnimalDTO(TipoAnimal tipoAnimal) {

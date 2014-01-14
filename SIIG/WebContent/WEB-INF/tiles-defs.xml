@@ -209,6 +209,14 @@
 	</definition>
 	<!-- FIN TIPOANIMAL -->
 	
+	<!-- DENUNCIA -->
+	<definition name=".altaDenuncia"
+		extends=".base">
+		<put name="title" value="SIIGs" />
+		<put name="body" value="/jsp/altaDenuncia.jsp" />
+	</definition>
+	<!-- FIN DENUNCIA -->
+
 	<definition name=".error" extends=".base">
 		<put name="title" value="Error en SIIGs" />
 		<put name="body" value="/jsp/error.jsp" />

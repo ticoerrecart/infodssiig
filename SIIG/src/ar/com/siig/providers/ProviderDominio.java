@@ -1,9 +1,11 @@
 package ar.com.siig.providers;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ar.com.siig.dto.AutorizadoDTO;
 import ar.com.siig.dto.BoletaDepositoDTO;
+import ar.com.siig.dto.DenunciaDTO;
 import ar.com.siig.dto.EntidadDTO;
 import ar.com.siig.dto.EstablecimientoDTO;
 import ar.com.siig.dto.GuiaDTO;
@@ -18,6 +20,7 @@ import ar.com.siig.dto.VencimientoPeriodoDTO;
 import ar.com.siig.enums.TipoDeEntidad;
 import ar.com.siig.negocio.Autorizado;
 import ar.com.siig.negocio.BoletaDeposito;
+import ar.com.siig.negocio.Denuncia;
 import ar.com.siig.negocio.Categoria;
 import ar.com.siig.negocio.Entidad;
 import ar.com.siig.negocio.Establecimiento;
@@ -32,6 +35,7 @@ import ar.com.siig.negocio.RecursosNaturales;
 import ar.com.siig.negocio.Rol;
 import ar.com.siig.negocio.Senial;
 import ar.com.siig.negocio.TipoAnimal;
+import ar.com.siig.negocio.TipoDeDenuncia;
 import ar.com.siig.negocio.Usuario;
 import ar.com.siig.negocio.VencimientoPeriodo;
 import ar.com.siig.utils.Fecha;
@@ -279,6 +283,17 @@ public abstract class ProviderDominio {
 		boleta.setNumero(boletaDTO.getNumero());
 
 		return boleta;
+	}
+
+	public static Denuncia getDenuncia(DenunciaDTO denunciaDTO) {
+		Denuncia denuncia = new Denuncia();
+		denuncia.setNumeroDeDenuncia(denunciaDTO.getNumeroDeDenuncia());
+		denuncia.setNumeroDeLlamado(denunciaDTO.getNumeroDeLlamado());
+		denuncia.setDesde(Fecha.stringDDMMAAAAToUtilDate(denunciaDTO.getDesde()));
+		denuncia.setHasta(Fecha.stringDDMMAAAAToUtilDate(denunciaDTO.getHasta()));
+		denuncia.setLugar(denunciaDTO.getLugar());
+		return denuncia;
+
 	}
 
 	public static Guia getGuia(GuiaDTO guiaDTO, Marca marca,

@@ -40,7 +40,9 @@
 		<form-bean name="guiaForm"
 			type="ar.com.siig.struts.actions.forms.GuiaForm">
 		</form-bean>		
-		
+		<form-bean name="denunciaForm"
+			type="ar.com.siig.struts.actions.forms.DenunciaForm">
+		</form-bean>
 		<form-bean name="autorizadoForm"
 			type="ar.com.siig.struts.actions.forms.AutorizadoForm">
 		</form-bean>		
@@ -272,6 +274,13 @@
 		</action>
 		<!-- FIN TIPOANIMAL -->
 
+		<!-- DENUNCIA -->
+		<action path="/denuncia" type="ar.com.siig.struts.actions.DenunciaAction"
+			parameter="metodo" name="denunciaForm" scope="request">
+			<forward name="exitoInitAltaDenuncia" path=".altaDenuncia" />
+			<forward name="exitoAltaDenuncia" path="/denuncia.do?metodo=initAltaDenuncia" />
+		</action>
+		<!-- FIN DENUNCIA -->
 	</action-mappings>
 
 	<message-resources parameter="ar.com.siig.struts.resources.application" />
