@@ -183,5 +183,9 @@ public class Constantes {
 
 	public static final Object EXITO_ALTA_DENUNCIA = "La Denuncia se ha dado de alta con exito";
 	
-	// FIN DENUNCIA
+	// FIN DENUNCIA	
+	
+	//REPORTES
+	public static final String REPORTE_VENCIMIENTO_MARCAS_SENIALES = "reporteVencimientoMarcasSeniales";
+	//FIN REPORTES
 }

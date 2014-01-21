@@ -20,4 +20,13 @@ public class ReportesFachada{
 		this.reportesDAO = pReportesDAO;
 	}	
 
+	public byte[] generarReporteVencimientoMarcasSeniales(
+			String path, Long idProductor) throws Exception {
+
+		Map parameters = new HashMap();
+		parameters.put("PATH_SUB_REPORTES", path);
+		parameters.put("idProductor", idProductor);
+
+		return reportesDAO.generarReporte(Constantes.REPORTE_VENCIMIENTO_MARCAS_SENIALES,parameters);
+	}	
 }

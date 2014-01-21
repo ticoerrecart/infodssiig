@@ -28,6 +28,9 @@
 		<convert converter="bean" match="ar.com.siig.dto.MarcaSenialDTO">
 			<param name="include" value="id,tipo,numero,nombreImagen" />
 		</convert>
+		<convert converter="bean" match="ar.com.siig.dto.TipoAnimalDTO">
+			<param name="include" value="id,descripcion,valor" />
+		</convert>
 
 		<create creator="spring" javascript="RolFachada">
 			<param name="beanName" value="rolFachada" />
@@ -47,7 +50,12 @@
 		<create creator="spring" javascript="MarcaSenialFachada">
 			<param name="beanName" value="marcaSenialFachada" />
 		</create>
-
+		<create creator="spring" javascript="TipoAnimalFachada">
+			<param name="beanName" value="tipoAnimalFachada" />
+		</create>
+		<create creator="spring" javascript="GuiaFachada">
+			<param name="beanName" value="guiaFachada" />
+		</create>					
 	</allow>
 
 </dwr> 

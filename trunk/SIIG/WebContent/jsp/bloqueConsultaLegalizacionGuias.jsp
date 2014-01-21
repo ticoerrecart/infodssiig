@@ -7,7 +7,8 @@
 <script>
 	function recuperarGuia(id){
 		//parent.location=contextRoot() + '${fwdDetalle}' + '&id=' + id;
-		parent.location=contextRoot() + "/guia.do?metodo=cargarGuiaLegalizada&id="+id;
+		var urlSeleccionGuia = $('#paramUrlSeleccionGuia').val();
+		parent.location=contextRoot() + "/guia.do?metodo="+urlSeleccionGuia+"&id="+id;
 	}
 
 	var clase;
@@ -25,7 +26,7 @@
 	}
 	
 </script>
-
+<input id="paramUrlSeleccionGuia" type="hidden" value="${urlSeleccionGuia}">
 <table border="0" class="cuadrado" align="center" width="80%" cellpadding="2" cellspacing="1">		
 	<c:choose>
 		<c:when test="${empty guias}">
@@ -78,7 +79,7 @@
 						<fmt:formatDate value="${guia.fechaLegalizacion}" pattern="dd/MM/yyyy" />
 					</td>
 					<td>
-						<a href="javascript:recuperarGuia(${guia.id});">Ver Guía</a>
+						<a href="javascript:recuperarGuia(${guia.id});">Seleccionar</a>
 					</td>
 				</tr>
 			</c:forEach>

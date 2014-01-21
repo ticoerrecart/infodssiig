@@ -16,13 +16,13 @@ function cambiarProductor(){
 
 	var idProductor = $('#idProductor').val();
 	var periodo = $('#periodo').val();
-	var forward = "";//$('#paramForward').val();
+	var urlSeleccionGuia = $('#paramUrlSeleccionGuia').val();
 	
 	$('#divCargando').show();	
 	$('#divDetalle').html("");
 
 	if(idProductor != "" && idProductor != "-1"){
-		$('#divDetalle').load( $('#paramUrlDetalle').val() + '&idProductor='+idProductor + '&forward=' + forward + '&periodo=' + periodo);
+		$('#divDetalle').load( $('#paramUrlDetalle').val() + '&idProductor='+idProductor + '&urlSeleccionGuia=' + urlSeleccionGuia + '&periodo=' + periodo);
 		$('#divDetalle').hide();
 		$('#divDetalle').fadeIn(600);
 
@@ -49,6 +49,7 @@ function cargarProductorPeriodo(idProd,periodo){
 </script>
 
 <input id="paramUrlDetalle" type="hidden" value="${urlDetalle}">
+<input id="paramUrlSeleccionGuia" type="hidden" value="${urlSeleccionGuia}">
 
 <input id="idPeriodo" type="hidden" value="${periodo}">
 

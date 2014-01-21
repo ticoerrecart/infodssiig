@@ -72,4 +72,17 @@ public class TipoAnimalFachada {
 
 		tipoAnimalDAO.modificacionTipoAnimal(tipoAnimal);
 	}
+	
+	public List<TipoAnimalDTO> getTipoAnimalDTOPorCategoria(Long idCategoria){
+		
+		List<TipoAnimal> tipoAnimales = tipoAnimalDAO.getTipoAnimalPorCategoria(idCategoria);
+		List<TipoAnimalDTO> tipoAnimalesDTO = new ArrayList<TipoAnimalDTO>();
+
+		for (TipoAnimal tipoAnimal : tipoAnimales) {
+			TipoAnimalDTO dto = ProviderDTO.getTipoAnimalDTO(tipoAnimal);
+			tipoAnimalesDTO.add(dto);
+		}
+
+		return tipoAnimalesDTO;		
+	}
 }

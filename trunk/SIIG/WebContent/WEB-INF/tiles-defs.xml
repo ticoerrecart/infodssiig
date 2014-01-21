@@ -176,8 +176,13 @@
 	<definition name=".consultaGuiaLegalizada"
 		extends=".base">
 		<put name="title" value="SIIGs" />
-		<put name="body" value="/jsp/consultaGuiaLegalizada.jsp" />
+		<put name="body" value="/jsp/consultaGuiaLegalizada.jsp" />		
 	</definition>		
+	<definition name=".devolucionGuia"
+		extends=".base">
+		<put name="title" value="SIIGs" />
+		<put name="body" value="/jsp/devolucionGuia.jsp" />		
+	</definition>
 	<!-- FIN GUIA -->
 
 
@@ -208,7 +213,7 @@
 		<put name="body" value="/jsp/recuperarTipoAnimales.jsp" />
 	</definition>
 	<!-- FIN TIPOANIMAL -->
-	
+
 	<!-- DENUNCIA -->
 	<definition name=".altaDenuncia"
 		extends=".base">
@@ -216,7 +221,14 @@
 		<put name="body" value="/jsp/altaDenuncia.jsp" />
 	</definition>
 	<!-- FIN DENUNCIA -->
-
+	
+	<!-- REPORTES -->
+	<definition name=".reporteGralPorProductorYPeriodo" extends=".base">
+		<put name="title" value="SIIMs" />
+		<put name="body" value="/jsp/reporteGralPorProductorYPeriodo.jsp" />
+	</definition>
+	<!-- FIN REPORTES -->
+	
 	<definition name=".error" extends=".base">
 		<put name="title" value="Error en SIIGs" />
 		<put name="body" value="/jsp/error.jsp" />
