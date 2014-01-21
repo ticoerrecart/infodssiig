@@ -14,7 +14,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
 @Entity
-public class VencimientoPeriodo {
+public class VencimientoPeriodo implements Comparable<VencimientoPeriodo>{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -50,5 +50,11 @@ public class VencimientoPeriodo {
 
 	public void setPeriodo(Periodo periodo) {
 		this.periodo = periodo;
+	}
+
+	@Override
+	public int compareTo(VencimientoPeriodo arg0) {
+
+		return this.getFecha().compareTo(arg0.getFecha());
 	}
 }

@@ -29,7 +29,8 @@ function volver(){
 
 	var idProductor = $("#idProductor").val();
 	var periodo = $("#periodo").val();
-	parent.location=contextRoot() + "/guia.do?metodo=cargarConsultaLegalizacionGuia&idProductor="+idProductor+"&periodo="+periodo;
+	var urlSeleccionGuia = $("#urlSeleccionGuia").val();
+	parent.location=contextRoot() + "/guia.do?metodo=cargarConsultaLegalizacionGuia&urlSeleccionGuia="+urlSeleccionGuia+"&idProductor="+idProductor+"&periodo="+periodo;
 }
 
 //-----------------------------------------------------//
@@ -43,6 +44,8 @@ function volver(){
 
 	<input id="idProductor" type="hidden" value="${guia.productor.id}">
 	<input id="periodo" type="hidden" value="${guia.periodo}">
+	<input id="urlSeleccionGuia" type="hidden" value="${urlSeleccionGuia}">
+	
 	
 	<table border="0" class="cuadrado" align="center" width="80%"
 		cellpadding="2">

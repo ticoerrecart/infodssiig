@@ -26,4 +26,8 @@ public class CategoriaFachada {
 	public List<Categoria> getCategorias() {
 		return categoriaDAO.getCategorias();
 	}
+	
+	public List<Categoria> getCategorias(String marcaSenial) {
+		return categoriaDAO.getCategorias(marcaSenial);
+	}	
 }

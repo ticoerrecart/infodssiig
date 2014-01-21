@@ -1,5 +1,8 @@
 package ar.com.siig.fachada;
 
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -7,11 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 import ar.com.siig.dao.EntidadDAO;
 import ar.com.siig.dao.GuiaDAO;
 import ar.com.siig.dto.GuiaDTO;
+import ar.com.siig.enums.TipoFinalidad;
 import ar.com.siig.enums.TipoMarcaSenial;
 import ar.com.siig.negocio.Guia;
 import ar.com.siig.negocio.Productor;
 import ar.com.siig.providers.ProviderDTO;
 import ar.com.siig.providers.ProviderDominio;
+import ar.com.siig.utils.Fecha;
 
 @Transactional(rollbackFor = { Throwable.class })
 public class GuiaFachada {
@@ -58,5 +63,9 @@ public class GuiaFachada {
 		
 		Guia guia = guiaDAO.recuperarGuia(idGuia);
 		return ProviderDTO.getGuiaDTO(guia);
+	}
+	
+	public List<TipoFinalidad> recuperarFinalidades(){
+		return Arrays.asList(TipoFinalidad.values());
 	}
 }

@@ -63,4 +63,12 @@ public class TipoAnimalDAO extends HibernateDaoSupport {
 		this.getHibernateTemplate().flush();
 		this.getHibernateTemplate().clear();
 	}
+	
+	public List<TipoAnimal> getTipoAnimalPorCategoria(Long idCategoria){
+		
+		Criteria c = this.getSession().createCriteria(TipoAnimal.class);
+		c.add(Restrictions.eq("categoria.id", idCategoria));
+		
+		return c.list();
+	}
 }

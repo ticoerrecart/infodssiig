@@ -12,4 +12,8 @@ public enum SuperCategoriaTipoAnimal {
 	public String getDescripcion() {
 		return descripcion;
 	}
+	
+	public String getName() {
+		return name();
+	}	
 }

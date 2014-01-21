@@ -238,6 +238,7 @@
 			<forward name="exitoConsultaLegalizacionGuias" path=".consultaGeneralGuia" />
 			<forward name="exitoRecuperarLegalizacionGuias" path="/jsp/bloqueConsultaLegalizacionGuias.jsp" />
 			<forward name="exitoCargarGuiaLegalizada" path=".consultaGuiaLegalizada" />
+			<forward name="exitoCargarGuiaParaDevolucion" path=".devolucionGuia" />
 		</action>
 		<!-- FIN GUIA -->
 
@@ -281,6 +282,18 @@
 			<forward name="exitoAltaDenuncia" path="/denuncia.do?metodo=initAltaDenuncia" />
 		</action>
 		<!-- FIN DENUNCIA -->
+
+		<!-- REPORTES -->
+		<action path="/reportes" type="ar.com.siig.struts.actions.ReportesAction"
+			parameter="metodo" scope="request">	
+			
+			<forward name="exitoCargarReporteVencimientoMarcasSeniales" 
+					 path=".reporteGralPorProductorYPeriodo" />
+					 					 									 					
+		</action>				
+		
+		<!-- FIN REPORTES-->
+
 	</action-mappings>
 
 	<message-resources parameter="ar.com.siig.struts.resources.application" />

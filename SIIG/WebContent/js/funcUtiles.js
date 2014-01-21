@@ -231,3 +231,27 @@ function roundNumber(id){
 	var nro = $('#'+id).val();
 	$('#'+id).val(new Number(nro).toFixed(2));
 }
+
+function exp(sec) {
+	
+	 if (type=="IE") { 
+	 	 eval("document.all." + "e"+sec + ".style.display='none'");
+	 	 eval("document.all." + "c"+sec + ".style.display=''"); 	 
+	 	}
+	 if (type=="MO" || type=="OP") {
+	    eval("document.getElementById('" + "e"+sec + "').style.display='none'");
+	    eval("document.getElementById('" + "c"+sec + "').style.display=''");
+	   }
+}
+
+function col(sec) {
+	
+if (type=="IE") { 
+	 eval("document.all." + "c"+sec + ".style.display='none'");
+	 eval("document.all." + "e"+sec + ".style.display=''"); 	 
+	}
+if (type=="MO" || type=="OP") {
+   eval("document.getElementById('" + "c"+sec + "').style.display='none'");
+   eval("document.getElementById('" + "e"+sec + "').style.display=''");
+  }
+}

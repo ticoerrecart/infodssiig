@@ -255,7 +255,7 @@ function cambiarProductor(){
 								</tr>								
 								<tr>
 									<td colspan="2">
-										<img id="idImg" alt="" src="">
+										<img id="idImg" alt="" src="" height="20%" width="20%">
 									</td>
 								</tr>
 							</table>
