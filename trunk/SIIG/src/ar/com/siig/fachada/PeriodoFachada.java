@@ -84,15 +84,28 @@ public class PeriodoFachada{
 	
 	public double calcularInteres(String pFechaTransito, String pPeriodo){
 		
+		//pPeriodo="2012-2013";
+		//String f1 = "12/07/2013";
+		//Date fechaHoy = Fecha.stringDDMMAAAAToUtilDate(f1);
+		
 		Calendar fechaHoy = Calendar.getInstance();
-		//String f1 = "20/06/2014";
-		//Date fechaHoy = Fecha.stringDDMMAAAAToUtilDate(f1);		
 		Date fechaTransito = Fecha.stringDDMMAAAAToUtilDate(pFechaTransito);
 		
 		Periodo periodo = PeriodoDAO.getPeriodoPorPeriodo(pPeriodo);
-		int intervalos = recuperarFechaVencimiento(periodo,fechaTransito,fechaHoy.getTime());
-		//int intervalos = recuperarFechaVencimiento(periodo,fechaTransito,fechaHoy);
+		int intervalos = recuperarFechaVencimiento(0,periodo,fechaTransito,fechaHoy.getTime());
+		//int intervalos = recuperarFechaVencimiento(0,periodo,fechaTransito,fechaHoy);
+
+		String a = "01/07/"+pPeriodo.substring(5);
+		Date fechaFinPeriodo = Fecha.stringDDMMAAAAToUtilDate(a);
 		
+		//Por si la fecha de hoy no se corresponde con el periodo de la guia en cuestion
+		if(fechaFinPeriodo.before(fechaHoy.getTime())){
+			Integer anioPeriodo = new Integer(pPeriodo.substring(5));
+			anioPeriodo++;
+			Periodo periodoSiguiente = PeriodoDAO.getPeriodoPorPeriodo(pPeriodo.substring(5)+"-"+anioPeriodo);
+			intervalos = recuperarFechaVencimiento(intervalos,periodoSiguiente,fechaTransito,fechaHoy.getTime());
+		}
+
 		switch (intervalos){
 		case 0: return 0.0;
 		case 1: return 0.5;
@@ -101,9 +114,9 @@ public class PeriodoFachada{
 		}
 	}	
 	
-	public int recuperarFechaVencimiento(Periodo periodo, Date fechaTransito, Date fechaHoy){
+	public int recuperarFechaVencimiento(int pIntervalo, Periodo periodo, Date fechaTransito, Date fechaHoy){
 		
-		int intervalos = 0;
+		int intervalos = pIntervalo;
 		Collections.sort(periodo.getVencimientoPeriodo());
 		
 		for (VencimientoPeriodo vp : periodo.getVencimientoPeriodo()) {
@@ -112,6 +125,7 @@ public class PeriodoFachada{
 				intervalos++;
 			}
 		}
+
 		return intervalos;
 	}
 }
