@@ -187,5 +187,7 @@ public class Constantes {
 	
 	//REPORTES
 	public static final String REPORTE_VENCIMIENTO_MARCAS_SENIALES = "reporteVencimientoMarcasSeniales";
+	
+	public static final String REPORTE_GUIAS_LEGALIZADAS = "reporteGuiasLegalizadas";	
 	//FIN REPORTES
 }

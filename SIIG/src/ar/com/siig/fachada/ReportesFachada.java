@@ -29,4 +29,16 @@ public class ReportesFachada{
 
 		return reportesDAO.generarReporte(Constantes.REPORTE_VENCIMIENTO_MARCAS_SENIALES,parameters);
 	}	
+
+	public byte[] generarReporteGuiasLegalizadas(
+			String path, Long idProductor, String periodo) throws Exception {
+
+		Map parameters = new HashMap();
+		parameters.put("PATH_SUB_REPORTES", path);
+		parameters.put("idProductor", idProductor);
+		parameters.put("periodo", periodo);
+
+		return reportesDAO.generarReporte(Constantes.REPORTE_GUIAS_LEGALIZADAS,parameters);
+	}	
+	
 }

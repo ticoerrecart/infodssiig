@@ -23,10 +23,10 @@ public class ReportesAction extends ValidadorAction {
 
 		try {
 			WebApplicationContext ctx = getWebApplicationContext();
-			PeriodoFachada periodoFachada = (PeriodoFachada) ctx.getBean("periodoFachada");			
+			//PeriodoFachada periodoFachada = (PeriodoFachada) ctx.getBean("periodoFachada");			
 			EntidadFachada entidadFachada = (EntidadFachada) ctx.getBean("entidadFachada");
 			
-			request.setAttribute("periodos",periodoFachada.getPeriodosDTO());			
+			//request.setAttribute("periodos",periodoFachada.getPeriodosDTO());			
 			request.setAttribute("productores",entidadFachada.getProductoresDTO());
 			request.setAttribute("titulo","Reporte Vencimiento de Títulos de Marcas y señales");
 			request.setAttribute("action","reportes");
@@ -71,4 +71,60 @@ public class ReportesAction extends ValidadorAction {
 
 		return null;
 	}
+	
+	public ActionForward cargarReporteGuiasLegalizadas(
+			ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		String strForward = "exitoCargarReporteGuiasLegalizadas";
+
+		try {
+			WebApplicationContext ctx = getWebApplicationContext();
+			PeriodoFachada periodoFachada = (PeriodoFachada) ctx.getBean("periodoFachada");			
+			EntidadFachada entidadFachada = (EntidadFachada) ctx.getBean("entidadFachada");
+			
+			request.setAttribute("periodos",periodoFachada.getPeriodosDTO());			
+			request.setAttribute("productores",entidadFachada.getProductoresDTO());
+			request.setAttribute("titulo","Reporte Guías Legalizadas");
+			request.setAttribute("action","reportes");
+			request.setAttribute("metodo","generarReporteGuiasLegalizadas");
+			request.setAttribute("permitirTodosLosProductores","S");
+			request.setAttribute("permitirTodosLosPeriodos","S");			
+			
+		} catch (Throwable t) {
+			MyLogger.logError(t);
+			request.setAttribute("error", "Error Inesperado");
+			strForward = "error";
+		}
+		return mapping.findForward(strForward);
+	}
+	
+	public ActionForward generarReporteGuiasLegalizadas(
+			ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+
+		try {
+			String path = request.getSession().getServletContext()
+					.getRealPath("jasper");
+
+			WebApplicationContext ctx = getWebApplicationContext();
+			ReportesFachada reportesFachada = (ReportesFachada) ctx.getBean("reportesFachada");
+			String productor = request.getParameter("productor");
+			String periodo = request.getParameter("periodo");
+
+			byte[] bytes = reportesFachada.generarReporteGuiasLegalizadas(path,Long.valueOf(productor),periodo);
+
+			// Lo muestro en la salida del response
+			response.setContentType("application/pdf");
+			ServletOutputStream out = response.getOutputStream();
+			out.write(bytes, 0, bytes.length);
+			out.flush();
+
+		} catch (Throwable t) {
+			MyLogger.logError(t);
+			request.setAttribute("error", "Error Inesperado");
+			return mapping.findForward("errorSinMenu");
+		}
+
+		return null;
+	}	
 }
