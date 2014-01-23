@@ -229,6 +229,13 @@
 	</definition>
 	<!-- FIN REPORTES -->
 	
+	<!-- STOCK ANIMAL DE PRODUCTOR EN ESTABLECIMIENTO -->
+	<definition name=".altaStockAnimalDeProductorEnEstablecimiento" extends=".base">
+		<put name="title" value="SIIMs" />
+		<put name="body" value="/jsp/altaStockAnimalDeProductorEnEstablecimiento.jsp" />
+	</definition>	
+	<!-- FIN STOCK ANIMAL DE PRODUCTOR EN ESTABLECIMIENTO -->
+	
 	<definition name=".error" extends=".base">
 		<put name="title" value="Error en SIIGs" />
 		<put name="body" value="/jsp/error.jsp" />

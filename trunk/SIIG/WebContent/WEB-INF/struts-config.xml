@@ -50,6 +50,10 @@
 		<form-bean name="tipoAnimalForm"
 			type="ar.com.siig.struts.actions.forms.TipoAnimalForm">
 		</form-bean>
+
+		<form-bean name="animalEnEstablecimientoForm"
+			type="ar.com.siig.struts.actions.forms.AnimalEnEstablecimientoForm">
+		</form-bean>				
 		
 	</form-beans>
 
@@ -292,8 +296,19 @@
 			<forward name="exitoCargarReporteGuiasLegalizadas" 
 					 path=".reporteGralPorProductorYPeriodo" />					 								 					 									 				
 		</action>				
-		
 		<!-- FIN REPORTES-->
+
+		<!-- STOCK ANIMAL DE PRODUCTOR EN ESTABLECIMIENTO -->
+		<action path="/animalEnEstablecimiento" type="ar.com.siig.struts.actions.AnimalEnEstablecimientoAction"
+			name="animalEnEstablecimientoForm" parameter="metodo" scope="request">
+
+			<forward name="exitoCargarStockAnimalDeProductorEnEstablecimiento" 
+					 path=".altaStockAnimalDeProductorEnEstablecimiento" />
+
+			<forward name="exitoAltaStockAnimalDeProductorEnEstablecimiento" 
+					 path="/animalEnEstablecimiento.do?metodo=cargarStockAnimalDeProductorEnEstablecimiento" />					 					 					 
+		</action>
+		<!-- FIN STOCK ANIMAL DE PRODUCTOR EN ESTABLECIMIENTO -->
 
 	</action-mappings>
 
