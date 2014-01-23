@@ -48,7 +48,9 @@
 		<mapping class='ar.com.siig.negocio.TipoDeDenuncia' />
 		<mapping class='ar.com.siig.negocio.Guia' />		
 		<mapping class='ar.com.siig.negocio.Categoria' />
-		<mapping class='ar.com.siig.negocio.TipoAnimal' />		
+		<mapping class='ar.com.siig.negocio.TipoAnimal' />
+		<mapping class='ar.com.siig.negocio.AnimalEnEstablecimiento' />
+		<mapping class='ar.com.siig.negocio.ProductorEnEstablecimiento' />		
 	</session-factory>
 </hibernate-configuration>
 
