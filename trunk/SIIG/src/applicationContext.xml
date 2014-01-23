@@ -75,6 +75,7 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 	<bean id="guiaDAO" class="ar.com.siig.dao.GuiaDAO" parent="abstractRepository" />
 	<bean id="tipoAnimalDAO" class="ar.com.siig.dao.TipoAnimalDAO" parent="abstractRepository" />
 	<bean id="categoriaDAO" class="ar.com.siig.dao.CategoriaDAO" parent="abstractRepository" />
+	<bean id="animalEnEstablecimientoDAO" class="ar.com.siig.dao.AnimalEnEstablecimientoDAO" parent="abstractRepository" />
 	
 	<!--  *******************-->
 	<!--     Fachadas        -->
@@ -153,6 +154,11 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 	<bean id="categoriaFachada" class="ar.com.siig.fachada.CategoriaFachada">
 		<constructor-arg ref="categoriaDAO" />
 	</bean>
+
+	<bean id="animalEnEstablecimientoFachada" class="ar.com.siig.fachada.AnimalEnEstablecimientoFachada">
+		<constructor-arg ref="animalEnEstablecimientoDAO" />
+	</bean>		
+	
 	<!--  *******************-->
 	<!--       Parameters    -->
 	<!--  *******************-->
