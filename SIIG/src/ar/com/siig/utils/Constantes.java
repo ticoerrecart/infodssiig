@@ -190,4 +190,8 @@ public class Constantes {
 	
 	public static final String REPORTE_GUIAS_LEGALIZADAS = "reporteGuiasLegalizadas";	
 	//FIN REPORTES
+	
+	//STOCK ANIMAL DE PRODUCTOR EN ESTABLECIMIENTO
+	public static final String EXITO_ALTA_STOCK = "El Stock se ha dado de alta con exito";
+	//FIN STOCK ANIMAL DE PRODUCTOR EN ESTABLECIMIENTO
 }
