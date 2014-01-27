@@ -59,4 +59,10 @@ public class Categoria {
 		return tipoAnimales;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+
+		Categoria c = (Categoria)obj;
+		return c.getId().equals(this.getId());
+	}
 }

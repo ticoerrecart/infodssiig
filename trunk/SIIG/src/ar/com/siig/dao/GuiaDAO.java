@@ -6,6 +6,7 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+import ar.com.siig.enums.TipoEstadoGuia;
 import ar.com.siig.negocio.Guia;
 
 public class GuiaDAO extends HibernateDaoSupport {
@@ -32,7 +33,8 @@ public class GuiaDAO extends HibernateDaoSupport {
 		Criteria criteria = getSession().createCriteria(Guia.class);
 		criteria.add(Restrictions.eq("productor.id", idProductor));
 		criteria.add(Restrictions.eq("periodo", periodo));
- 
+		criteria.add(Restrictions.eq("tipoEstadoGuia", TipoEstadoGuia.LEGALIZADA));
+		
 		List<Guia> guias = criteria.list();	
 		
 		return guias;

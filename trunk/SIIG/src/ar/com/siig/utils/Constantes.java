@@ -193,5 +193,7 @@ public class Constantes {
 	
 	//STOCK ANIMAL DE PRODUCTOR EN ESTABLECIMIENTO
 	public static final String EXITO_ALTA_STOCK = "El Stock se ha dado de alta con exito";
+	
+	public static final String EXITO_MODIFICACION_STOCK = "El Stock se ha modificado con exito";
 	//FIN STOCK ANIMAL DE PRODUCTOR EN ESTABLECIMIENTO
 }
