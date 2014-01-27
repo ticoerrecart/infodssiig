@@ -16,7 +16,10 @@
 <script type="text/javascript"
 	src="<html:rewrite page='/dwr/interface/TipoAnimalFachada.js'/>"></script>
 <script type="text/javascript"
-	src="<html:rewrite page='/dwr/interface/PeriodoFachada.js'/>"></script>	
+	src="<html:rewrite page='/dwr/interface/PeriodoFachada.js'/>"></script>
+<script type="text/javascript"
+	src="<html:rewrite page='/dwr/interface/CategoriaFachada.js'/>"></script>	
+		
 
 <link rel="stylesheet" href="<html:rewrite page='/css/ui-lightness/jquery-ui-1.8.10.custom.css'/>"
 	type="text/css">
@@ -110,6 +113,12 @@ function calcularInteres(){
 	if(montoTotal != null && montoTotal != "" && montoTotal != 0 && fechaTransito != ""){
 
 		PeriodoFachada.calcularInteres(fechaTransito,periodo,calcularInteresCallback);
+		
+	}else{
+		//$(".montoTotal").hide();
+		$("#idInteres").html(" % de Interés");
+		$("#idValorInteres").val(0.00);
+		$("#idMontoTotal").val(0.00);		
 	}
 }
 
@@ -128,6 +137,45 @@ function calcularInteresCallback(interes){
 	$("#idMontoTotal").val(montoTotal);
 }
 
+function cambioEstablecimientoOrigen(){
+
+	var idEstablecimiento = $("#establecimientoOrigen").val(); 
+	var tipoMarcaSenial = $("#tipoMarcaSenial").val();
+	var idProductor = $("#idProductor").val();
+
+	$("#idCanon").val(0.0);
+	if(idEstablecimiento != "-1"){
+		CategoriaFachada.getCategoriasPorEstablecimiento(idProductor,idEstablecimiento,tipoMarcaSenial,getCategoriasPorEstablecimientoCallback);
+	}else{
+
+		dwr.util.removeAllOptions("idCategoria");		
+		var data = [ { descripcion:"-Seleccione-", id:-1 }];
+		dwr.util.addOptions("idCategoria", data, "id", "descripcion");				
+		$('#idCategoria').attr('disabled',true);
+		
+		dwr.util.removeAllOptions("idTipoAnimal");		
+		var data = [ { descripcion:"-Seleccione-", id:-1 }];
+		dwr.util.addOptions("idTipoAnimal", data, "id", "descripcion");				
+		$('#idTipoAnimal').attr('disabled',true);
+		
+		actualizarMontoTotal();		
+	}
+}
+
+function getCategoriasPorEstablecimientoCallback(categorias){
+
+	dwr.util.removeAllOptions("idCategoria");
+	var data = [ { descripcion:"-Seleccione-", id:-1 }];
+	dwr.util.addOptions("idCategoria", data, "id", "descripcion");	
+	dwr.util.addOptions("idCategoria", categorias,"id","descripcion");
+
+	$("#idCategoria").attr('disabled', false);
+}
+
+function borrarInteres(){
+	
+}
+
 //-----------------------------------------------------//
 
 </script>
@@ -140,6 +188,7 @@ function calcularInteresCallback(interes){
 	<input id="idProductor" type="hidden" value="${guia.productor.id}">
 	<input id="periodo" type="hidden" value="${guia.periodo}">
 	<input id="urlSeleccionGuia" type="hidden" value="${urlSeleccionGuia}">
+	<input id="tipoMarcaSenial" type="hidden" value="${guia.marcaSenial.tipo}">
 	
 	<table border="0" class="cuadrado" align="center" width="80%" cellpadding="2">
 		<tr>
@@ -211,7 +260,8 @@ function calcularInteresCallback(interes){
 					<tr>
 						<td width="20%" class="botoneralNegritaRight">Establecimiento de Orígen</td>
 						<td width="30%" align="left">
-							<select id="establecimientoOrigen" class="botonerab">
+							<select id="establecimientoOrigen" class="botonerab" onchange="cambioEstablecimientoOrigen();">
+								<option value="-1">-Seleccione-</option>
 								<c:forEach items="${establecimientos}" var="est">
 									<option value="${est.id}">
 										<c:out value="${est.nombre}"></c:out>
@@ -405,13 +455,13 @@ function calcularInteresCallback(interes){
 						</tr>
 						<tr>
 							<td>
-								<select id="idCategoria" class="botonerab" onchange="cambioCategoria();">
+								<select id="idCategoria" class="botonerab" onchange="cambioCategoria();" disabled="disabled">
 									<option value="-1">-Seleccione-</option>
-									<c:forEach items="${categorias}" var="cat">
+									<!--<c:forEach items="${categorias}" var="cat">
 										<option value="${cat.id}">
 											<c:out value="${cat.descripcion}"></c:out>
 										</option>
-									</c:forEach>
+									</c:forEach>-->
 								</select>
 							</td>
 							<td>
@@ -435,19 +485,19 @@ function calcularInteresCallback(interes){
 								$<input type="text" class="botonerab" size="12" id="idMonto" readonly="readonly">
 							</td>
 						</tr>
-						<tr style="display: none" class="montoTotal">
-							<td colspan="6" id="idInteres" class="botoneralNegritaRight"></td>							
+						<tr style="display: " class="montoTotal">
+							<td colspan="6" id="idInteres" class="botoneralNegritaRight">% de Interes</td>							
 							<td class="botonerab">
 								$<input type="text" class="botonerab" size="12" id="idValorInteres" readonly="readonly">
 							</td>							
 						</tr>
-						<tr style="display: none" class="montoTotal">
+						<tr style="display: " class="montoTotal">
 							<td colspan="4"></td>							
 							<td colspan="3">
 								<hr>
 							</td>							
 						</tr>
-						<tr style="display: none" class="montoTotal">
+						<tr style="display: " class="montoTotal">
 							<td colspan="6" class="botoneralNegritaRight">Monto Total</td>							
 							<td class="botonerab">
 								$<input type="text" class="botonerab" size="12" id="idMontoTotal" readonly="readonly">

@@ -234,6 +234,16 @@
 		<put name="title" value="SIIMs" />
 		<put name="body" value="/jsp/altaStockAnimalDeProductorEnEstablecimiento.jsp" />
 	</definition>	
+	
+	<definition name=".consultaModificacionStockAnimal" extends=".base">
+		<put name="title" value="SIIMs" />
+		<put name="body" value="/jsp/consultaModificacionStockAnimal.jsp" />
+	</definition>	
+
+	<definition name=".modificacionStockAnimal" extends=".base">
+		<put name="title" value="SIIMs" />
+		<put name="body" value="/jsp/modificacionStockAnimal.jsp" />
+	</definition>			
 	<!-- FIN STOCK ANIMAL DE PRODUCTOR EN ESTABLECIMIENTO -->
 	
 	<definition name=".error" extends=".base">

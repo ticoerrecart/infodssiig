@@ -72,6 +72,10 @@ public class GuiaAction extends ValidadorAction {
 			WebApplicationContext ctx = getWebApplicationContext();
 			GuiaFachada guiaFachada = (GuiaFachada) ctx.getBean("guiaFachada");
 			
+			// valido nuevamente por seguridad.  
+			if (!validarAltaLegalizacionGuiaForm(new StringBuffer(), guiaForm)) {
+				throw new Exception("Error de Seguridad");
+			}
 			guiaFachada.altaLegalizacionGuia(guiaForm.getGuia());
 			
 			request.setAttribute("exitoGrabado",
@@ -223,10 +227,11 @@ public class GuiaAction extends ValidadorAction {
 				
 			marcaSenial.setNombreImagen(nombreImg.toString());			
 			
-			List<Categoria> listaCategoria = categoriaFachada.getCategorias(guia.getMarcaSenial().getTipo());
+			/*List<Categoria> listaCategoria = categoriaFachada.getCategorias(guia.getMarcaSenial().getTipo());			
+			request.setAttribute("categorias",listaCategoria);*/
 			
-			request.setAttribute("categorias",listaCategoria);
-			request.setAttribute("establecimientos", establecimientoFachada.getEstablecimientosDTO());
+			request.setAttribute("establecimientos", establecimientoFachada.
+											getEstablecimientosDTODeProductor(guia.getProductor().getId()));
 			request.setAttribute("finalidades", guiaFachada.recuperarFinalidades());			
 			request.setAttribute("guia", guia);
 			request.setAttribute("urlSeleccionGuia", urlSeleccionGuia);

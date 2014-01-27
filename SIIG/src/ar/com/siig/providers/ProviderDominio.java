@@ -18,6 +18,7 @@ import ar.com.siig.dto.TipoAnimalDTO;
 import ar.com.siig.dto.UsuarioDTO;
 import ar.com.siig.dto.VencimientoPeriodoDTO;
 import ar.com.siig.enums.TipoDeEntidad;
+import ar.com.siig.negocio.AnimalEnEstablecimiento;
 import ar.com.siig.negocio.Autorizado;
 import ar.com.siig.negocio.BoletaDeposito;
 import ar.com.siig.negocio.Denuncia;
@@ -30,6 +31,7 @@ import ar.com.siig.negocio.Localidad;
 import ar.com.siig.negocio.Marca;
 import ar.com.siig.negocio.Periodo;
 import ar.com.siig.negocio.Productor;
+import ar.com.siig.negocio.ProductorEnEstablecimiento;
 import ar.com.siig.negocio.Provincia;
 import ar.com.siig.negocio.RecursosNaturales;
 import ar.com.siig.negocio.Rol;
@@ -326,5 +328,28 @@ public abstract class ProviderDominio {
 		tipoAnimal.setCategoria(categoria);
 		tipoAnimal.setValor(Double.valueOf(tipoAnimalDTO.getValor()));
 		return tipoAnimal;
+	}
+	
+	public static ProductorEnEstablecimiento getProductorEnEstablecimiento(Productor productor, 
+								Establecimiento establecimiento,TipoAnimal tipoAnimal, int stock){
+		
+		ProductorEnEstablecimiento productorEnEstablecimiento = new ProductorEnEstablecimiento();
+		productorEnEstablecimiento.setEstablecimiento(establecimiento);
+		productorEnEstablecimiento.setProductor(productor);
+		productorEnEstablecimiento.getAnimalesEnEstablecimiento().add(
+							getAnimalesEnEstablecimiento(productorEnEstablecimiento,tipoAnimal,stock));
+		
+		return productorEnEstablecimiento;
+	}
+	
+	public static AnimalEnEstablecimiento getAnimalesEnEstablecimiento(
+			ProductorEnEstablecimiento productorEnEstablecimiento, TipoAnimal tipoAnimal,int stock){
+		
+		AnimalEnEstablecimiento animalEnEstablecimiento = new AnimalEnEstablecimiento();
+		animalEnEstablecimiento.setStock(stock);
+		animalEnEstablecimiento.setTipoAnimal(tipoAnimal);
+		animalEnEstablecimiento.setProductorEnEstablecimiento(productorEnEstablecimiento);
+		
+		return animalEnEstablecimiento;
 	}
 }

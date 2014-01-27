@@ -17,7 +17,7 @@ public class AnimalEnEstablecimiento {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	private int sotck;
+	private int stock;
 	
 	@ManyToOne()
 	@Cascade(value = CascadeType.SAVE_UPDATE)
@@ -37,12 +37,12 @@ public class AnimalEnEstablecimiento {
 		this.id = id;
 	}
 
-	public int getSotck() {
-		return sotck;
+	public int getStock() {
+		return stock;
 	}
 
-	public void setSotck(int sotck) {
-		this.sotck = sotck;
+	public void setStock(int stock) {
+		this.stock = stock;
 	}
 
 	public TipoAnimal getTipoAnimal() {

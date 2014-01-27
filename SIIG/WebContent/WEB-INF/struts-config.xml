@@ -304,9 +304,20 @@
 
 			<forward name="exitoCargarStockAnimalDeProductorEnEstablecimiento" 
 					 path=".altaStockAnimalDeProductorEnEstablecimiento" />
-
 			<forward name="exitoAltaStockAnimalDeProductorEnEstablecimiento" 
-					 path="/animalEnEstablecimiento.do?metodo=cargarStockAnimalDeProductorEnEstablecimiento" />					 					 					 
+					 path="/animalEnEstablecimiento.do?metodo=cargarStockAnimalDeProductorEnEstablecimiento" />
+
+			<forward name="exitoCargarConsultaModificacionStockAnimal" 
+					 path=".consultaModificacionStockAnimal" />			
+
+			<forward name="exitoRecuperarStockAnimalesConsultaModificacion" 
+					 path="/jsp/bloqueConsultaModificacionStockAnimal.jsp" />							 
+
+			<forward name="exitoCargarStockAnimalModificacion" 
+					 path=".modificacionStockAnimal" />		
+
+			<forward name="exitoModificacionStockAnimalDeProductorEnEstablecimiento" 
+					 path="/animalEnEstablecimiento.do?metodo=cargarConsultaModificacionStockAnimal&amp;tipo=m" />					 					 			 		 					 					 					 					
 		</action>
 		<!-- FIN STOCK ANIMAL DE PRODUCTOR EN ESTABLECIMIENTO -->
 

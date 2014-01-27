@@ -1,6 +1,6 @@
 package ar.com.siig.dto;
 
-public class EstablecimientoDTO {
+public class EstablecimientoDTO{
 
 	private Long id;
 	private String nombre;
@@ -34,5 +34,4 @@ public class EstablecimientoDTO {
 	public void setLocalidadDTO(LocalidadDTO localidadDTO) {
 		this.localidadDTO = localidadDTO;
 	}
-
 }

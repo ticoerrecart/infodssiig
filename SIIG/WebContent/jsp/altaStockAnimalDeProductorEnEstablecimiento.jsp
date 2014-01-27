@@ -22,6 +22,8 @@ if (document.all) type="IE";
 if (!document.all && document.getElementById) type="MO";
 
 function submitir(){
+	$('#exitoGrabado').html("");
+	$('#errores').html("");
 	validarForm("animalEnEstablecimientoForm","../animalEnEstablecimiento","validarAltaStockAnimalForm","AnimalEnEstablecimientoForm");
 }
 

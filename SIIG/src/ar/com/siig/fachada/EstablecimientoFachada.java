@@ -5,12 +5,17 @@ import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import ar.com.siig.dao.EntidadDAO;
 import ar.com.siig.dao.EstablecimientoDAO;
 import ar.com.siig.dao.LocalidadDAO;
 import ar.com.siig.dto.EstablecimientoDTO;
-import ar.com.siig.dto.LocalidadDTO;
+import ar.com.siig.enums.SuperCategoriaTipoAnimal;
+import ar.com.siig.enums.TipoMarcaSenial;
+import ar.com.siig.negocio.AnimalEnEstablecimiento;
 import ar.com.siig.negocio.Establecimiento;
 import ar.com.siig.negocio.Localidad;
+import ar.com.siig.negocio.Productor;
+import ar.com.siig.negocio.ProductorEnEstablecimiento;
 import ar.com.siig.negocio.exception.NegocioException;
 import ar.com.siig.providers.ProviderDTO;
 import ar.com.siig.providers.ProviderDominio;
@@ -21,14 +26,17 @@ public class EstablecimientoFachada {
 
 	private EstablecimientoDAO establecimientoDAO;
 	private LocalidadDAO localidadDAO;
+	private EntidadDAO entidadDAO;
 
 	public EstablecimientoFachada() {
 	}
 
 	public EstablecimientoFachada(EstablecimientoDAO elEstablecimientoDAO,
-			LocalidadDAO laLocalidadDAO) {
+			LocalidadDAO laLocalidadDAO, EntidadDAO pEntidadDAO) {
+		
 		this.establecimientoDAO = elEstablecimientoDAO;
 		this.localidadDAO = laLocalidadDAO;
+		this.entidadDAO = pEntidadDAO;
 	}
 
 	public List<Establecimiento> getEstablecimientos() {
@@ -102,4 +110,27 @@ public class EstablecimientoFachada {
 				.getEstablecimiento(establecimientoDTO,establecimiento, localidad));
 	}
 
+	public List<EstablecimientoDTO> getEstablecimientosDTODeProductor(Long idProductor){
+		
+		Productor productor = entidadDAO.getProductor(idProductor); 
+		List<EstablecimientoDTO> listaEstablecimientos = new ArrayList<EstablecimientoDTO>();
+		
+		for (ProductorEnEstablecimiento prodEnEst : productor.getProductorEnEstablecimiento()) {
+			listaEstablecimientos.add(ProviderDTO.getEstablecimientoDTO(prodEnEst.getEstablecimiento()));			
+		}
+		
+		return listaEstablecimientos;
+	}
+	
+	public List<EstablecimientoDTO> getEstablecimientosDTODeProductor2(Long idProductor, String tipo){
+		
+		Productor productor = entidadDAO.getProductor(idProductor); 
+		List<EstablecimientoDTO> listaEstablecimientos = new ArrayList<EstablecimientoDTO>();
+		
+		for (ProductorEnEstablecimiento prodEnEst : productor.getProductorEnEstablecimiento()) {
+			listaEstablecimientos.add(ProviderDTO.getEstablecimientoDTO(prodEnEst.getEstablecimiento()));						
+		}
+				
+		return listaEstablecimientos;
+	}
 }
