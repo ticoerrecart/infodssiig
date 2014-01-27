@@ -172,8 +172,8 @@ function getCategoriasPorEstablecimientoCallback(categorias){
 	$("#idCategoria").attr('disabled', false);
 }
 
-function borrarInteres(){
-	
+function submitir(){
+	validarForm("guiaForm","../guia","validarAltaLegalizacionGuiaForm","GuiaForm");
 }
 
 //-----------------------------------------------------//
@@ -190,6 +190,8 @@ function borrarInteres(){
 	<input id="urlSeleccionGuia" type="hidden" value="${urlSeleccionGuia}">
 	<input id="tipoMarcaSenial" type="hidden" value="${guia.marcaSenial.tipo}">
 	
+<html:form action="guia" styleId="guiaForm">
+	<html:hidden property="metodo" value="altaDevolucionGuia" />	
 	<table border="0" class="cuadrado" align="center" width="80%" cellpadding="2">
 		<tr>
 			<td class="azulAjustado">
@@ -529,3 +531,4 @@ function borrarInteres(){
 			<td height="10" colspan="4"></td> 
 		</tr>
 	</table>
+</html:form>	
