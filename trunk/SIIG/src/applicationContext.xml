@@ -93,6 +93,7 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 	<bean id="establecimientoFachada" class="ar.com.siig.fachada.EstablecimientoFachada">
 		<constructor-arg ref="establecimientoDAO" />
 		<constructor-arg ref="localidadDAO" />
+		<constructor-arg ref="entidadDAO" />
 	</bean>	
 	<bean id="periodoFachada" class="ar.com.siig.fachada.PeriodoFachada">
 		<constructor-arg ref="periodoDAO" />
@@ -153,10 +154,14 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 	
 	<bean id="categoriaFachada" class="ar.com.siig.fachada.CategoriaFachada">
 		<constructor-arg ref="categoriaDAO" />
+		<constructor-arg ref="entidadDAO" />
 	</bean>
 
 	<bean id="animalEnEstablecimientoFachada" class="ar.com.siig.fachada.AnimalEnEstablecimientoFachada">
 		<constructor-arg ref="animalEnEstablecimientoDAO" />
+		<constructor-arg ref="entidadDAO" />
+		<constructor-arg ref="establecimientoDAO" />
+		<constructor-arg ref="tipoAnimalDAO" />
 	</bean>		
 	
 	<!--  *******************-->
