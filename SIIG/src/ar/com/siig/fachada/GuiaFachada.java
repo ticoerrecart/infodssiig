@@ -8,12 +8,19 @@ import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
 import ar.com.siig.dao.EntidadDAO;
+import ar.com.siig.dao.EstablecimientoDAO;
 import ar.com.siig.dao.GuiaDAO;
+import ar.com.siig.dao.TipoAnimalDAO;
 import ar.com.siig.dto.GuiaDTO;
+import ar.com.siig.enums.TipoEstadoGuia;
 import ar.com.siig.enums.TipoFinalidad;
 import ar.com.siig.enums.TipoMarcaSenial;
+import ar.com.siig.negocio.AnimalEnEstablecimiento;
+import ar.com.siig.negocio.Establecimiento;
 import ar.com.siig.negocio.Guia;
 import ar.com.siig.negocio.Productor;
+import ar.com.siig.negocio.ProductorEnEstablecimiento;
+import ar.com.siig.negocio.TipoAnimal;
 import ar.com.siig.providers.ProviderDTO;
 import ar.com.siig.providers.ProviderDominio;
 import ar.com.siig.utils.Fecha;
@@ -23,13 +30,17 @@ public class GuiaFachada {
 
 	private GuiaDAO guiaDAO;
 	private EntidadDAO entidadDAO;
+	private EstablecimientoDAO establecimientoDAO;
+	private TipoAnimalDAO tipoAnimalDAO;
 	
 	public GuiaFachada(){}
 	
-	public GuiaFachada(GuiaDAO pGuiaDAO, EntidadDAO pEntidadDAO){
+	public GuiaFachada(GuiaDAO pGuiaDAO, EntidadDAO pEntidadDAO, EstablecimientoDAO pEstablecimientoDAO, TipoAnimalDAO pTipoAnimalDAO){
 		
 		this.guiaDAO = pGuiaDAO;
 		this.entidadDAO = pEntidadDAO;
+		this.establecimientoDAO = pEstablecimientoDAO;
+		this.tipoAnimalDAO = pTipoAnimalDAO;
 	}
 	
 	public boolean existeGuia(long nroGuia) {
@@ -41,18 +52,55 @@ public class GuiaFachada {
 		Guia guia;
 		Productor productor = entidadDAO.getProductor(guiaDTO.getProductor().getId());
 		if(guiaDTO.getMarcaSenial().getTipo().equals(TipoMarcaSenial.Marca.getName())){
-			guia = ProviderDominio.getGuia(guiaDTO,productor.getUltimaMarca(),productor,null);
+			guia = ProviderDominio.getGuiaLegalizada(guiaDTO,productor.getUltimaMarca(),productor,null);
 		}else{
-			guia = ProviderDominio.getGuia(guiaDTO,null,productor,productor.getUltimaSenial());
+			guia = ProviderDominio.getGuiaLegalizada(guiaDTO,null,productor,productor.getUltimaSenial());
 		}
 		
 		guiaDAO.altaLegalizacionGuia(guia);
 	}
 	
+	public void altaDevolucionGuia(GuiaDTO guiaDTO){
+		
+		Guia guia = this.recuperarGuia(guiaDTO.getId());
+		Establecimiento establecimientoOrigen = establecimientoDAO.getEstablecimientoPorId(
+													guiaDTO.getEstablecimientoOrigen().getId()) ;
+		
+		TipoAnimal tipoAnimal = tipoAnimalDAO.getTipoAnimal(guiaDTO.getTipoAnimal().getId());
+		
+		ProviderDominio.getGuiaDevuelta(guia,guiaDTO,establecimientoOrigen,tipoAnimal);
+		
+		actualizarCantAnimalesEnEstablecimiento(establecimientoOrigen.getId(),guiaDTO.getProductor().getId(),
+												tipoAnimal.getId(),guiaDTO.getCantidad());
+	}
+	
+	private void actualizarCantAnimalesEnEstablecimiento(Long idEstablecimiento, Long idProductor, Long idTipoAnimal, int cantidad){
+		
+		Productor productor = entidadDAO.getProductor(idProductor); 
+		
+		for (ProductorEnEstablecimiento prodEnEst : productor.getProductorEnEstablecimiento()) {
+			
+			if(prodEnEst.getEstablecimiento().getId().equals(idEstablecimiento)){
+				
+				for (AnimalEnEstablecimiento animEnEst : prodEnEst.getAnimalesEnEstablecimiento()) {
+					
+					if(animEnEst.getTipoAnimal().getId().equals(idTipoAnimal)){
+						animEnEst.setStock(animEnEst.getStock() - cantidad);
+					}
+				}
+			}
+		}
+	}	
+	
 	public List<Guia> recuperarLegalizacionGuias(Long idProductor, String periodo){
 		
-		return guiaDAO.recuperarLegalizacionGuias(idProductor,periodo);
+		//return guiaDAO.recuperarLegalizacionGuias(idProductor,periodo);
+		return guiaDAO.recuperarGuias(idProductor,periodo,TipoEstadoGuia.LEGALIZADA);		
 	}
+	public List<Guia> recuperarGuiasDevueltas(Long idProductor, String periodo){
+		
+		return guiaDAO.recuperarGuias(idProductor,periodo,TipoEstadoGuia.DEVUELTA);
+	}		
 	
 	public Guia recuperarGuia(Long idGuia){
 		

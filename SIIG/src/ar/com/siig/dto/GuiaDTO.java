@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
+import ar.com.siig.enums.TipoDocumento;
 import ar.com.siig.enums.TipoEstadoGuia;
 import ar.com.siig.enums.TipoFinalidad;
 
@@ -33,7 +34,7 @@ public class GuiaDTO {
 	
 	private TipoFinalidad finalidad;
 	
-	private Date fechaTransito;
+	private String fechaTransito;
 	
 	private String medioTransporte;
 	
@@ -152,11 +153,19 @@ public class GuiaDTO {
 		this.finalidad = finalidad;
 	}
 
-	public Date getFechaTransito() {
+	public String getFinalidadStr(){
+		return (this.finalidad == null)?"":this.finalidad.getDescripcion();
+	}
+	
+	public void setFinalidadStr(String finalidad){
+		this.finalidad = TipoFinalidad.valueOf(finalidad);
+	}	
+	
+	public String getFechaTransito() {
 		return fechaTransito;
 	}
 
-	public void setFechaTransito(Date fechaTransito) {
+	public void setFechaTransito(String fechaTransito) {
 		this.fechaTransito = fechaTransito;
 	}
 

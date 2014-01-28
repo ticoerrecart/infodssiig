@@ -245,6 +245,101 @@ public class GuiaAction extends ValidadorAction {
 		return mapping.findForward(strForward);
 	}	
 	
+	@SuppressWarnings("unchecked")
+	public ActionForward altaDevolucionGuia(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+
+		String strForward = "exitoDevolucionGuia";
+
+		try {
+			GuiaForm guiaForm = (GuiaForm) form;
+			WebApplicationContext ctx = getWebApplicationContext();
+			GuiaFachada guiaFachada = (GuiaFachada) ctx.getBean("guiaFachada");
+			
+			// valido nuevamente por seguridad.  
+			if (!validarDevolucionGuiaForm(new StringBuffer(), guiaForm)) {
+				throw new Exception("Error de Seguridad");
+			}
+			guiaFachada.altaDevolucionGuia(guiaForm.getGuia());
+			
+			request.setAttribute("exitoGrabado",
+					Constantes.EXITO_DEVOLUCION_GUIA);			
+			
+		} catch (Throwable t) {
+			MyLogger.logError(t);
+			request.setAttribute("error", "Error Inesperado");
+			strForward = "error";
+		}
+
+		return mapping.findForward(strForward);
+	}	
+	
+	@SuppressWarnings("unchecked")
+	public ActionForward cargarConsultaGuiasDevueltas(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+
+		String strForward = "exitoConsultaGuiasDevueltas";
+
+		try {
+			WebApplicationContext ctx = getWebApplicationContext();
+			EntidadFachada entidadFachada = (EntidadFachada) ctx.getBean("entidadFachada");
+			PeriodoFachada periodoFachada = (PeriodoFachada) ctx.getBean("periodoFachada");
+			
+			String idProd = request.getParameter("idProductor");
+			String periodo = request.getParameter("periodo");
+			String urlSeleccionGuia = request.getParameter("urlSeleccionGuia");
+			
+			request.setAttribute("idProductor", idProd);
+			request.setAttribute("periodo", periodo);
+			request.setAttribute("productores", entidadFachada.getProductoresDTO());
+			request.setAttribute("periodos", periodoFachada.getPeriodosDTO());
+			
+			if(urlSeleccionGuia != null && urlSeleccionGuia.equals("cargarGuiaDevuelta")){
+				request.setAttribute("titulo", "Consulta de Guías Devueltas");
+			}else{
+				request.setAttribute("titulo", "Generar Boletas de Pago");
+			}
+			
+			request.setAttribute("urlDetalle",
+					"../../guia.do?metodo=recuperarGuiasDevueltas");
+			request.setAttribute("urlSeleccionGuia",urlSeleccionGuia);			
+			
+		} catch (Throwable t) {
+			MyLogger.logError(t);
+			request.setAttribute("error", "Error Inesperado");
+			strForward = "error";
+		}
+
+		return mapping.findForward(strForward);
+	}	
+	
+	@SuppressWarnings("unchecked")
+	public ActionForward recuperarGuiasDevueltas(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String strForward = "exitoRecuperarGuiasDevueltas";
+
+		try {
+			WebApplicationContext ctx = getWebApplicationContext();
+			GuiaFachada guiaFachada = (GuiaFachada) ctx.getBean("guiaFachada");
+			String idProductor = request.getParameter("idProductor");
+			String periodo = request.getParameter("periodo");			
+			String urlSeleccionGuia = request.getParameter("urlSeleccionGuia");
+			
+			List<Guia> listaGuiasDevueltas = guiaFachada.recuperarGuiasDevueltas(Long.valueOf(idProductor),periodo);
+			request.setAttribute("guias", listaGuiasDevueltas);
+			request.setAttribute("urlSeleccionGuia", urlSeleccionGuia);
+			
+		} catch (Throwable t) {
+			MyLogger.logError(t);
+			request.setAttribute("error", "Error Inesperado");
+			strForward = "error";
+		}
+
+		return mapping.findForward(strForward);
+	}	
+	
 	public boolean validarAltaLegalizacionGuiaForm(StringBuffer error, ActionForm form) {
 
 		try {
@@ -289,24 +384,58 @@ public class GuiaAction extends ValidadorAction {
 		}
 	}	
 	
-	public static void main(String[] args) {
-		
-		String f1 = "15/01/2014";
-		Date ff1 = Fecha.stringDDMMAAAAToUtilDate(f1);
-		/*System.out.println("F1: "+Fecha.dateTimeToString(ff1));
-				
-		java.util.Date ff2 = new Date();
-		System.out.println("F2: "+Fecha.dateTimeToString(ff2));
-		
-		if(ff1.before(ff2)){
-			System.out.println("F1 es menor que F2");
-		}else{
-			System.out.println("F2 es menor que F1");
-		}*/
-		
-		Calendar hoy = Calendar.getInstance();
-		hoy.setTime(ff1);
-		//hoy.add(Calendar.DATE, 20);
-		System.out.println(Fecha.dateTimeToString(hoy.getTime()));
-	}
+	public boolean validarDevolucionGuiaForm(StringBuffer error, ActionForm form) {
+
+		try {
+			GuiaForm guiaForm = (GuiaForm) form;
+			GuiaDTO guia = guiaForm.getGuia();
+			WebApplicationContext ctx = getWebApplicationContext();
+			EstablecimientoFachada establecimientoFachada = 
+				(EstablecimientoFachada)ctx.getBean("establecimientoFachada");
+
+			boolean ok = true;
+			boolean ok1 = true;
+			boolean ok2 = true;
+			boolean ok3 = true;
+			boolean ok4 = true;
+			boolean ok5 = true;
+			boolean ok6 = true;
+			boolean ok7 = true;
+			
+			ok = Validator.validarComboRequeridoSinNull("-1",Long.toString(guia.getEstablecimientoOrigen().getId()),
+														 "Establecimiento de Orígen",error);
+
+			ok1 = Validator.validarComboRequeridoSinNull("",guia.getFinalidadStr(),"Finalidad",error);
+			
+			ok2 = Validator.requerido(guia.getFechaTransito(), "Fecha de Transito", error);			
+			
+			ok3 = Validator.requerido(guia.getTipoAnimal().getId(), "Tipo Producto", error);
+			
+			if(ok3){
+				ok3 = Validator.validarComboRequeridoSinNull("-1",Long.toString(guia.getTipoAnimal().getId()),
+						 									 "Tipo Producto",error);
+			}
+			ok4 = Validator.validarEnteroMayorQue(0,String.valueOf(guia.getCantidad()), "Cantidad", error);
+			
+			ok5 = Validator.validarDoubleMayorQue(0,String.valueOf(guia.getCanon()), "Canon", error);
+			
+			ok6 = Validator.validarDoubleMayorQue(0,String.valueOf(guia.getMonto()+guia.getInteres()), "Monto Total", error);
+			
+			ok7 = establecimientoFachada.validarCantAnimalesEnEstablecimiento(guia.getEstablecimientoOrigen().getId(),
+																		guia.getProductor().getId(),
+																		guia.getTipoAnimal().getId(),
+																		guia.getCantidad());
+			if (!ok7) {
+				Validator.addErrorXML(error, "La cantidad de Animales/Productos excede al número declarado por el productor en el establecimiento");
+			}			
+			
+			return ok && ok1 && ok2 && ok3 && ok4 && ok5 && ok6 && ok7;			
+			
+		} catch (Throwable t) {
+			MyLogger.logError(t);
+			Validator.addErrorXML(error, "Error Inesperado");
+			return false;
+		}
+	}	
+	
 }

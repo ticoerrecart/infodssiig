@@ -18,6 +18,7 @@ import ar.com.siig.dto.TipoAnimalDTO;
 import ar.com.siig.dto.UsuarioDTO;
 import ar.com.siig.dto.VencimientoPeriodoDTO;
 import ar.com.siig.enums.TipoDeEntidad;
+import ar.com.siig.enums.TipoEstadoGuia;
 import ar.com.siig.negocio.AnimalEnEstablecimiento;
 import ar.com.siig.negocio.Autorizado;
 import ar.com.siig.negocio.BoletaDeposito;
@@ -298,7 +299,7 @@ public abstract class ProviderDominio {
 
 	}
 
-	public static Guia getGuia(GuiaDTO guiaDTO, Marca marca,
+	public static Guia getGuiaLegalizada(GuiaDTO guiaDTO, Marca marca,
 			Productor productor, Senial senial) {
 
 		Guia guia = new Guia();
@@ -310,10 +311,30 @@ public abstract class ProviderDominio {
 		guia.setPeriodo(guiaDTO.getPeriodo());
 		guia.setProductor(productor);
 		guia.setSenial(senial);
+		guia.setTipoEstadoGuia(TipoEstadoGuia.LEGALIZADA);
 
 		return guia;
 	}
 
+	public static void getGuiaDevuelta(Guia guia, GuiaDTO guiaDTO, Establecimiento establecimientoOrigen, TipoAnimal tipoAnimal){
+		
+		guia.setCanon(guiaDTO.getCanon());
+		guia.setCantidad(guiaDTO.getCantidad());
+		guia.setEstablecimientoOrigen(establecimientoOrigen);
+		guia.setFechaTransito(Fecha.stringDDMMAAAAToUtilDate(guiaDTO.getFechaTransito()));
+		guia.setFinalidad(guiaDTO.getFinalidad());
+		guia.setInteres(guiaDTO.getInteres());
+		guia.setMedioTransporte(guiaDTO.getMedioTransporte());
+		guia.setMonto(guiaDTO.getMonto());
+		guia.setNroDTA(guiaDTO.getNroDTA());
+		guia.setPatente(guiaDTO.getPatente());
+		guia.setPatenteAcoplado(guiaDTO.getPatenteAcoplado());
+		guia.setTipoAnimal(tipoAnimal);
+		guia.setTipoEstadoGuia(TipoEstadoGuia.DEVUELTA);
+		guia.setTrasporteACargo(guiaDTO.getTrasporteACargo());
+		
+	}
+	
 	public static Autorizado getAutorizado(AutorizadoDTO autorizadoDTO) {
 		Autorizado autorizado = new Autorizado();
 		autorizado.setNombre(autorizadoDTO.getNombre());

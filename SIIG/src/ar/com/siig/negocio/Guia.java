@@ -275,4 +275,9 @@ public class Guia {
 	public void setTipoEstadoGuia(TipoEstadoGuia tipoEstadoGuia) {
 		this.tipoEstadoGuia = tipoEstadoGuia;
 	}
+	
+	public double getMontoTotal(){
+		
+		return this.getMonto()+this.getInteres();
+	}
 }

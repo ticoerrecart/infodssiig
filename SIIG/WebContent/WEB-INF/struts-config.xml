@@ -243,6 +243,10 @@
 			<forward name="exitoRecuperarLegalizacionGuias" path="/jsp/bloqueConsultaLegalizacionGuias.jsp" />
 			<forward name="exitoCargarGuiaLegalizada" path=".consultaGuiaLegalizada" />
 			<forward name="exitoCargarGuiaParaDevolucion" path=".devolucionGuia" />
+			<forward name="exitoDevolucionGuia" path="/guia.do?metodo=cargarConsultaLegalizacionGuia&amp;urlSeleccionGuia=cargarGuiaParaDevolucion" />
+			<forward name="exitoConsultaGuiasDevueltas" path=".consultaGuiasDevueltas" />
+			<forward name="exitoRecuperarGuiasDevueltas" path="/jsp/bloqueConsultaGuiasDevueltas.jsp" />			
+						
 		</action>
 		<!-- FIN GUIA -->
 

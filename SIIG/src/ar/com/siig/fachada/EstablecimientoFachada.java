@@ -133,4 +133,23 @@ public class EstablecimientoFachada {
 				
 		return listaEstablecimientos;
 	}
+	
+	public boolean validarCantAnimalesEnEstablecimiento(Long idEstablecimiento, Long idProductor, Long idTipoAnimal, int cantidad){
+		
+		Productor productor = entidadDAO.getProductor(idProductor); 
+		
+		for (ProductorEnEstablecimiento prodEnEst : productor.getProductorEnEstablecimiento()) {
+			
+			if(prodEnEst.getEstablecimiento().getId().equals(idEstablecimiento)){
+				
+				for (AnimalEnEstablecimiento animEnEst : prodEnEst.getAnimalesEnEstablecimiento()) {
+					
+					if(animEnEst.getTipoAnimal().getId().equals(idTipoAnimal)){
+						return (animEnEst.getStock()>= cantidad);
+					}
+				}
+			}
+		}
+		return false;
+	}
 }
