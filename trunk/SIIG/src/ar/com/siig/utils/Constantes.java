@@ -158,6 +158,8 @@ public class Constantes {
 	public static final String NRO_GUIA_EXISTENTE = "El número de Guía ya existe, especifique otro";
 
 	public static final String EXITO_ALTA_GUIA = "La Guía se ha dado de alta con exito";
+	
+	public static final String EXITO_DEVOLUCION_GUIA = "La Guía se ha devuelto con exito";
 	// FIN GUIA
 
 	// AUTORIZADO

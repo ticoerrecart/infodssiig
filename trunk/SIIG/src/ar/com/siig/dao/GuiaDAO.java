@@ -28,12 +28,14 @@ public class GuiaDAO extends HibernateDaoSupport {
 		this.getHibernateTemplate().clear();		
 	}
 	
-	public List<Guia> recuperarLegalizacionGuias(Long idProductor, String periodo){
+	//public List<Guia> recuperarLegalizacionGuias(Long idProductor, String periodo, TipoEstadoGuia tipoEstadoGuia){
+	public List<Guia> recuperarGuias(Long idProductor, String periodo, TipoEstadoGuia tipoEstadoGuia){
 		
 		Criteria criteria = getSession().createCriteria(Guia.class);
 		criteria.add(Restrictions.eq("productor.id", idProductor));
 		criteria.add(Restrictions.eq("periodo", periodo));
-		criteria.add(Restrictions.eq("tipoEstadoGuia", TipoEstadoGuia.LEGALIZADA));
+		//criteria.add(Restrictions.eq("tipoEstadoGuia", TipoEstadoGuia.LEGALIZADA));
+		criteria.add(Restrictions.eq("tipoEstadoGuia", tipoEstadoGuia));
 		
 		List<Guia> guias = criteria.list();	
 		

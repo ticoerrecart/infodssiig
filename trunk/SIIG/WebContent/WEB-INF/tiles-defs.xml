@@ -183,6 +183,11 @@
 		<put name="title" value="SIIGs" />
 		<put name="body" value="/jsp/devolucionGuia.jsp" />		
 	</definition>
+	<definition name=".consultaGuiasDevueltas"
+		extends=".base">
+		<put name="title" value="SIIGs" />
+		<put name="body" value="/jsp/consultaGuiasDevueltas.jsp" />
+	</definition>		
 	<!-- FIN GUIA -->
 
 

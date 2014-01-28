@@ -173,7 +173,7 @@ function getCategoriasPorEstablecimientoCallback(categorias){
 }
 
 function submitir(){
-	validarForm("guiaForm","../guia","validarAltaLegalizacionGuiaForm","GuiaForm");
+	validarForm("guiaForm","../guia","validarDevolucionGuiaForm","GuiaForm");
 }
 
 //-----------------------------------------------------//
@@ -184,14 +184,16 @@ function submitir(){
 
 <%-- errores de validaciones AJAX --%>
 <div id="errores" class="rojoAdvertencia">${error}</div>
-
-	<input id="idProductor" type="hidden" value="${guia.productor.id}">
+	
 	<input id="periodo" type="hidden" value="${guia.periodo}">
 	<input id="urlSeleccionGuia" type="hidden" value="${urlSeleccionGuia}">
 	<input id="tipoMarcaSenial" type="hidden" value="${guia.marcaSenial.tipo}">
 	
 <html:form action="guia" styleId="guiaForm">
-	<html:hidden property="metodo" value="altaDevolucionGuia" />	
+	<html:hidden property="metodo" value="altaDevolucionGuia" />
+	<html:hidden property="guia.id" value="${guia.id}" />
+	<input id="idProductor" name="guia.productor.id" type="hidden" value="${guia.productor.id}">
+		
 	<table border="0" class="cuadrado" align="center" width="80%" cellpadding="2">
 		<tr>
 			<td class="azulAjustado">
@@ -262,7 +264,8 @@ function submitir(){
 					<tr>
 						<td width="20%" class="botoneralNegritaRight">Establecimiento de Orígen</td>
 						<td width="30%" align="left">
-							<select id="establecimientoOrigen" class="botonerab" onchange="cambioEstablecimientoOrigen();">
+							<select id="establecimientoOrigen" name="guia.establecimientoOrigen.id" class="botonerab" 
+								onchange="cambioEstablecimientoOrigen();">
 								<option value="-1">-Seleccione-</option>
 								<c:forEach items="${establecimientos}" var="est">
 									<option value="${est.id}">
@@ -274,14 +277,14 @@ function submitir(){
 			
 						<td width="20%" class="botoneralNegritaRight">Nro DTA</td>
 						<td align="left">
-							<input value="" class="botonerab" type="text" size="20">				
+							<input name="guia.nroDTA" class="botonerab" type="text" size="20">				
 						</td>
 					</tr>
 			
 					<tr>
 						<td width="20%" class="botoneralNegritaRight">Finalidad</td>
 						<td width="30%" align="left">
-							<select id="finalidad" class="botonerab">
+							<select id="finalidad" class="botonerab" name="guia.finalidadStr">
 								<c:forEach items="${finalidades}" var="finalidad">
 									<option value="${finalidad.name}">
 										<c:out value="${finalidad.descripcion}"></c:out>
@@ -291,7 +294,7 @@ function submitir(){
 						</td>
 						<td width="20%" class="botoneralNegritaRight">Fecha de Transito</td>
 						<td align="left">				
-							<input id="datepicker" value="" class="botonerab" type="text" size="20" readonly="readonly" onchange="calcularInteres();">						
+							<input id="datepicker" name="guia.fechaTransito" class="botonerab" type="text" size="20" readonly="readonly" onchange="calcularInteres();">						
 							<img alt="" src="<html:rewrite page='/imagenes/calendar/calendar2.gif'/>" align="top" width='17' height='21'>
 						</td>
 					</tr>		
@@ -316,23 +319,23 @@ function submitir(){
 					<tr>
 						<td width="20%" class="botoneralNegritaRight">Medio de Transporte</td>
 						<td width="30%" align="left">
-							<input value="" class="botonerab" type="text" size="20">
+							<input name="guia.medioTransporte" class="botonerab" type="text" size="20">
 						</td>
 			
 						<td width="20%" class="botoneralNegritaRight">Transporte a Cargo de</td>
 						<td align="left">
-							<input value="" class="botonerab" type="text" size="20">				
+							<input name="guia.trasporteACargo" class="botonerab" type="text" size="20">				
 						</td>
 					</tr>
 			
 					<tr>
 						<td width="20%" class="botoneralNegritaRight">Patente de Vehiculo</td>
 						<td width="30%" align="left">
-							<input value="" class="botonerab" type="text" size="20">
+							<input name="guia.patente" class="botonerab" type="text" size="20">
 						</td>
 						<td width="20%" class="botoneralNegritaRight">Patente de Acoplado</td>
 						<td align="left">				
-							<input value="" class="botonerab" type="text" size="20">
+							<input name="guia.patenteAcoplado" class="botonerab" type="text" size="20">
 						</td>
 					</tr>		
 					<tr>
@@ -467,30 +470,31 @@ function submitir(){
 								</select>
 							</td>
 							<td>
-								<select id="idTipoAnimal" class="botonerab" disabled="disabled" onchange="cambioTipoAnimal();">
+								<select id="idTipoAnimal" name="guia.tipoAnimal.id" class="botonerab" disabled="disabled" 
+									onchange="cambioTipoAnimal();">
 									<option value="-1">-Seleccione-</option>
 								</select>
 							</td>
 							<td>
-								<input type="text" class="botonerab" size="5" id="idCantidad" onblur="actualizarMontoTotal()">
+								<input type="text" name="guia.cantidad" class="botonerab" size="5" id="idCantidad" onblur="actualizarMontoTotal()">
 							</td>
 							<td>
 								x
 							</td>							
 							<td>
-								<input type="text" class="botonerab" size="5" id="idCanon" readonly="readonly">
+								<input type="text" name="guia.canon" class="botonerab" size="5" id="idCanon" readonly="readonly">
 							</td>
 							<td>
 								=
 							</td>
 							<td>
-								$<input type="text" class="botonerab" size="12" id="idMonto" readonly="readonly">
+								$<input type="text" name="guia.monto" class="botonerab" size="12" id="idMonto" readonly="readonly">
 							</td>
 						</tr>
 						<tr style="display: " class="montoTotal">
 							<td colspan="6" id="idInteres" class="botoneralNegritaRight">% de Interes</td>							
 							<td class="botonerab">
-								$<input type="text" class="botonerab" size="12" id="idValorInteres" readonly="readonly">
+								$<input type="text" name="guia.interes" class="botonerab" size="12" id="idValorInteres" readonly="readonly">
 							</td>							
 						</tr>
 						<tr style="display: " class="montoTotal">
@@ -524,6 +528,7 @@ function submitir(){
 		</tr>
 		<tr>
 			<td height="20" colspan="4">
+				<input type="button" value="Aceptar" class="botonerab" onclick="submitir();" >
 				<input type="button" value="Volver" class="botonerab" onclick="volver();" > 
 			</td>
 		</tr>
