@@ -1,5 +1,10 @@
 package ar.com.siig.struts.actions.forms;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.collections.FactoryUtils;
+import org.apache.commons.collections.list.LazyList;
 import org.apache.struts.action.ActionForm;
 
 import ar.com.siig.dto.GuiaDTO;
@@ -19,5 +24,5 @@ public class GuiaForm extends ActionForm {
 
 	public void setGuia(GuiaDTO guia) {
 		this.guia = guia;
-	}
+	}	
 }

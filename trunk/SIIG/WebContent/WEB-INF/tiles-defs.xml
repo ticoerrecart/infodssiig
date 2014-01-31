@@ -187,6 +187,16 @@
 		extends=".base">
 		<put name="title" value="SIIGs" />
 		<put name="body" value="/jsp/consultaGuiasDevueltas.jsp" />
+	</definition>	
+	<definition name=".consultaGuiaDevuelta"
+		extends=".base">
+		<put name="title" value="SIIGs" />
+		<put name="body" value="/jsp/consultaGuiaDevuelta.jsp" />
+	</definition>	
+	<definition name=".cargarBoletaParaRegistracionPago"
+		extends=".base">
+		<put name="title" value="SIIGs" />
+		<put name="body" value="/jsp/cargarBoletaParaRegistracionPago.jsp" />
 	</definition>		
 	<!-- FIN GUIA -->
 

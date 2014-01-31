@@ -19,18 +19,13 @@
 	src="<html:rewrite page='/dwr/interface/PeriodoFachada.js'/>"></script>
 <script type="text/javascript"
 	src="<html:rewrite page='/dwr/interface/CategoriaFachada.js'/>"></script>	
-<script type="text/javascript"
-	src="<html:rewrite page='/dwr/interface/EstablecimientoFachada.js'/>"></script>			
+		
 
 <link rel="stylesheet" href="<html:rewrite page='/css/ui-lightness/jquery-ui-1.8.10.custom.css'/>"
 	type="text/css">
 	
 
 <script>
-
-$(function() {
-	$( "#datepicker" ).datepicker({ dateFormat: 'dd/mm/yy'});		
-});
 
 var type;
 if (navigator.userAgent.indexOf("Opera")!=-1 && document.getElementById) type="OP"; 
@@ -41,188 +36,19 @@ function volver(){
 
 	var idProductor = $("#idProductor").val();
 	var periodo = $("#periodo").val();
-	var urlSeleccionGuia = $("#urlSeleccionGuia").val();
-	parent.location=contextRoot() + "/guia.do?metodo=cargarConsultaLegalizacionGuia&urlSeleccionGuia="+urlSeleccionGuia+"&idProductor="+idProductor+"&periodo="+periodo;
-}
-
-function cambioCategoria(){
-	var idCategoria = $("#idCategoria").val();
-	$("#idCanon").val(0.0);
-	$("#idStock").val("");
-	
-	if(idCategoria != "-1"){
-		TipoAnimalFachada.getTipoAnimalDTOPorCategoria(idCategoria,getTipoAnimalDTOPorCategoriaCallback);
-	}else{
-
-		dwr.util.removeAllOptions("idTipoAnimal");
-		var data = [ { razonSocial:"-Seleccione-", id:-1 }];
-		var data = [ { descripcion:"-Seleccione-", id:-1 }];
-		dwr.util.addOptions("idTipoAnimal", data, "id", "descripcion");
-				
-		$('#idTipoAnimal').attr('disabled',true);
-		actualizarMontoTotal();		
-	}	
-}
-
-function getTipoAnimalDTOPorCategoriaCallback(tiposAnimal){
-	
-	dwr.util.removeAllOptions("idTipoAnimal");
-	var data = [ { descripcion:"-Seleccione-", id:-1 }];
-	dwr.util.addOptions("idTipoAnimal", data, "id", "descripcion");	
-	dwr.util.addOptions("idTipoAnimal", tiposAnimal,"id","descripcion");
-
-	$("#idTipoAnimal").attr('disabled', false);
-	actualizarMontoTotal();
-
-}
-
-function cambioTipoAnimal(){
-
-	var idTipoAnimal = $("#idTipoAnimal").val();
-
-	if(idTipoAnimal != "-1"){
-
-		var idProductor = $("#idProductor").val();
-		var idEstablecimiento = $("#establecimientoOrigen").val();
-
-		EstablecimientoFachada.getCantidadTipoAnimalEnEstablecimiento(idEstablecimiento,idProductor,idTipoAnimal,getCantidadTipoAnimalEnEstablecimientoCallback);
-		
-		TipoAnimalFachada.getTipoAnimalDTO(idTipoAnimal,getTipoAnimalDTOCallback);
-		
-	}else{
-		$("#idCanon").val(0.0);
-		$("#idStock").val("");
-		actualizarMontoTotal();
-	}	
-}
-
-function getCantidadTipoAnimalEnEstablecimientoCallback(stock){
-
-	$("#idStock").val(stock);	
-}
-
-function getTipoAnimalDTOCallback(tipoAnimal){
-
-	$("#idCanon").val(tipoAnimal.valor);
-	actualizarMontoTotal();
-}
-
-function actualizarMontoTotal(){
-
-	var canon = new Number($('#idCanon').val()).toFixed(2);
-	var cantidad = new Number($('#idCantidad').val());
-
-	var monto = new Number(new Number(canon).toFixed(2) * new Number(cantidad).toFixed(2)).toFixed(2); 	
-	
-	$("#idMonto").val(monto);
-
-	calcularInteres();
-}
-
-function calcularInteres(){
-
-	var montoTotal = $("#idMonto").val();
-	var fechaTransito = $("#datepicker").val();
-	var periodo = $("#idPeriodo").val();
-	
-	if(montoTotal != null && montoTotal != "" && montoTotal != 0 && fechaTransito != ""){
-
-		PeriodoFachada.calcularInteres(fechaTransito,periodo,calcularInteresCallback);
-		
-	}else{
-		//$(".montoTotal").hide();
-		$("#idInteres").html(" % de Interés");
-		$("#idValorInteres").val(0.00);
-		$("#idMontoTotal").val(0.00);		
-	}
-}
-
-function calcularInteresCallback(interes){
-
-	$(".montoTotal").show();
-	var porcentajeInteres = interes * 100;
-	$("#idInteres").html(porcentajeInteres+" % de Interés");
-	$("#idValorInteres").val(new Number(interes * $("#idMonto").val()).toFixed(2));
-
-	var monto = new Number($('#idMonto').val()).toFixed(2);
-	var interes = new Number($('#idValorInteres').val()).toFixed(2);
-
-	var montoTotal = new Number(new Number(monto) + new Number(interes)).toFixed(2);
-	
-	$("#idMontoTotal").val(montoTotal);
-}
-
-function cambioEstablecimientoOrigen(){
-
-	var idEstablecimiento = $("#establecimientoOrigen").val(); 
-	var tipoMarcaSenial = $("#tipoMarcaSenial").val();
-	var idProductor = $("#idProductor").val();
-
-	$("#idCanon").val(0.0);
-	$("#idStock").val("");
-	
-	if(idEstablecimiento != "-1"){
-		CategoriaFachada.getCategoriasPorEstablecimiento(idProductor,idEstablecimiento,tipoMarcaSenial,getCategoriasPorEstablecimientoCallback);
-	}else{
-
-		dwr.util.removeAllOptions("idCategoria");		
-		var data = [ { descripcion:"-Seleccione-", id:-1 }];
-		dwr.util.addOptions("idCategoria", data, "id", "descripcion");				
-		$('#idCategoria').attr('disabled',true);
-		
-		dwr.util.removeAllOptions("idTipoAnimal");		
-		var data = [ { descripcion:"-Seleccione-", id:-1 }];
-		dwr.util.addOptions("idTipoAnimal", data, "id", "descripcion");				
-		$('#idTipoAnimal').attr('disabled',true);
-		
-		actualizarMontoTotal();		
-	}
-}
-
-function getCategoriasPorEstablecimientoCallback(categorias){
-
-	dwr.util.removeAllOptions("idCategoria");
-	var data = [ { descripcion:"-Seleccione-", id:-1 }];
-	dwr.util.addOptions("idCategoria", data, "id", "descripcion");	
-	dwr.util.addOptions("idCategoria", categorias,"id","descripcion");
-
-	$("#idCategoria").attr('disabled', false);
-
-	dwr.util.removeAllOptions("idTipoAnimal");
-	var data = [ { razonSocial:"-Seleccione-", id:-1 }];
-	var data = [ { descripcion:"-Seleccione-", id:-1 }];
-	dwr.util.addOptions("idTipoAnimal", data, "id", "descripcion");
-			
-	$('#idTipoAnimal').attr('disabled',true);
-	actualizarMontoTotal();	
-}
-
-function submitir(){
-	validarForm("guiaForm","../guia","validarDevolucionGuiaForm","GuiaForm");
+	//var urlSeleccionGuia = $("#urlSeleccionGuia").val();
+	//parent.location=contextRoot() + "/guia.do?metodo=cargarConsultaLegalizacionGuia&urlSeleccionGuia="+urlSeleccionGuia+"&idProductor="+idProductor+"&periodo="+periodo;
+	parent.location=contextRoot() + "/guia.do?metodo=cargarConsultaGuiasDevueltas&urlDetalle=recuperarGuiasDevueltas&urlSeleccionGuia=cargarGuiaDevuelta&idProductor="+idProductor+"&periodo="+periodo;
 }
 
 //-----------------------------------------------------//
 
 </script>
-
-<div id="exitoGrabado" class="verdeExito">${exitoGrabado}</div>
-
-<%-- errores de validaciones AJAX --%>
-<div id="errores" class="rojoAdvertencia">${error}</div>
-	
-	<input id="periodo" type="hidden" value="${guia.periodo}">
-	<input id="urlSeleccionGuia" type="hidden" value="${urlSeleccionGuia}">
-	<input id="tipoMarcaSenial" type="hidden" value="${guia.marcaSenial.tipo}">
-	
-<html:form action="guia" styleId="guiaForm">
-	<html:hidden property="metodo" value="altaDevolucionGuia" />
-	<html:hidden property="guia.id" value="${guia.id}" />
-	<input id="idProductor" name="guia.productor.id" type="hidden" value="${guia.productor.id}">
 		
 	<table border="0" class="cuadrado" align="center" width="80%" cellpadding="2">
 		<tr>
 			<td class="azulAjustado">
-				Devolución de Guía
+				Guía Devuelta
 			</td>
 		</tr>
 		<tr>
@@ -252,6 +78,7 @@ function submitir(){
 					<tr>
 						<td width="20%" class="botoneralNegritaRight">Productor</td>
 						<td width="30%" align="left">
+							<input value="${guia.productor.id}" type="hidden" id="idProductor">
 							<input value="${guia.productor.nombre}" class="botonerab" type="text" size="20" readonly="readonly">
 						</td>
 						<td width="20%" class="botoneralNegritaRight">Fecha de Legalización</td>
@@ -289,54 +116,26 @@ function submitir(){
 					<tr>
 						<td width="20%" class="botoneralNegritaRight">Establecimiento de Orígen</td>
 						<td width="30%" align="left">
-							<select id="establecimientoOrigen" name="guia.establecimientoOrigen.id" class="botonerab" 
-								onchange="cambioEstablecimientoOrigen();">
-								<option value="-1">-Seleccione-</option>
-								<c:forEach items="${establecimientos}" var="est">
-									<option value="${est.id}">
-										<c:out value="${est.nombre}"></c:out>
-									</option>
-								</c:forEach>
-							</select>
+							<input type="text" size="20" value="${guia.establecimientoOrigen.nombre}" class="botonerab" readonly="readonly">
 						</td>
 			
 						<td width="20%" class="botoneralNegritaRight">Nro DTA</td>
 						<td align="left">
-							<input name="guia.nroDTA" class="botonerab" type="text" size="20">				
+							<input type="text" size="20" value="${guia.nroDTA}" class="botonerab" readonly="readonly">				
 						</td>
 					</tr>
 			
 					<tr>
-						<td width="20%" class="botoneralNegritaRight">Establecimiento de Destino</td>
-						<td width="30%" align="left">
-							<select id="establecimientoDestino" name="guia.establecimientoDestino.id" class="botonerab">
-								<option value="-1">-Seleccione-</option>
-								<c:forEach items="${establecimientosDestino}" var="est">
-									<option value="${est.id}">
-										<c:out value="${est.nombre}"></c:out>
-									</option>
-								</c:forEach>
-							</select>							
-						</td>
 						<td width="20%" class="botoneralNegritaRight">Finalidad</td>
-						<td align="left">				
-							<select id="finalidad" class="botonerab" name="guia.finalidadStr">
-								<c:forEach items="${finalidades}" var="finalidad">
-									<option value="${finalidad.name}">
-										<c:out value="${finalidad.descripcion}"></c:out>
-									</option>
-								</c:forEach>
-							</select>
+						<td width="30%" align="left">
+							<input type="text" size="20" value="${guia.finalidad}" class="botonerab" readonly="readonly">							
 						</td>
-					</tr>	
-					<tr>
-						<td colspan="2"></td>
 						<td width="20%" class="botoneralNegritaRight">Fecha de Transito</td>
 						<td align="left">				
-							<input id="datepicker" name="guia.fechaTransito" class="botonerab" type="text" size="20" readonly="readonly" onchange="calcularInteres();">						
+							<input type="text" size="20" value="${guia.fechaTransito}" class="botonerab" readonly="readonly">						
 							<img alt="" src="<html:rewrite page='/imagenes/calendar/calendar2.gif'/>" align="top" width='17' height='21'>
-						</td>						
-					</tr>	
+						</td>
+					</tr>		
 					<tr>
 						<td height="10" colspan="4"></td>
 					</tr>
@@ -358,23 +157,23 @@ function submitir(){
 					<tr>
 						<td width="20%" class="botoneralNegritaRight">Medio de Transporte</td>
 						<td width="30%" align="left">
-							<input name="guia.medioTransporte" class="botonerab" type="text" size="20">
+							<input type="text" size="20" value="${guia.medioTransporte}" class="botonerab" readonly="readonly">
 						</td>
 			
 						<td width="20%" class="botoneralNegritaRight">Transporte a Cargo de</td>
-						<td align="left">
-							<input name="guia.trasporteACargo" class="botonerab" type="text" size="20">				
+						<td align="left">	
+							<input type="text" size="20" value="${guia.trasporteACargo}" class="botonerab" readonly="readonly"> 			
 						</td>
 					</tr>
 			
 					<tr>
 						<td width="20%" class="botoneralNegritaRight">Patente de Vehiculo</td>
 						<td width="30%" align="left">
-							<input name="guia.patente" class="botonerab" type="text" size="20">
+							<input type="text" size="20" value="${guia.patente}" class="botonerab" readonly="readonly">
 						</td>
 						<td width="20%" class="botoneralNegritaRight">Patente de Acoplado</td>
 						<td align="left">				
-							<input name="guia.patenteAcoplado" class="botonerab" type="text" size="20">
+							<input type="text" size="20" value="${guia.patenteAcoplado}" class="botonerab" readonly="readonly">
 						</td>
 					</tr>		
 					<tr>
@@ -489,9 +288,8 @@ function submitir(){
 					
 					<table border="0" class="cuadrado" align="center" width="80%" cellpadding="2" cellspacing="0">
 						<tr>
-							<td width="25%" class="grisSubtituloCenter">Categoría</td>
-							<td width="25%" class="grisSubtituloCenter">Tipo Producto</td>
-							<td width="10%" class="grisSubtituloCenter">Stock</td>
+							<td width="30%" class="grisSubtituloCenter">Categoría</td>
+							<td width="30%" class="grisSubtituloCenter">Tipo Producto</td>
 							<td width="10%" class="grisSubtituloCenter">Cantidad</td>
 							<td width="2%" class="grisSubtituloCenter"></td>
 							<td width="10%" class="grisSubtituloCenter">Canon</td>
@@ -500,61 +298,55 @@ function submitir(){
 						</tr>
 						<tr>
 							<td>
-								<select id="idCategoria" class="botonerab" onchange="cambioCategoria();" disabled="disabled">
-									<option value="-1">-Seleccione-</option>
-									<!--<c:forEach items="${categorias}" var="cat">
-										<option value="${cat.id}">
-											<c:out value="${cat.descripcion}"></c:out>
-										</option>
-									</c:forEach>-->
-								</select>
+								<input type="text" size="27" value="${guia.tipoAnimal.descripcionCategoria}" class="botonerab" readonly="readonly">
 							</td>
 							<td>
-								<select id="idTipoAnimal" name="guia.tipoAnimal.id" class="botonerab" disabled="disabled" 
-									onchange="cambioTipoAnimal();">
-									<option value="-1">-Seleccione-</option>
-								</select>
+								<input type="text" size="27" value="${guia.tipoAnimal.descripcion}" class="botonerab" readonly="readonly">
 							</td>
 							<td>
-								<input type="text" class="botonerab" size="5" id="idStock" readonly="readonly">
-							</td>							
-							<td>
-								<input type="text" name="guia.cantidad" class="botonerab" size="5" id="idCantidad" onblur="actualizarMontoTotal()">
+								<input type="text" value="${guia.cantidad}" class="botonerab" size="5" readonly="readonly">
 							</td>
 							<td>
 								x
 							</td>							
 							<td>
-								<input type="text" name="guia.canon" class="botonerab" size="5" id="idCanon" readonly="readonly">
+								<input type="text" value="${guia.canon}" class="botonerab" size="5" readonly="readonly">							
 							</td>
 							<td>
 								=
 							</td>
 							<td>
-								$<input type="text" name="guia.monto" class="botonerab" size="12" id="idMonto" readonly="readonly">
+								$<input type="text" value="${guia.monto}" class="botonerab" size="12" id="idMonto" readonly="readonly">
 							</td>
 						</tr>
 						<tr style="display: " class="montoTotal">
-							<td colspan="7" id="idInteres" class="botoneralNegritaRight">% de Interes</td>							
+							<td colspan="6" id="idInteres" class="botoneralNegritaRight">% de Interes</td>							
 							<td class="botonerab">
-								$<input type="text" name="guia.interes" class="botonerab" size="12" id="idValorInteres" readonly="readonly">
+								$<input type="text" value="${guia.interes}" class="botonerab" size="12" readonly="readonly">
 							</td>							
 						</tr>
 						<tr style="display: " class="montoTotal">
-							<td colspan="5"></td>							
+							<td colspan="4"></td>							
 							<td colspan="3">
 								<hr>
 							</td>							
 						</tr>
 						<tr style="display: " class="montoTotal">
-							<td colspan="7" class="botoneralNegritaRight">Monto Total</td>							
+							<td colspan="6" class="botoneralNegritaRight">Monto Total</td>							
 							<td class="botonerab">
-								$<input type="text" class="botonerab" size="12" id="idMontoTotal" readonly="readonly">
+								$<input type="text" class="botonerab" size="12" value="${guia.montoTotal}" readonly="readonly">
 							</td>							
 						</tr>													
 						<tr>
-							<td colspan="8" height="10"></td>							
-						</tr>											
+							<td colspan="7" height="10"></td>							
+						</tr>	
+						<script type="text/javascript">
+							var monto = <c:out value="${guia.monto}"/>
+							var interes = <c:out value="${guia.interes}"/>
+
+							var porc = (interes/monto)*100;
+							$("#idInteres").html(porc+" % de Interes");
+						</script>										
 					</table>	
 					
 				</div>
@@ -571,7 +363,6 @@ function submitir(){
 		</tr>
 		<tr>
 			<td height="20" colspan="4">
-				<input type="button" value="Aceptar" class="botonerab" onclick="submitir();" >
 				<input type="button" value="Volver" class="botonerab" onclick="volver();" > 
 			</td>
 		</tr>
@@ -579,4 +370,4 @@ function submitir(){
 			<td height="10" colspan="4"></td> 
 		</tr>
 	</table>
-</html:form>	
+

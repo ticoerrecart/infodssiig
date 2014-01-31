@@ -1,5 +1,8 @@
 package ar.com.siig.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BoletaDepositoDTO {
 
 	private Long id;
@@ -12,6 +15,16 @@ public class BoletaDepositoDTO {
 
 	private String fechaVencimiento;
 
+	private List<GuiaDTO> guias;
+	
+	private ProductorDTO productor;
+	
+	public BoletaDepositoDTO(){
+		
+		guias = new ArrayList<GuiaDTO>();
+		productor = new ProductorDTO();
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -50,5 +63,21 @@ public class BoletaDepositoDTO {
 
 	public void setFechaVencimiento(String fechaVencimiento) {
 		this.fechaVencimiento = fechaVencimiento;
+	}
+
+	public List<GuiaDTO> getGuias() {
+		return guias;
+	}
+
+	public void setGuias(List<GuiaDTO> guias) {
+		this.guias = guias;
+	}
+
+	public ProductorDTO getProductor() {
+		return productor;
+	}
+
+	public void setProductor(ProductorDTO productor) {
+		this.productor = productor;
 	}
 }

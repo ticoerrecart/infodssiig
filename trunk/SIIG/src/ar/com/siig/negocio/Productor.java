@@ -25,6 +25,10 @@ public class Productor extends Entidad {
 	@Cascade(value = { CascadeType.SAVE_UPDATE, CascadeType.DELETE_ORPHAN })
 	private List<ProductorEnEstablecimiento> productorEnEstablecimiento;	
 	
+	@OneToMany(mappedBy = "productor")
+	@Cascade(value = { CascadeType.SAVE_UPDATE, CascadeType.DELETE_ORPHAN })
+	private List<BoletaDeposito> boletasDeposito;	
+	
 	public String getTipoEntidad() {
 		return TipoDeEntidad.PRD.getDescripcion();
 	}
@@ -75,6 +79,14 @@ public class Productor extends Entidad {
 
 	public void setAutorizaciones(List<Autorizacion> autorizaciones) {
 		this.autorizaciones = autorizaciones;
+	}
+
+	public List<BoletaDeposito> getBoletasDeposito() {
+		return boletasDeposito;
+	}
+
+	public void setBoletasDeposito(List<BoletaDeposito> boletasDeposito) {
+		this.boletasDeposito = boletasDeposito;
 	}
 	
 }

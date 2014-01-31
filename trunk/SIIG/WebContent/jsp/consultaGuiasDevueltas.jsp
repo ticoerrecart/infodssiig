@@ -55,7 +55,6 @@ function cargarProductorPeriodo(idProd,periodo){
 
 <div id="exitoGrabado" class="verdeExito">${exitoGrabado}</div>
 <div id="errores" class="rojoAdvertencia">${error}</div>
-<br>
 <table border="0" class="cuadrado" align="center" width="70%" cellpadding="2">
 	<tr>
 		<td class="azulAjustado" colspan="3"><c:out value="${titulo}" /></td>

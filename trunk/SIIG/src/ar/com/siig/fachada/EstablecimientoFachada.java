@@ -152,4 +152,26 @@ public class EstablecimientoFachada {
 		}
 		return false;
 	}
+	
+	public int getCantidadTipoAnimalEnEstablecimiento(Long idEstablecimiento, Long idProductor, Long idTipoAnimal){
+		
+		int cantidad = 0;
+		Productor productor = entidadDAO.getProductor(idProductor);
+		
+		for (ProductorEnEstablecimiento prodEnEst : productor.getProductorEnEstablecimiento()) {
+			
+			if(prodEnEst.getEstablecimiento().getId().equals(idEstablecimiento)){
+				
+				for (AnimalEnEstablecimiento animEnEst : prodEnEst.getAnimalesEnEstablecimiento()) {
+					
+					if(animEnEst.getTipoAnimal().getId().equals(idTipoAnimal)){
+						
+						cantidad = animEnEst.getStock();
+					}
+				}
+			}
+		}
+		
+		return cantidad;
+	}
 }

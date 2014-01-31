@@ -15,12 +15,14 @@ import org.apache.struts.action.ActionMapping;
 import org.springframework.web.context.WebApplicationContext;
 
 
+import ar.com.siig.negocio.BoletaDeposito;
 import ar.com.siig.negocio.Categoria;
 import ar.com.siig.negocio.Guia;
 import ar.com.siig.negocio.Marca;
 import ar.com.siig.negocio.MarcaSenial;
 import ar.com.siig.providers.ProviderDTO;
 import ar.com.siig.struts.utils.Validator;
+import ar.com.siig.dto.BoletaDepositoDTO;
 import ar.com.siig.dto.GuiaDTO;
 import ar.com.siig.dto.MarcaSenialDTO;
 import ar.com.siig.fachada.CategoriaFachada;
@@ -28,6 +30,7 @@ import ar.com.siig.fachada.EntidadFachada;
 import ar.com.siig.fachada.EstablecimientoFachada;
 import ar.com.siig.fachada.GuiaFachada;
 import ar.com.siig.fachada.PeriodoFachada;
+import ar.com.siig.struts.actions.forms.BoletaDepositoForm;
 import ar.com.siig.struts.actions.forms.GuiaForm;
 import ar.com.siig.utils.Constantes;
 import ar.com.siig.utils.Fecha;
@@ -95,7 +98,7 @@ public class GuiaAction extends ValidadorAction {
 			ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 
-		String strForward = "exitoConsultaLegalizacionGuias";
+		String strForward = "exitoConsultaGeneralGuia";
 
 		try {
 			WebApplicationContext ctx = getWebApplicationContext();
@@ -121,10 +124,6 @@ public class GuiaAction extends ValidadorAction {
 					"../../guia.do?metodo=recuperarLegalizacionGuias");
 			request.setAttribute("urlSeleccionGuia",urlSeleccionGuia);
 
-			//request.setAttribute("urlSeleccionGuia","cargarGuiaLegalizada");
-			//request.setAttribute("urlSeleccionGuia","cargarGuiaParaDevolucion");			
-			
-			
 		} catch (Throwable t) {
 			MyLogger.logError(t);
 			request.setAttribute("error", "Error Inesperado");
@@ -232,6 +231,7 @@ public class GuiaAction extends ValidadorAction {
 			
 			request.setAttribute("establecimientos", establecimientoFachada.
 											getEstablecimientosDTODeProductor(guia.getProductor().getId()));
+			request.setAttribute("establecimientosDestino", establecimientoFachada.getEstablecimientos());
 			request.setAttribute("finalidades", guiaFachada.recuperarFinalidades());			
 			request.setAttribute("guia", guia);
 			request.setAttribute("urlSeleccionGuia", urlSeleccionGuia);
@@ -280,7 +280,7 @@ public class GuiaAction extends ValidadorAction {
 			ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 
-		String strForward = "exitoConsultaGuiasDevueltas";
+		String strForward = "exitoConsultaGeneralGuia";
 
 		try {
 			WebApplicationContext ctx = getWebApplicationContext();
@@ -290,6 +290,7 @@ public class GuiaAction extends ValidadorAction {
 			String idProd = request.getParameter("idProductor");
 			String periodo = request.getParameter("periodo");
 			String urlSeleccionGuia = request.getParameter("urlSeleccionGuia");
+			String urlDetalle = request.getParameter("urlDetalle");
 			
 			request.setAttribute("idProductor", idProd);
 			request.setAttribute("periodo", periodo);
@@ -303,7 +304,7 @@ public class GuiaAction extends ValidadorAction {
 			}
 			
 			request.setAttribute("urlDetalle",
-					"../../guia.do?metodo=recuperarGuiasDevueltas");
+					"../../guia.do?metodo="+urlDetalle);
 			request.setAttribute("urlSeleccionGuia",urlSeleccionGuia);			
 			
 		} catch (Throwable t) {
@@ -314,7 +315,7 @@ public class GuiaAction extends ValidadorAction {
 
 		return mapping.findForward(strForward);
 	}	
-	
+
 	@SuppressWarnings("unchecked")
 	public ActionForward recuperarGuiasDevueltas(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -327,7 +328,7 @@ public class GuiaAction extends ValidadorAction {
 			String periodo = request.getParameter("periodo");			
 			String urlSeleccionGuia = request.getParameter("urlSeleccionGuia");
 			
-			List<Guia> listaGuiasDevueltas = guiaFachada.recuperarGuiasDevueltas(Long.valueOf(idProductor),periodo);
+			List<Guia> listaGuiasDevueltas = guiaFachada.recuperarGuiasDevueltasImpagas(Long.valueOf(idProductor),periodo);
 			request.setAttribute("guias", listaGuiasDevueltas);
 			request.setAttribute("urlSeleccionGuia", urlSeleccionGuia);
 			
@@ -339,6 +340,243 @@ public class GuiaAction extends ValidadorAction {
 
 		return mapping.findForward(strForward);
 	}	
+	
+	@SuppressWarnings("unchecked")
+	public ActionForward recuperarGuiasDevueltasParaBoleta(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String strForward = "exitoRecuperarGuiasDevueltasParaBoleta";
+
+		try {
+			WebApplicationContext ctx = getWebApplicationContext();
+			GuiaFachada guiaFachada = (GuiaFachada) ctx.getBean("guiaFachada");
+			String idProductor = request.getParameter("idProductor");
+			String periodo = request.getParameter("periodo");			
+			String urlSeleccionGuia = request.getParameter("urlSeleccionGuia");
+			
+			List<Guia> listaGuiasDevueltas = guiaFachada.recuperarGuiasDevueltasImpagas(Long.valueOf(idProductor),periodo);
+			request.setAttribute("guias", listaGuiasDevueltas);
+			request.setAttribute("urlSeleccionGuia", urlSeleccionGuia);
+			
+		} catch (Throwable t) {
+			MyLogger.logError(t);
+			request.setAttribute("error", "Error Inesperado");
+			strForward = "error";
+		}
+
+		return mapping.findForward(strForward);
+	}	
+	
+	@SuppressWarnings("unchecked")
+	public ActionForward generarBoletaGuias(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+
+		String strForward = "exitoGenerarBoletaGuias";
+
+		try {
+			BoletaDepositoForm boletaDepositoForm = (BoletaDepositoForm) form;
+			WebApplicationContext ctx = getWebApplicationContext();
+			GuiaFachada guiaFachada = (GuiaFachada) ctx.getBean("guiaFachada");
+			
+			// valido nuevamente por seguridad.  
+			if (!validarGenerarBoletaPagoForm(new StringBuffer(), boletaDepositoForm)) {
+				throw new Exception("Error de Seguridad");
+			}
+			guiaFachada.generarBoletaGuias(boletaDepositoForm.getBoletaDeposito(), boletaDepositoForm.getListaGuias());
+			
+			request.setAttribute("exitoGrabado",
+					Constantes.EXITO_GENERACION_BOLETA_PAGO);			
+			
+		} catch (Throwable t) {
+			MyLogger.logError(t);
+			request.setAttribute("error", "Error Inesperado");
+			strForward = "error";
+		}
+
+		return mapping.findForward(strForward);
+	}		
+	
+	@SuppressWarnings("unchecked")
+	public ActionForward cargarGuiaDevuelta(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+
+		String strForward = "exitoCargarGuiaDevuelta";
+		try {
+			String idGuia = request.getParameter("id");
+			//String urlSeleccionGuia = request.getParameter("metodo");
+			WebApplicationContext ctx = getWebApplicationContext();
+			
+			GuiaFachada guiaFachada = (GuiaFachada) ctx.getBean("guiaFachada");			
+			
+			GuiaDTO guia = guiaFachada.recuperarGuiaDTO(Long.valueOf(idGuia));
+			
+			String path = request.getServletContext().getRealPath("imagenes");		
+			MarcaSenialDTO marcaSenial = guia.getMarcaSenial();
+
+			StringBuffer nombreImg = new StringBuffer(marcaSenial.getNombreImagen());			
+			nombreImg.insert(nombreImg.indexOf("."), marcaSenial.getId());			
+				
+			FileOutputStream fos = new FileOutputStream(new File(path+
+					File.separatorChar+nombreImg));			
+			InputOutput.copyStream(marcaSenial.getImagen().getBinaryStream(),fos);
+				
+			marcaSenial.setNombreImagen(nombreImg.toString());			
+			
+			request.setAttribute("guia", guia);
+			//request.setAttribute("urlSeleccionGuia", urlSeleccionGuia);
+			
+		} catch (Throwable t) {
+			MyLogger.logError(t);
+			request.setAttribute("error", "Error Inesperado");
+			strForward = "error";
+		}
+
+		return mapping.findForward(strForward);
+	}	
+	
+	@SuppressWarnings("unchecked")
+	public ActionForward cargarRegistrarPagoBoletas(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+
+		String strForward = "exitoCargarRegistrarPagoBoletas";
+
+		try {
+			WebApplicationContext ctx = getWebApplicationContext();
+			EntidadFachada entidadFachada = (EntidadFachada) ctx.getBean("entidadFachada");
+			PeriodoFachada periodoFachada = (PeriodoFachada) ctx.getBean("periodoFachada");
+			
+			String idProd = request.getParameter("idProductor");
+			String periodo = request.getParameter("periodo");
+			//String urlSeleccionGuia = request.getParameter("urlSeleccionGuia");
+			//String urlDetalle = request.getParameter("urlDetalle");
+			
+			request.setAttribute("idProductor", idProd);
+			request.setAttribute("periodo", periodo);
+			request.setAttribute("productores", entidadFachada.getProductoresDTO());
+			request.setAttribute("periodos", periodoFachada.getPeriodosDTO());			
+			
+			request.setAttribute("urlDetalle","../../boletaDeposito.do?metodo=recuperarBoletasParaRegistracionPago");
+			request.setAttribute("urlSeleccionGuia","");
+			request.setAttribute("titulo","Registrar Pago de Boletas");
+			
+		} catch (Throwable t) {
+			MyLogger.logError(t);
+			request.setAttribute("error", "Error Inesperado");
+			strForward = "error";
+		}
+
+		return mapping.findForward(strForward);
+	}	
+	
+	@SuppressWarnings("unchecked")
+	public ActionForward recuperarBoletasParaRegistracionPago(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String strForward = "exitoRecuperarBoletasParaRegistracionPago";
+
+		try {
+			WebApplicationContext ctx = getWebApplicationContext();
+			GuiaFachada guiaFachada = (GuiaFachada) ctx.getBean("guiaFachada");
+			String idProductor = request.getParameter("idProductor");
+			String periodo = request.getParameter("periodo");			
+			String urlSeleccionGuia = request.getParameter("urlSeleccionGuia");
+			
+			List<BoletaDeposito> listaBoletas = guiaFachada.recuperarBoletasImpagas(Long.valueOf(idProductor));
+			
+			request.setAttribute("boletas", listaBoletas);
+
+			//request.setAttribute("urlSeleccionGuia", urlSeleccionGuia);
+			
+		} catch (Throwable t) {
+			MyLogger.logError(t);
+			request.setAttribute("error", "Error Inesperado");
+			strForward = "error";
+		}
+
+		return mapping.findForward(strForward);
+	}	
+	
+	@SuppressWarnings("unchecked")
+	public ActionForward recuperarBoletaParaRegistracionPago(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String strForward = "exitoRecuperarBoletaParaRegistracionPago";
+
+		try {
+			WebApplicationContext ctx = getWebApplicationContext();
+			GuiaFachada guiaFachada = (GuiaFachada) ctx.getBean("guiaFachada");
+			String idBoleta = request.getParameter("idBoleta");
+			
+			BoletaDeposito boleta = guiaFachada.recuperarBoleta(Long.valueOf(idBoleta));
+			
+			request.setAttribute("boleta", boleta);
+
+			
+		} catch (Throwable t) {
+			MyLogger.logError(t);
+			request.setAttribute("error", "Error Inesperado");
+			strForward = "error";
+		}
+
+		return mapping.findForward(strForward);
+	}	
+
+	@SuppressWarnings("unchecked")
+	public ActionForward registrarPagoBoleta(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String strForward = "exitoRegistrarPagoBoleta";
+
+		try {
+			WebApplicationContext ctx = getWebApplicationContext();
+			GuiaFachada guiaFachada = (GuiaFachada) ctx.getBean("guiaFachada");
+			String idBoleta = request.getParameter("idBoleta");
+			String fechaPago = request.getParameter("fechaPago");
+			
+			guiaFachada.registrarPagoBoleta(Long.valueOf(idBoleta),fechaPago);
+			
+			request.setAttribute("exitoGrabado",
+					Constantes.EXITO_REGISTRACION_PAGO_BOLETA);
+
+			
+		} catch (Throwable t) {
+			MyLogger.logError(t);
+			request.setAttribute("error", "Error Inesperado");
+			strForward = "error";
+		}
+
+		return mapping.findForward(strForward);
+	}	
+	
+	public boolean validarGenerarBoletaPagoForm(StringBuffer error, ActionForm form) {
+
+		try {
+			BoletaDepositoForm boletaDepositoForm = (BoletaDepositoForm) form;
+			BoletaDepositoDTO boleta = boletaDepositoForm.getBoletaDeposito();
+			boletaDepositoForm.normalizarListaGuias();
+			List<GuiaDTO> listaGuias = boletaDepositoForm.getListaGuias();
+			
+			boolean ok = true;
+			boolean ok1 = true;
+			boolean ok2 = true;
+			
+			if(listaGuias.size() == 0){
+				
+				Validator.addErrorXML(error, "Se debe seleccionar al menos una Guia");
+				ok = false;
+			}
+			
+			ok1 = Validator.validarLongMayorQue(0, String.valueOf(boleta.getNumero()), "Número de Boleta", error);
+			
+			ok2 = Validator.requerido(boleta.getFechaVencimiento(), "Fecha de Vencimiento", error);
+			
+			return ok && ok1 && ok2;			
+			
+		} catch (Throwable t) {
+			MyLogger.logError(t);
+			Validator.addErrorXML(error, "Error Inesperado");
+			return false;
+		}
+	}		
 	
 	public boolean validarAltaLegalizacionGuiaForm(StringBuffer error, ActionForm form) {
 
@@ -401,10 +639,14 @@ public class GuiaAction extends ValidadorAction {
 			boolean ok5 = true;
 			boolean ok6 = true;
 			boolean ok7 = true;
+			boolean ok8 = true;
 			
 			ok = Validator.validarComboRequeridoSinNull("-1",Long.toString(guia.getEstablecimientoOrigen().getId()),
 														 "Establecimiento de Orígen",error);
 
+			ok8 = Validator.validarComboRequeridoSinNull("-1",Long.toString(guia.getEstablecimientoDestino().getId()),
+					 									 "Establecimiento de Destino",error);			
+			
 			ok1 = Validator.validarComboRequeridoSinNull("",guia.getFinalidadStr(),"Finalidad",error);
 			
 			ok2 = Validator.requerido(guia.getFechaTransito(), "Fecha de Transito", error);			
@@ -421,15 +663,17 @@ public class GuiaAction extends ValidadorAction {
 			
 			ok6 = Validator.validarDoubleMayorQue(0,String.valueOf(guia.getMonto()+guia.getInteres()), "Monto Total", error);
 			
-			ok7 = establecimientoFachada.validarCantAnimalesEnEstablecimiento(guia.getEstablecimientoOrigen().getId(),
-																		guia.getProductor().getId(),
-																		guia.getTipoAnimal().getId(),
-																		guia.getCantidad());
+			if(ok3 && ok4){
+				ok7 = establecimientoFachada.validarCantAnimalesEnEstablecimiento(guia.getEstablecimientoOrigen().getId(),
+																			guia.getProductor().getId(),
+																			guia.getTipoAnimal().getId(),
+																			guia.getCantidad());
+			}	
 			if (!ok7) {
 				Validator.addErrorXML(error, "La cantidad de Animales/Productos excede al número declarado por el productor en el establecimiento");
 			}			
 			
-			return ok && ok1 && ok2 && ok3 && ok4 && ok5 && ok6 && ok7;			
+			return ok && ok1 && ok2 && ok3 && ok4 && ok5 && ok6 && ok7 && ok8;
 			
 		} catch (Throwable t) {
 			MyLogger.logError(t);

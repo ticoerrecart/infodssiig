@@ -288,6 +288,15 @@ public abstract class ProviderDominio {
 		return boleta;
 	}
 
+	public static BoletaDeposito getBoletaDepositoParaGuias(BoletaDepositoDTO boletaDTO, List<Guia> listaGuias, Productor productor){
+		
+		BoletaDeposito boleta = ProviderDominio.getBoletaDeposito(boletaDTO);
+		boleta.setProductor(productor);
+		boleta.setGuias(listaGuias);
+		
+		return boleta;
+	}
+	
 	public static Denuncia getDenuncia(DenunciaDTO denunciaDTO) {
 		Denuncia denuncia = new Denuncia();
 		denuncia.setNumeroDeDenuncia(denunciaDTO.getNumeroDeDenuncia());

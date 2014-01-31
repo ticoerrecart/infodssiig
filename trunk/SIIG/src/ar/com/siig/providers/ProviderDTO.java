@@ -20,6 +20,7 @@ import ar.com.siig.dto.TipoAutorizacionDTO;
 import ar.com.siig.dto.TipoProductoDTO;
 import ar.com.siig.dto.UsuarioDTO;
 import ar.com.siig.dto.VencimientoPeriodoDTO;
+import ar.com.siig.enums.TipoFinalidad;
 import ar.com.siig.negocio.Autorizado;
 import ar.com.siig.negocio.BoletaDeposito;
 import ar.com.siig.negocio.Denuncia;
@@ -280,6 +281,33 @@ public abstract class ProviderDTO {
 		guiaDTO.setNumeroInterno(guia.getNumeroInterno());
 		guiaDTO.setPeriodo(guia.getPeriodo());
 		guiaDTO.setProductor(ProviderDTO.getEntidadDTO(guia.getProductor()));
+		
+		
+		guiaDTO.setCanon(guia.getCanon());
+		guiaDTO.setCantidad(guia.getCantidad());
+		if(guia.getEstablecimientoDestino() != null){
+			guiaDTO.setEstablecimientoDestino(ProviderDTO.getEstablecimientoDTO(guia.getEstablecimientoDestino()));
+		}	
+		if(guia.getEstablecimientoOrigen() != null){
+			guiaDTO.setEstablecimientoOrigen(ProviderDTO.getEstablecimientoDTO(guia.getEstablecimientoOrigen()));
+		}
+		if (guia.getFechaTransito() != null && !guia.getFechaTransito().equals("")) {
+			guiaDTO.setFechaTransito(Fecha.getFechaDDMMAAAASlash(Fecha
+					.dateToStringDDMMAAAA(guia.getFechaTransito())));
+		}			
+		guiaDTO.setFinalidad(guia.getFinalidad());			
+		guiaDTO.setInteres(guia.getInteres());
+		guiaDTO.setMedioTransporte(guia.getMedioTransporte());
+		guiaDTO.setMonto(guia.getMonto());
+		guiaDTO.setNroDTA(guia.getNroDTA());
+		guiaDTO.setPatente(guia.getPatente());
+		guiaDTO.setPatenteAcoplado(guia.getPatenteAcoplado());
+		if(guia.getTipoAnimal() != null){
+			guiaDTO.setTipoAnimal(ProviderDTO.getTipoAnimalDTO(guia.getTipoAnimal()));
+		}	
+		guiaDTO.setTipoEstadoGuia(guia.getTipoEstadoGuia());
+		guiaDTO.setTrasporteACargo(guia.getTrasporteACargo());
+		
 		
 		return guiaDTO;
 	}
