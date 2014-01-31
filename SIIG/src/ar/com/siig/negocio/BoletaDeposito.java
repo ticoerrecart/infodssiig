@@ -1,6 +1,7 @@
 package ar.com.siig.negocio;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,8 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -33,6 +33,15 @@ public class BoletaDeposito {
 	@Column(nullable = false)
 	private Date fechaVencimiento;
 
+	@OneToMany(mappedBy = "boletaDeposito")
+	@Cascade(value = { CascadeType.SAVE_UPDATE, CascadeType.DELETE_ORPHAN })
+	private List<Guia> guias;	
+	
+	@ManyToOne()
+	@Cascade(value = CascadeType.SAVE_UPDATE)
+	@JoinColumn(name = "productor_fk")
+	private Productor productor;	
+	
 	public Long getId() {
 		return id;
 	}
@@ -72,4 +81,21 @@ public class BoletaDeposito {
 	public void setFechaVencimiento(Date fechaVencimiento) {
 		this.fechaVencimiento = fechaVencimiento;
 	}
+
+	public List<Guia> getGuias() {
+		return guias;
+	}
+
+	public void setGuias(List<Guia> guias) {
+		this.guias = guias;
+	}
+
+	public Productor getProductor() {
+		return productor;
+	}
+
+	public void setProductor(Productor productor) {
+		this.productor = productor;
+	}
+
 }

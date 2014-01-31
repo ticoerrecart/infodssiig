@@ -160,6 +160,10 @@ public class Constantes {
 	public static final String EXITO_ALTA_GUIA = "La Guía se ha dado de alta con exito";
 	
 	public static final String EXITO_DEVOLUCION_GUIA = "La Guía se ha devuelto con exito";
+	
+	public static final String EXITO_GENERACION_BOLETA_PAGO = "La Boleta de Pago se a generado con exito";
+	
+	public static final String EXITO_REGISTRACION_PAGO_BOLETA = "Se a registrado el pago de la boleta con exito";
 	// FIN GUIA
 
 	// AUTORIZADO

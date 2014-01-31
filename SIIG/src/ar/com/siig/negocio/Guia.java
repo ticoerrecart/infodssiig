@@ -92,6 +92,11 @@ public class Guia {
 	@Enumerated(EnumType.STRING)
 	private TipoEstadoGuia tipoEstadoGuia;
 	
+	@ManyToOne()
+	@Cascade(value = CascadeType.SAVE_UPDATE)
+	@JoinColumn(name = "boletaDeposito_fk")
+	private BoletaDeposito boletaDeposito;	
+	
 	public Long getId() {
 		return id;
 	}
@@ -279,5 +284,13 @@ public class Guia {
 	public double getMontoTotal(){
 		
 		return this.getMonto()+this.getInteres();
+	}
+
+	public BoletaDeposito getBoletaDeposito() {
+		return boletaDeposito;
+	}
+
+	public void setBoletaDeposito(BoletaDeposito boletaDeposito) {
+		this.boletaDeposito = boletaDeposito;
 	}
 }

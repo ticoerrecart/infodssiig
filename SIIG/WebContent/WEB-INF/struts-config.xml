@@ -54,6 +54,10 @@
 		<form-bean name="animalEnEstablecimientoForm"
 			type="ar.com.siig.struts.actions.forms.AnimalEnEstablecimientoForm">
 		</form-bean>				
+
+		<form-bean name="boletaDepositoForm"
+			type="ar.com.siig.struts.actions.forms.BoletaDepositoForm">
+		</form-bean>
 		
 	</form-beans>
 
@@ -239,15 +243,27 @@
 			parameter="metodo" name="guiaForm" scope="request">
 			<forward name="exitoCargaAltaLegalizacionGuia" path=".altaLegalizacionGuia" />
 			<forward name="exitoAltaLegalizacionGuia" path="/guia.do?metodo=cargarAltaLegalizacionGuia" />
-			<forward name="exitoConsultaLegalizacionGuias" path=".consultaGeneralGuia" />
+			<forward name="exitoConsultaGeneralGuia" path=".consultaGeneralGuia" />
 			<forward name="exitoRecuperarLegalizacionGuias" path="/jsp/bloqueConsultaLegalizacionGuias.jsp" />
 			<forward name="exitoCargarGuiaLegalizada" path=".consultaGuiaLegalizada" />
 			<forward name="exitoCargarGuiaParaDevolucion" path=".devolucionGuia" />
 			<forward name="exitoDevolucionGuia" path="/guia.do?metodo=cargarConsultaLegalizacionGuia&amp;urlSeleccionGuia=cargarGuiaParaDevolucion" />
-			<forward name="exitoConsultaGuiasDevueltas" path=".consultaGuiasDevueltas" />
-			<forward name="exitoRecuperarGuiasDevueltas" path="/jsp/bloqueConsultaGuiasDevueltas.jsp" />			
-						
+			<!-- <forward name="exitoConsultaGuiasDevueltas" path=".consultaGuiasDevueltas" /> -->
+			<forward name="exitoRecuperarGuiasDevueltas" path="/jsp/bloqueConsultaGuiasDevueltas.jsp" />
+			<forward name="exitoRecuperarGuiasDevueltasParaBoleta" path="/jsp/bloqueGenerarBoletaGuias.jsp" />
+			<forward name="exitoGenerarBoletaGuias" path="/guia.do?metodo=cargarConsultaGuiasDevueltas" />
+			<forward name="exitoCargarGuiaDevuelta" path=".consultaGuiaDevuelta" />											
 		</action>
+		
+		<action path="/boletaDeposito" type="ar.com.siig.struts.actions.GuiaAction"
+			parameter="metodo" name="boletaDepositoForm" scope="request">			
+			<forward name="exitoGenerarBoletaGuias" path="/guia.do?metodo=cargarConsultaGuiasDevueltas" />
+			<forward name="exitoCargarRegistrarPagoBoletas" path=".consultaGeneralGuia" />
+			<forward name="exitoRecuperarBoletasParaRegistracionPago" path="/jsp/bloqueListaBoletasParaRegistracionPago.jsp" />
+			<forward name="exitoRecuperarBoletaParaRegistracionPago" path=".cargarBoletaParaRegistracionPago" />
+			<forward name="exitoRegistrarPagoBoleta" path="/boletaDeposito.do?metodo=cargarRegistrarPagoBoletas" />					
+		</action>			
+		
 		<!-- FIN GUIA -->
 
 		<!-- AUTORIZADO -->

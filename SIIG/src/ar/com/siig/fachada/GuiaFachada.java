@@ -1,5 +1,6 @@
 package ar.com.siig.fachada;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -11,11 +12,13 @@ import ar.com.siig.dao.EntidadDAO;
 import ar.com.siig.dao.EstablecimientoDAO;
 import ar.com.siig.dao.GuiaDAO;
 import ar.com.siig.dao.TipoAnimalDAO;
+import ar.com.siig.dto.BoletaDepositoDTO;
 import ar.com.siig.dto.GuiaDTO;
 import ar.com.siig.enums.TipoEstadoGuia;
 import ar.com.siig.enums.TipoFinalidad;
 import ar.com.siig.enums.TipoMarcaSenial;
 import ar.com.siig.negocio.AnimalEnEstablecimiento;
+import ar.com.siig.negocio.BoletaDeposito;
 import ar.com.siig.negocio.Establecimiento;
 import ar.com.siig.negocio.Guia;
 import ar.com.siig.negocio.Productor;
@@ -95,11 +98,11 @@ public class GuiaFachada {
 	public List<Guia> recuperarLegalizacionGuias(Long idProductor, String periodo){
 		
 		//return guiaDAO.recuperarLegalizacionGuias(idProductor,periodo);
-		return guiaDAO.recuperarGuias(idProductor,periodo,TipoEstadoGuia.LEGALIZADA);		
+		return guiaDAO.recuperarGuias(idProductor,periodo,TipoEstadoGuia.LEGALIZADA,false);		
 	}
-	public List<Guia> recuperarGuiasDevueltas(Long idProductor, String periodo){
+	public List<Guia> recuperarGuiasDevueltasImpagas(Long idProductor, String periodo){
 		
-		return guiaDAO.recuperarGuias(idProductor,periodo,TipoEstadoGuia.DEVUELTA);
+		return guiaDAO.recuperarGuias(idProductor,periodo,TipoEstadoGuia.DEVUELTA,false);
 	}		
 	
 	public Guia recuperarGuia(Long idGuia){
@@ -115,5 +118,40 @@ public class GuiaFachada {
 	
 	public List<TipoFinalidad> recuperarFinalidades(){
 		return Arrays.asList(TipoFinalidad.values());
+	}
+	
+	public void generarBoletaGuias(BoletaDepositoDTO boletaDTO, List<GuiaDTO> listaGuiasDTO){
+		
+		Productor productor = entidadDAO.getProductor(boletaDTO.getProductor().getId());
+		List<Guia> listaGuias = new ArrayList<Guia>();
+		for (GuiaDTO guiaDTO : listaGuiasDTO) {
+			listaGuias.add(guiaDAO.recuperarGuia(guiaDTO.getId()));
+		}
+		BoletaDeposito boleta = ProviderDominio.getBoletaDepositoParaGuias(boletaDTO,listaGuias,productor);
+		
+		//Seteo la boleta generada en el productor
+		productor.getBoletasDeposito().add(boleta);
+		
+		//Seteo la boleta generada en cada una de las guias que componen la boleta
+		for (Guia guia : listaGuias) {
+			guia.setBoletaDeposito(boleta);
+		}		
+	}	
+	
+	public List<BoletaDeposito> recuperarBoletasImpagas(Long idProductor){
+		
+		return guiaDAO.recuperarBoletasImpagas(idProductor);
+	}
+	
+	public BoletaDeposito recuperarBoleta(Long idBoleta){
+		
+		return guiaDAO.recuperarBoleta(idBoleta);
+	}
+	
+	public void registrarPagoBoleta(Long idBoleta, String fechaPago){
+		
+		BoletaDeposito boleta = guiaDAO.recuperarBoleta(idBoleta);
+		boleta.setFechaPago(Fecha
+				.stringDDMMAAAAToUtilDate(fechaPago));
 	}
 }

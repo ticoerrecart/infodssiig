@@ -56,6 +56,8 @@ public class GuiaDTO {
 	
 	private TipoEstadoGuia tipoEstadoGuia;
 	
+	private BoletaDepositoDTO boletaDeposito;
+	
 	public GuiaDTO(){
 		
 		productor = new EntidadDTO();
@@ -63,6 +65,7 @@ public class GuiaDTO {
 		establecimientoOrigen = new EstablecimientoDTO();
 		establecimientoDestino = new EstablecimientoDTO();
 		tipoAnimal = new TipoAnimalDTO();
+		boletaDeposito = new BoletaDepositoDTO();
 	}
 	
 	public Long getId() {
@@ -225,6 +228,11 @@ public class GuiaDTO {
 		this.canon = canon;
 	}
 
+	public double getMontoTotal(){
+		
+		return this.getMonto()+this.getInteres();
+	}	
+	
 	public double getMonto() {
 		return monto;
 	}
@@ -247,6 +255,14 @@ public class GuiaDTO {
 
 	public void setTipoEstadoGuia(TipoEstadoGuia tipoEstadoGuia) {
 		this.tipoEstadoGuia = tipoEstadoGuia;
+	}
+
+	public BoletaDepositoDTO getBoletaDeposito() {
+		return boletaDeposito;
+	}
+
+	public void setBoletaDeposito(BoletaDepositoDTO boletaDeposito) {
+		this.boletaDeposito = boletaDeposito;
 	}	
 
 }
