@@ -53,7 +53,7 @@ public class Denuncia {
 	
 
 	@ManyToMany
-	@JoinTable(name = "denuncia_tipoDeDenuncia", joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = { @JoinColumn(name = "tipo_denuncia_fk") })
+	@JoinTable(name = "denuncia_tipodedenuncia", joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = { @JoinColumn(name = "tipo_denuncia_fk") })
 	@Cascade({ CascadeType.ALL })
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<TipoDeDenuncia> tipoDeDenuncias;

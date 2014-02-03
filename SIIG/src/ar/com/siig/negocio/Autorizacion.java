@@ -30,7 +30,7 @@ public class Autorizacion {
 	private Autorizado autorizado;
 
 	@ManyToMany
-	@JoinTable(name = "autorizacion_tipoDeAutorizacion", joinColumns = @JoinColumn(name = "autorizacion_fk"), inverseJoinColumns = { @JoinColumn(name = "tipo_autorizacion_fk") })
+	@JoinTable(name = "autorizacion_tipodeautorizacion", joinColumns = @JoinColumn(name = "autorizacion_fk"), inverseJoinColumns = { @JoinColumn(name = "tipo_autorizacion_fk") })
 	@Cascade({ CascadeType.ALL })
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<TipoAutorizacion> tiposDeAutorizacion;
