@@ -68,10 +68,12 @@ public class GuiaFachada {
 		Guia guia = this.recuperarGuia(guiaDTO.getId());
 		Establecimiento establecimientoOrigen = establecimientoDAO.getEstablecimientoPorId(
 													guiaDTO.getEstablecimientoOrigen().getId()) ;
+		Establecimiento establecimientoDestino = establecimientoDAO.getEstablecimientoPorId(
+				guiaDTO.getEstablecimientoDestino().getId()) ;
 		
 		TipoAnimal tipoAnimal = tipoAnimalDAO.getTipoAnimal(guiaDTO.getTipoAnimal().getId());
 		
-		ProviderDominio.getGuiaDevuelta(guia,guiaDTO,establecimientoOrigen,tipoAnimal);
+		ProviderDominio.getGuiaDevuelta(guia,guiaDTO,establecimientoOrigen, establecimientoDestino, tipoAnimal);
 		
 		actualizarCantAnimalesEnEstablecimiento(establecimientoOrigen.getId(),guiaDTO.getProductor().getId(),
 												tipoAnimal.getId(),guiaDTO.getCantidad());
