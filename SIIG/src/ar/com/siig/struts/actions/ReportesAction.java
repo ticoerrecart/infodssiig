@@ -72,21 +72,37 @@ public class ReportesAction extends ValidadorAction {
 		return null;
 	}
 	
-	public ActionForward cargarReporteGuiasLegalizadas(
+	public ActionForward cargarReporteGuias(
 			ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		String strForward = "exitoCargarReporteGuiasLegalizadas";
+		String strForward = "exitoCargarReporteGuias";
 
 		try {
 			WebApplicationContext ctx = getWebApplicationContext();
 			PeriodoFachada periodoFachada = (PeriodoFachada) ctx.getBean("periodoFachada");			
 			EntidadFachada entidadFachada = (EntidadFachada) ctx.getBean("entidadFachada");
 			
+			String tipoGuia =  request.getParameter("tipoGuia");
+			if (tipoGuia.equals("Legalizadas")) {
+				request.setAttribute("titulo","Reporte Guías Legalizadas");
+			} else {
+				if (tipoGuia.equals("Registradas")) {
+					request.setAttribute("titulo","Reporte Guías Registradas");
+				} else {
+					if (tipoGuia.equals("Devueltas")) {
+						request.setAttribute("titulo","Reporte Producto Movido");
+					} else {
+						if (tipoGuia.equals("Canceladas")) {
+							request.setAttribute("titulo","Reporte Guías Canceladas");
+						}
+					}	
+				}
+			}
 			request.setAttribute("periodos",periodoFachada.getPeriodosDTO());			
 			request.setAttribute("productores",entidadFachada.getProductoresDTO());
-			request.setAttribute("titulo","Reporte Guías Legalizadas");
 			request.setAttribute("action","reportes");
-			request.setAttribute("metodo","generarReporteGuiasLegalizadas");
+			request.setAttribute("metodo","generarReporteGuias");
+			request.setAttribute("tipoGuia",tipoGuia);
 			request.setAttribute("permitirTodosLosProductores","S");
 			request.setAttribute("permitirTodosLosPeriodos","S");			
 			
@@ -98,7 +114,7 @@ public class ReportesAction extends ValidadorAction {
 		return mapping.findForward(strForward);
 	}
 	
-	public ActionForward generarReporteGuiasLegalizadas(
+	public ActionForward generarReporteGuias(
 			ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 
@@ -110,8 +126,8 @@ public class ReportesAction extends ValidadorAction {
 			ReportesFachada reportesFachada = (ReportesFachada) ctx.getBean("reportesFachada");
 			String productor = request.getParameter("productor");
 			String periodo = request.getParameter("periodo");
-
-			byte[] bytes = reportesFachada.generarReporteGuiasLegalizadas(path,Long.valueOf(productor),periodo);
+			String tipoGuia =  request.getParameter("tipoGuia");
+			byte[] bytes = reportesFachada.generarReporteGuias(tipoGuia, path,Long.valueOf(productor),periodo);
 
 			// Lo muestro en la salida del response
 			response.setContentType("application/pdf");

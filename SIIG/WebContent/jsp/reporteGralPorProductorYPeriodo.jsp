@@ -25,14 +25,15 @@ function generarReporte(){
 	var periodo = ($("#idPeriodo").val()!=null)?$("#idPeriodo").val():0;
 	var metodo = $("#idMetodo").val();
 	var action = $("#idAction").val();
+	var tipoGuia = $("#tipoGuia").val();
 	
 	if(idProductor != "-1" && periodo != "-1"){
 		$("#error").html("");
 		var especificaciones = 'top=0,left=0,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable';
 		if(type == "IE"){
-			window.open("./"+action+".do?metodo="+metodo+"&productor="+idProductor+"&periodo="+periodo,"",especificaciones);
+			window.open("./"+action+".do?metodo="+metodo+"&productor="+idProductor+"&periodo="+periodo+"&tipoGuia="+tipoGuia,"",especificaciones);
 		}else{
-			window.open("../../"+action+".do?metodo="+metodo+"&productor="+idProductor+"&periodo="+periodo,"",especificaciones);
+			window.open("../../"+action+".do?metodo="+metodo+"&productor="+idProductor+"&periodo="+periodo+"&tipoGuia="+tipoGuia,"",especificaciones);
 		}
 	}
 	else{
@@ -47,6 +48,7 @@ function generarReporte(){
 <div id="error" class="rojoAdvertencia"></div>
 <html:hidden styleId="idMetodo" value="${metodo}" property=""/>
 <html:hidden styleId="idAction" value="${action}" property=""/>
+<html:hidden styleId="tipoGuia" value="${tipoGuia}" property=""/>
 
 <table border="0" class="cuadrado" align="center" width="80%" cellpadding="2">
 	<tr>

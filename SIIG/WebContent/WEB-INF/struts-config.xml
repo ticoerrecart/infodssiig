@@ -313,7 +313,7 @@
 			
 			<forward name="exitoCargarReporteVencimientoMarcasSeniales" 
 					 path=".reporteGralPorProductorYPeriodo" />
-			<forward name="exitoCargarReporteGuiasLegalizadas" 
+			<forward name="exitoCargarReporteGuias" 
 					 path=".reporteGralPorProductorYPeriodo" />					 								 					 									 				
 		</action>				
 		<!-- FIN REPORTES-->
