@@ -325,11 +325,12 @@ public abstract class ProviderDominio {
 		return guia;
 	}
 
-	public static void getGuiaDevuelta(Guia guia, GuiaDTO guiaDTO, Establecimiento establecimientoOrigen, TipoAnimal tipoAnimal){
+	public static void getGuiaDevuelta(Guia guia, GuiaDTO guiaDTO, Establecimiento establecimientoOrigen,Establecimiento establecimientoDestino,TipoAnimal tipoAnimal){
 		
 		guia.setCanon(guiaDTO.getCanon());
 		guia.setCantidad(guiaDTO.getCantidad());
 		guia.setEstablecimientoOrigen(establecimientoOrigen);
+		guia.setEstablecimientoDestino(establecimientoDestino);
 		guia.setFechaTransito(Fecha.stringDDMMAAAAToUtilDate(guiaDTO.getFechaTransito()));
 		guia.setFinalidad(guiaDTO.getFinalidad());
 		guia.setInteres(guiaDTO.getInteres());
