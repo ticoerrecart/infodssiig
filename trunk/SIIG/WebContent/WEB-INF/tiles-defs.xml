@@ -242,6 +242,11 @@
 		<put name="title" value="SIIMs" />
 		<put name="body" value="/jsp/reporteGralPorProductorYPeriodo.jsp" />
 	</definition>
+	
+	<definition name=".reporteGralProductorPeriodoDestino" extends=".base">
+		<put name="title" value="SIIMs" />
+		<put name="body" value="/jsp/reporteGralPorProductorPeriodoDestino.jsp" />
+	</definition>
 	<!-- FIN REPORTES -->
 	
 	<!-- STOCK ANIMAL DE PRODUCTOR EN ESTABLECIMIENTO -->

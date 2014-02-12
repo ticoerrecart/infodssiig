@@ -201,6 +201,8 @@ public class Constantes {
 	public static final String REPORTE_GUIAS_REGISTRADAS = "reporteGuiasRegistradas";
 	
 	public static final String REPORTE_GUIAS_CANCELADAS = "reporteGuiasCanceladas";
+	
+	public static final String REPORTE_PRODUCTOR_PERIODO_DESTINO = "reporteProductorPeriodoDestino";
 	//FIN REPORTES
 	
 	//STOCK ANIMAL DE PRODUCTOR EN ESTABLECIMIENTO
