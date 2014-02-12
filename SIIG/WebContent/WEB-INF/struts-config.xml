@@ -314,7 +314,8 @@
 			<forward name="exitoCargarReporteVencimientoMarcasSeniales" 
 					 path=".reporteGralPorProductorYPeriodo" />
 			<forward name="exitoCargarReporteGuias" 
-					 path=".reporteGralPorProductorYPeriodo" />					 								 					 									 				
+					 path=".reporteGralPorProductorYPeriodo" />
+			<forward name="exitoCargarReporteProductorPeriodoDestino" path=".reporteGralProductorPeriodoDestino" />				 								 					 									 				
 		</action>				
 		<!-- FIN REPORTES-->
 
