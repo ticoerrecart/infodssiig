@@ -227,11 +227,11 @@ public class AnimalEnEstablecimientoAction extends ValidadorAction {
 					 "Establecimiento",error);			
 
 			ok3 = Validator.requerido(animalEnEstablecimientoForm.getAnimalEnEstablecimiento().getTipoAnimal().getId(), 
-									  "Tipo Productor",error);
+									  "Tipo Producto",error);
 			if(ok3){
 				ok3 = Validator.validarComboRequeridoSinNull("-1",Long.toString(
 						 animalEnEstablecimientoForm.getAnimalEnEstablecimiento().getTipoAnimal().getId()),
-						 "Tipo Productor",error);			
+						 "Tipo Producto",error);			
 			}
 			
 			ok4 = Validator.validarLongMayorQue(0, Integer.toString(

@@ -12,7 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.springframework.util.StringUtils;
 import org.springframework.web.context.WebApplicationContext;
+
 
 
 import ar.com.siig.negocio.BoletaDeposito;
@@ -328,7 +330,7 @@ public class GuiaAction extends ValidadorAction {
 			String periodo = request.getParameter("periodo");			
 			String urlSeleccionGuia = request.getParameter("urlSeleccionGuia");
 			
-			List<Guia> listaGuiasDevueltas = guiaFachada.recuperarGuiasDevueltasImpagas(Long.valueOf(idProductor),periodo);
+			List<Guia> listaGuiasDevueltas = guiaFachada.recuperarGuiasDevueltas(Long.valueOf(idProductor),periodo);	
 			request.setAttribute("guias", listaGuiasDevueltas);
 			request.setAttribute("urlSeleccionGuia", urlSeleccionGuia);
 			
