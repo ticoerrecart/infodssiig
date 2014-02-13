@@ -42,18 +42,15 @@ public class DenunciaDAO extends HibernateDaoSupport {
 	public void alta_modficacion_Denuncia(Denuncia denuncia, Long productorId)
 			throws NegocioException {
 
-		try {
-			denuncia.setProductor((Entidad) this.getHibernateTemplate().get(Entidad.class, productorId));
-			if (existeDenuncia(denuncia.getNumeroDeDenuncia(), denuncia.getId())) {
-				throw new NegocioException(Constantes.EXISTE_DENUNCIA);
-			}
-			this.getHibernateTemplate().saveOrUpdate(denuncia);
-			this.getHibernateTemplate().flush();
-			this.getHibernateTemplate().clear();
-
-		} catch (Exception e) {
-			throw new NegocioException(Constantes.ERROR_ALTA_DENUNCIA);
+		denuncia.setProductor((Entidad) this.getHibernateTemplate().get(
+				Entidad.class, productorId));
+		if (existeDenuncia(denuncia.getNumeroDeDenuncia(), denuncia.getId())) {
+			throw new NegocioException(Constantes.EXISTE_DENUNCIA);
 		}
+		this.getHibernateTemplate().saveOrUpdate(denuncia);
+		this.getHibernateTemplate().flush();
+		this.getHibernateTemplate().clear();
+
 	}
 
 	public List<TipoDeDenuncia> getTiposDeDenuncia() {
@@ -63,9 +60,11 @@ public class DenunciaDAO extends HibernateDaoSupport {
 	public List<TipoDeDenuncia> getTiposDeDenuncia(DenunciaDTO denunciaDTO) {
 		List<TipoDeDenuncia> tiposDeDenuncias = new ArrayList<TipoDeDenuncia>();
 		for (String tipoDeDenuncia : denunciaDTO.getTiposDeDenuncia()) {
-			if (tipoDeDenuncia != null ){//)&& tipoDeDenuncia. != null) {
-				tiposDeDenuncias.add((TipoDeDenuncia) getHibernateTemplate()
-						.get(TipoDeDenuncia.class, Long.valueOf(tipoDeDenuncia)));
+			if (tipoDeDenuncia != null) {// )&& tipoDeDenuncia. != null) {
+				tiposDeDenuncias
+						.add((TipoDeDenuncia) getHibernateTemplate().get(
+								TipoDeDenuncia.class,
+								Long.valueOf(tipoDeDenuncia)));
 			}
 		}
 		return tiposDeDenuncias;
