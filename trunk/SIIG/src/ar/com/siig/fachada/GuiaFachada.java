@@ -102,10 +102,24 @@ public class GuiaFachada {
 		//return guiaDAO.recuperarLegalizacionGuias(idProductor,periodo);
 		return guiaDAO.recuperarGuias(idProductor,periodo,TipoEstadoGuia.LEGALIZADA,false);		
 	}
+
+	
+	/*OJO IMPAGAS O PAGAS SE REFIERE A QUE SE LE GENERO LA BOLETA NO QUE LA HAYA CANCELADO*/
 	public List<Guia> recuperarGuiasDevueltasImpagas(Long idProductor, String periodo){
-		
 		return guiaDAO.recuperarGuias(idProductor,periodo,TipoEstadoGuia.DEVUELTA,false);
-	}		
+	}
+	
+	public List<Guia> recuperarGuiasDevueltas(Long idProductor, String periodo){
+		List<Guia> list = new ArrayList<Guia>();
+		list.addAll(guiaDAO.recuperarGuias(idProductor,periodo,TipoEstadoGuia.DEVUELTA,false));
+		list.addAll(guiaDAO.recuperarGuias(idProductor,periodo,TipoEstadoGuia.DEVUELTA,true));
+		return list;
+	}	
+
+	public List<Guia> recuperarGuiasCanceladas(Long idProductor, String periodo){
+		return guiaDAO.recuperarGuiasCanceladas(idProductor,periodo);
+	}
+	
 	
 	public Guia recuperarGuia(Long idGuia){
 		
