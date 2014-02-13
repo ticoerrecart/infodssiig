@@ -35,10 +35,10 @@ public class Denuncia {
 	@JoinColumn(name = "productor_fk")
 	private Entidad productor;
 
-	@Column(nullable = false)
+	@Column
 	private Integer numeroDeDenuncia;
 
-	@Column(nullable = false)
+	@Column
 	private Integer numeroDeLlamado;
 
 	@Column(nullable = false)
