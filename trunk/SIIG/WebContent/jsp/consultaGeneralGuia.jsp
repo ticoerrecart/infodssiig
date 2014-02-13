@@ -109,8 +109,8 @@ function cargarProductorPeriodo(idProd,periodo){
 	</tr>
 </table>
 <script type="text/javascript">
-	if(${idProductor}!="" && $("#idPeriodo").val()!=""){
+	if('${idProductor}' !="" && $("#idPeriodo").val()!=""){
 
-		cargarProductorPeriodo(${idProductor},$("#idPeriodo").val());
+		cargarProductorPeriodo('${idProductor}',$("#idPeriodo").val());
 	}
 </script>
