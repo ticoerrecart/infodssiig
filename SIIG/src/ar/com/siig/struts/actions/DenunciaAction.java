@@ -92,14 +92,18 @@ public class DenunciaAction extends ValidadorAction {
 
 			DenunciaFachada denunciaFachada = (DenunciaFachada) ctx
 					.getBean("denunciaFachada");
-
-			boolean ok = Validator.validarEnteroMayorQue(0, String
-					.valueOf(denunciaForm.getDenunciaDTO()
-							.getNumeroDeDenuncia()), "Numero de Denuncia",
-					error);
-			boolean ok2 = Validator.validarEnteroMayorQue(0,
-					String.valueOf(denunciaForm.getDenunciaDTO()
-							.getNumeroDeLlamado()), "Numero de Llamado", error);
+			boolean ok = true;
+			if ((denunciaForm.getDenunciaDTO().getNumeroDeDenuncia() == null || 
+					denunciaForm.getDenunciaDTO().getNumeroDeDenuncia() == 0) &&
+					(denunciaForm.getDenunciaDTO().getNumeroDeLlamado() == null || 
+					denunciaForm.getDenunciaDTO().getNumeroDeLlamado() == 0)){
+						Validator.addErrorXML(error, "Debe ingresar Numero de Denuncia y/o Numero de Llamado");
+						ok = false;
+			} 
+			
+			
+			
+			
 			boolean ok3 = Validator.requerido(denunciaForm.getDenunciaDTO()
 					.getDesde(), "Desde", error);
 			boolean ok4 = Validator.requerido(denunciaForm.getDenunciaDTO()
@@ -116,7 +120,7 @@ public class DenunciaAction extends ValidadorAction {
 					.valueOf(denunciaForm.getDenunciaDTO().getProductorId()),
 					"Productor", error);
 
-			return ok && ok2 && ok3 && ok4 && ok5 && ok6 && ok7 && ok8;
+			return ok && ok3 && ok4 && ok5 && ok6 && ok7 && ok8;
 		} catch (Throwable t) {
 			MyLogger.logError(t);
 			Validator.addErrorXML(error, "Error Inesperado");
