@@ -13,6 +13,7 @@ import org.apache.struts.action.ActionMapping;
 import org.springframework.web.context.WebApplicationContext;
 
 import ar.com.siig.dto.EntidadDTO;
+import ar.com.siig.enums.TipoCanonMarcaSenial;
 import ar.com.siig.enums.TipoMarcaSenial;
 import ar.com.siig.fachada.EntidadFachada;
 import ar.com.siig.fachada.MarcaSenialFachada;
@@ -27,8 +28,8 @@ import ar.com.siig.utils.MyLogger;
 public class MarcaSenialAction extends ValidadorAction {
 
 	@SuppressWarnings("unchecked")
-	public ActionForward cargarCanonMarcaSenial(
-			ActionMapping mapping, ActionForm form, HttpServletRequest request,
+	public ActionForward cargarCanonMarcaSenial(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 
 		String strForward = "exitoRecuperarMarcasSeniales";
@@ -36,9 +37,10 @@ public class MarcaSenialAction extends ValidadorAction {
 		try {
 			WebApplicationContext ctx = getWebApplicationContext();
 			MarcaSenialFachada marcaSenialFachada = (MarcaSenialFachada) ctx
-												.getBean("marcaSenialFachada");
+					.getBean("marcaSenialFachada");
 
-			List<CanonMarcaSenial> lista = marcaSenialFachada.recuperarCanonMarcaSenial();
+			List<CanonMarcaSenial> lista = marcaSenialFachada
+					.recuperarCanonMarcaSenial();
 
 			request.setAttribute("listaCanonMarcaSenial", lista);
 
@@ -49,10 +51,10 @@ public class MarcaSenialAction extends ValidadorAction {
 		}
 		return mapping.findForward(strForward);
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public ActionForward cargarMarcaSenialAModificar(
-			ActionMapping mapping, ActionForm form, HttpServletRequest request,
+	public ActionForward cargarMarcaSenialAModificar(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 
 		String strForward = "exitoCargarMarcaSenialAModificar";
@@ -60,10 +62,11 @@ public class MarcaSenialAction extends ValidadorAction {
 		try {
 			WebApplicationContext ctx = getWebApplicationContext();
 			MarcaSenialFachada marcaSenialFachada = (MarcaSenialFachada) ctx
-												.getBean("marcaSenialFachada");
+					.getBean("marcaSenialFachada");
 
 			String id = request.getParameter("id");
-			CanonMarcaSenial canonMarcaSenial = marcaSenialFachada.recuperarCanonMarcaSenial(Long.valueOf(id));
+			CanonMarcaSenial canonMarcaSenial = marcaSenialFachada
+					.recuperarCanonMarcaSenial(Long.valueOf(id));
 
 			request.setAttribute("canonMarcaSenial", canonMarcaSenial);
 
@@ -74,10 +77,10 @@ public class MarcaSenialAction extends ValidadorAction {
 		}
 		return mapping.findForward(strForward);
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public ActionForward modificarCanonMarcaSenial(
-			ActionMapping mapping, ActionForm form, HttpServletRequest request,
+	public ActionForward modificarCanonMarcaSenial(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 
 		String strForward = "exitoModificacionCanonMarcaSenial";
@@ -85,29 +88,32 @@ public class MarcaSenialAction extends ValidadorAction {
 		try {
 			WebApplicationContext ctx = getWebApplicationContext();
 			MarcaSenialFachada marcaSenialFachada = (MarcaSenialFachada) ctx
-												.getBean("marcaSenialFachada");
+					.getBean("marcaSenialFachada");
 			CanonMarcaSenialForm canonMarcaSenialForm = (CanonMarcaSenialForm) form;
-			
-			// valido nuevamente por seguridad.  
-			if (!validarCanonMarcaSenialForm(new StringBuffer(), canonMarcaSenialForm)) {
+
+			// valido nuevamente por seguridad.
+			if (!validarCanonMarcaSenialForm(new StringBuffer(),
+					canonMarcaSenialForm)) {
 				throw new Exception("Error de Seguridad");
 			}
-			
-			marcaSenialFachada.modificarCanonMarcaSenial(canonMarcaSenialForm.getCanonMarcaSenial());
 
-			request.setAttribute("exitoGrabado",Constantes.EXITO_MODIFICACION_CANON_MARCA_SENIAL);			
-			
+			marcaSenialFachada.modificarCanonMarcaSenial(canonMarcaSenialForm
+					.getCanonMarcaSenial());
+
+			request.setAttribute("exitoGrabado",
+					Constantes.EXITO_MODIFICACION_CANON_MARCA_SENIAL);
+
 		} catch (Throwable t) {
 			MyLogger.logError(t);
 			request.setAttribute("error", "Error Inesperado");
 			strForward = "error";
 		}
 		return mapping.findForward(strForward);
-	}	
-	
+	}
+
 	@SuppressWarnings("unchecked")
-	public ActionForward cargarAltaRenovacionMarcaSenial(
-			ActionMapping mapping, ActionForm form, HttpServletRequest request,
+	public ActionForward cargarAltaRenovacionMarcaSenial(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 
 		String strForward = "exitoCargarAltaRenovacionMarcaSenial";
@@ -115,27 +121,40 @@ public class MarcaSenialAction extends ValidadorAction {
 		try {
 			WebApplicationContext ctx = getWebApplicationContext();
 			EntidadFachada entidadFachada = (EntidadFachada) ctx
-												.getBean("entidadFachada");
+					.getBean("entidadFachada");
 			MarcaSenialFachada marcaSenialFachada = (MarcaSenialFachada) ctx
-												.getBean("marcaSenialFachada");		
-			
-			List<EntidadDTO> listaProductores = entidadFachada.getProductoresDTO();
+					.getBean("marcaSenialFachada");
+			// String path =
+			// request.getServletContext().getRealPath("imagenes");
 
-			request.setAttribute("productores",listaProductores);
-			request.setAttribute("tipoMarcaSenial",marcaSenialFachada.recuperarTipoMarcaSenial());
-			request.setAttribute("canonMarcaSenial",marcaSenialFachada.recuperarCanonMarcaSenial(TipoMarcaSenial.Marca.getName()));			
-					
+			List<EntidadDTO> listaProductores = entidadFachada
+					.getProductoresDTO();
+
+			request.setAttribute("productores", listaProductores);
+
+			request.setAttribute("tipoMarcaSenial",
+					marcaSenialFachada.recuperarTipoCanonMarcaSenial());
+			request.setAttribute("canonMarcaSenial", marcaSenialFachada
+					.recuperarCanonMarcaSenial(TipoCanonMarcaSenial.AltaMarca
+							.getName()));
+			/*
+			 * MarcaSenialDTO marcaSenialDTO =
+			 * marcaSenialFachada.getMarcaDTOPath( ((EntidadDTO)
+			 * listaProductores.get(0)).getId(), path);
+			 * request.setAttribute("imagen", marcaSenialDTO.getNombreImagen());
+			 */
+
 		} catch (Throwable t) {
 			MyLogger.logError(t);
 			request.setAttribute("error", "Error Inesperado");
 			strForward = "error";
 		}
 		return mapping.findForward(strForward);
-	}	
-	
+	}
+
 	@SuppressWarnings("unchecked")
-	public ActionForward altaRenovacionMarcaSenial(
-			ActionMapping mapping, ActionForm form, HttpServletRequest request,
+	public ActionForward altaRenovacionMarcaSenial(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 
 		String strForward = "exitoAltaRenovacionMarcaSenial";
@@ -144,30 +163,48 @@ public class MarcaSenialAction extends ValidadorAction {
 			MarcaSenialForm marcaSenialForm = (MarcaSenialForm) form;
 			WebApplicationContext ctx = getWebApplicationContext();
 			MarcaSenialFachada marcaSenialFachada = (MarcaSenialFachada) ctx
-													.getBean("marcaSenialFachada");
-			
-			SerialBlob blob = new SerialBlob(marcaSenialForm.getImagen().getFileData());
-			marcaSenialForm.getMarcaSenial().setImagen(blob);
-			
-			marcaSenialFachada.altaRenovacionMarcaSenial(marcaSenialForm.getMarcaSenial());
-			
-			if(marcaSenialForm.getMarcaSenial().getTipo().equals(TipoMarcaSenial.Marca.getName())){
-				request.setAttribute("exitoGrabado", Constantes.EXITO_ALTA_MARCA);	
-			}else{
-				request.setAttribute("exitoGrabado", Constantes.EXITO_ALTA_SENIAL);	
-			}							
-			
+					.getBean("marcaSenialFachada");
+
+			SerialBlob blob = new SerialBlob(marcaSenialForm.getImagen()
+					.getFileData());
+
+			marcaSenialFachada.altaRenovacionMarcaSenial(
+					marcaSenialForm.getMarcaSenial(),
+					marcaSenialForm.isUtilizarImagenAnterior(), blob);
+
+			if (TipoCanonMarcaSenial.AltaMarca.getName().equals(
+					marcaSenialForm.getMarcaSenial().getTipo())) {
+				request.setAttribute("exitoGrabado",
+						Constantes.EXITO_ALTA_MARCA);
+			}
+			if (TipoCanonMarcaSenial.RenovacionMarca.getName().equals(
+					marcaSenialForm.getMarcaSenial().getTipo())) {
+				request.setAttribute("exitoGrabado",
+						Constantes.EXITO_RENOVACION_MARCA);
+			}
+
+			if (TipoCanonMarcaSenial.AltaSenial.getName().equals(
+					marcaSenialForm.getMarcaSenial().getTipo())) {
+				request.setAttribute("exitoGrabado",
+						Constantes.EXITO_ALTA_SENIAL);
+			}
+
+			if (TipoCanonMarcaSenial.RenovacionSenial.getName().equals(
+					marcaSenialForm.getMarcaSenial().getTipo())) {
+				request.setAttribute("exitoGrabado",
+						Constantes.EXITO_RENOVACION_SENIAL);
+			}
 		} catch (Throwable t) {
 			MyLogger.logError(t);
 			request.setAttribute("error", "Error Inesperado");
 			strForward = "error";
 		}
 		return mapping.findForward(strForward);
-	}	
-	
+	}
+
 	@SuppressWarnings("unchecked")
-	public ActionForward cargarPagoBoletasMarcaSenial(
-			ActionMapping mapping, ActionForm form, HttpServletRequest request,
+	public ActionForward cargarPagoBoletasMarcaSenial(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 
 		String strForward = "exitoCargarPagoBoletasMarcaSenial";
@@ -175,23 +212,25 @@ public class MarcaSenialAction extends ValidadorAction {
 		try {
 			WebApplicationContext ctx = getWebApplicationContext();
 			EntidadFachada entidadFachada = (EntidadFachada) ctx
-												.getBean("entidadFachada");
+					.getBean("entidadFachada");
 			MarcaSenialFachada marcaSenialFachada = (MarcaSenialFachada) ctx
-												.getBean("marcaSenialFachada");		
-			
-			List<EntidadDTO> listaProductores = entidadFachada.getProductoresDTO();
+					.getBean("marcaSenialFachada");
 
-			request.setAttribute("productores",listaProductores);
-			request.setAttribute("tipoMarcaSenial",marcaSenialFachada.recuperarTipoMarcaSenial());			
-			
+			List<EntidadDTO> listaProductores = entidadFachada
+					.getProductoresDTO();
+
+			request.setAttribute("productores", listaProductores);
+			request.setAttribute("tipoMarcaSenial",
+					marcaSenialFachada.recuperarTipoMarcaSenial());
+
 		} catch (Throwable t) {
 			MyLogger.logError(t);
 			request.setAttribute("error", "Error Inesperado");
 			strForward = "error";
 		}
 		return mapping.findForward(strForward);
-	}	
-	
+	}
+
 	@SuppressWarnings("unchecked")
 	public ActionForward cargarMarcasSenialesParaPagoBoletas(
 			ActionMapping mapping, ActionForm form, HttpServletRequest request,
@@ -202,34 +241,40 @@ public class MarcaSenialAction extends ValidadorAction {
 		try {
 			WebApplicationContext ctx = getWebApplicationContext();
 			EntidadFachada entidadFachada = (EntidadFachada) ctx
-												.getBean("entidadFachada");
-			
+					.getBean("entidadFachada");
+
 			String idProd = request.getParameter("idProductor");
 			String idTipo = request.getParameter("idTipo");
-			//EntidadDTO productor = entidadFachada.getEntidadDTO(Long.valueOf(idProd));
-			Productor productor = entidadFachada.getProductor(Long.valueOf(idProd));
-			
-			if(idTipo.equalsIgnoreCase(TipoMarcaSenial.Marca.getName())){
+			// EntidadDTO productor =
+			// entidadFachada.getEntidadDTO(Long.valueOf(idProd));
+			Productor productor = entidadFachada.getProductor(Long
+					.valueOf(idProd));
+
+			if (idTipo.equalsIgnoreCase(TipoMarcaSenial.Marca.getName())) {
 				Collections.sort(productor.getMarcas());
 				request.setAttribute("listaMarcaSenial", productor.getMarcas());
-			}else{
+			} else {
 				Collections.sort(productor.getSeniales());
-				request.setAttribute("listaMarcaSenial", productor.getSeniales());
+				request.setAttribute("listaMarcaSenial",
+						productor.getSeniales());
 			}
-			
+
 		} catch (Throwable t) {
 			MyLogger.logError(t);
 			request.setAttribute("error", "Error Inesperado");
 			strForward = "error";
 		}
 		return mapping.findForward(strForward);
-	}	
-	
-	public boolean validarCanonMarcaSenialForm(StringBuffer error, ActionForm form){
+	}
+
+	public boolean validarCanonMarcaSenialForm(StringBuffer error,
+			ActionForm form) {
 		try {
 			CanonMarcaSenialForm canonMarcaSenialForm = (CanonMarcaSenialForm) form;
-			String valor = String.valueOf(canonMarcaSenialForm.getCanonMarcaSenial().getMonto());
-			boolean ok = Validator.validarDoubleMayorQue(0,valor,"Monto",error);
+			String valor = String.valueOf(canonMarcaSenialForm
+					.getCanonMarcaSenial().getMonto());
+			boolean ok = Validator.validarDoubleMayorQue(0, valor, "Monto",
+					error);
 
 			return ok;
 
@@ -239,27 +284,39 @@ public class MarcaSenialAction extends ValidadorAction {
 			return false;
 		}
 	}
-	
-	public boolean validarMarcaSenialForm(StringBuffer error, ActionForm form){
+
+	public boolean validarMarcaSenialForm(StringBuffer error, ActionForm form) {
 
 		boolean ok1;
 		boolean ok2;
-		boolean ok3;
+		boolean ok3 = true;
 		boolean ok4;
 		boolean ok5;
-		boolean ok6;		
+		boolean ok6;
 		MarcaSenialForm marcaSenialForm = (MarcaSenialForm) form;
-		
-		ok1 = Validator.requerido(marcaSenialForm.getMarcaSenial().getNumero(), "Número", error);
-		ok2 = Validator.requerido(marcaSenialForm.getMarcaSenial().getFechaVencimiento(),"Fecha de Vencimiento", error);
-		ok3 = Validator.requerido(marcaSenialForm.getMarcaSenial().getNombreImagen(),"Imagen", error);
-		ok4 = Validator.validarEnteroMayorQue(0, String.valueOf(marcaSenialForm.getMarcaSenial().getBoletaDeposito().getNumero()),
-												"Número de Boleta de Deposito", error);
-		ok5 = Validator.validarDoubleMayorQue(0, String.valueOf(marcaSenialForm.getMarcaSenial().getBoletaDeposito().getMonto()),
-												"Monto de Boleta de Deposito", error);
-		ok6 = Validator.requerido(marcaSenialForm.getMarcaSenial().getBoletaDeposito().getFechaVencimiento(),
-												"Fecha de Vencimiento de Boleta de Deposito", error);
-		
+
+		ok1 = Validator.requerido(marcaSenialForm.getMarcaSenial().getNumero(),
+				"Número", error);
+		ok2 = Validator.requerido(marcaSenialForm.getMarcaSenial()
+				.getFechaVencimiento(), "Fecha de Vencimiento", error);
+		if (!marcaSenialForm.isUtilizarImagenAnterior()) {
+			ok3 = Validator.requerido(marcaSenialForm.getMarcaSenial()
+					.getNombreImagen(), "Imagen", error);
+		}
+		ok4 = Validator.validarEnteroMayorQue(
+				0,
+				String.valueOf(marcaSenialForm.getMarcaSenial()
+						.getBoletaDeposito().getNumero()),
+				"Número de Boleta de Deposito", error);
+		ok5 = Validator.validarDoubleMayorQue(
+				0,
+				String.valueOf(marcaSenialForm.getMarcaSenial()
+						.getBoletaDeposito().getMonto()),
+				"Monto de Boleta de Deposito", error);
+		ok6 = Validator.requerido(marcaSenialForm.getMarcaSenial()
+				.getBoletaDeposito().getFechaVencimiento(),
+				"Fecha de Vencimiento de Boleta de Deposito", error);
+
 		return ok1 && ok2 && ok3 && ok4 && ok5 && ok6;
 	}
 }

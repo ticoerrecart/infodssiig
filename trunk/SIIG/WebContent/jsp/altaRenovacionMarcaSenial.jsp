@@ -29,7 +29,8 @@
 	}
 
 	function cargoImagen(){
-
+		//alert($('#idImagen').val())
+		$("#idImg").attr("src","");
 		$('#idNomImg').val($('#idImagen').val());
 	}
 
@@ -45,6 +46,57 @@
 		$('#idCanon').val(canon.monto);
 	}
 	
+	function obtenerMarcaSenial(){
+		var idProductor = $("#idProductor").val();
+		//alert(idProductor + "/" + $("#idTipo").val());
+		if(idProductor!="-1"){
+			if ($("#idTipo").val()=="AltaMarca" || $("#idTipo").val()=="RenovacionMarca"){
+				MarcaSenialFachada.getMarcaDTO(idProductor,marcaSenialCallback );
+			}else{
+				if ($("#idTipo").val()=="AltaSenial" || $("#idTipo").val()=="RenovacionSenial"){
+					MarcaSenialFachada.getSenialDTO(idProductor,marcaSenialCallback );		
+				}else{
+					alert("Error, no se puede obtener Marca/Señal");
+				}
+			}
+		}else{
+			$("#idImg").attr("src","");
+			$("#idImg").hide();
+		}
+	}
+
+	function marcaSenialCallback(marcaSenial){
+		//alert("cbk " + marcaSenial)
+		if(marcaSenial != null){
+			$("#idImg").attr("src","../../imagenes/"+marcaSenial.nombreImagen);
+			$("#idImg").show();
+			$("#divImagenAnterior").show();
+			$("#trImagen").show();
+			
+			if ($("#idTipo").val()=="RenovacionMarca" || $("#idTipo").val()=="RenovacionSenial"){
+				$("#numeroMarcaSenial").val(marcaSenial.numero);
+				$("#numeroMarcaSenial").attr("readonly","readonly");
+			}else{
+				$("#numeroMarcaSenial").val("");
+				$("#numeroMarcaSenial").removeAttr("readonly");
+			}
+
+		}else{
+			$("#idImg").hide();
+			$("#divImagenAnterior").hide();
+			$("#trImagen").hide();
+		}
+		
+	}
+	
+	function utilizarImagenAnteriorFunc(){
+		var valor = $("#checkUtilizarImagenAnterior").is(':checked');
+		if(valor){
+			$("#divImagen").hide();
+		}else{
+			$("#divImagen").show();
+		}
+	}
 </script>
 
 <%-- errores de validaciones AJAX --%>
@@ -65,9 +117,12 @@
 			<td height="20" colspan="2"></td>
 		</tr>				
 		<tr>
-			<td class="botoneralNegritaRight"><bean:message key='SIIG.label.Productor'/></td>
+			<td class="botoneralNegritaRight" width="40%"><bean:message key='SIIG.label.Productor'/></td>
 			<td align="left">
-				<html:select property="marcaSenial.productor.id" styleClass="botonerab">
+				<html:select styleId="idProductor" property="marcaSenial.productor.id" styleClass="botonerab" onchange="obtenerMarcaSenial();">
+					<html:option value="-1">
+							-- Seleccione un Productor --
+					</html:option>
 					<c:forEach items="${productores}" var="productor">
 						<html:option value="${productor.id}">
 							<c:out value="${productor.nombre}"/>
@@ -79,7 +134,7 @@
 		<tr>
 			<td class="botoneralNegritaRight">Marca/Señal</td>
 			<td align="left">
-				<html:select styleId="idTipo" property="marcaSenial.tipo" styleClass="botonerab" onchange="cambiarCanon();">
+				<html:select styleId="idTipo" property="marcaSenial.tipo" styleClass="botonerab" onchange="cambiarCanon();obtenerMarcaSenial();">
 					<c:forEach items="${tipoMarcaSenial}" var="tipo">
 						<html:option value="${tipo.name}">
 							<c:out value="${tipo.descripcion}"/>
@@ -91,23 +146,36 @@
 		<tr>
 			<td class="botoneralNegritaRight"><bean:message key='SIIG.label.Numero'/></td>
 			<td align="left">
-				<html:text property="marcaSenial.numero" styleClass="botonerab"/>
+				<html:text styleId="numeroMarcaSenial" property="marcaSenial.numero" styleClass="botonerab"/>
 			</td>
 		</tr>					
 		<tr>
 			<td class="botoneralNegritaRight"><bean:message key='SIIG.label.FechaVencimiento'/></td>
 			<td align="left">
-				<input id="datepicker1" type="text" name="marcaSenial.fechaVencimiento" readonly="readonly" class="botonerab">
+				<input id="datepicker1" type="text" name="marcaSenial.fechaVencimiento" class="botonerab">
 				<img alt="" src="<html:rewrite page='/imagenes/calendar/calendar2.gif'/>" align="top" width='17' height='21'>								
 			</td>
 		</tr>
 		<tr>
-			<td class="botoneralNegritaRight"><bean:message key='SIIG.label.Imagen'/></td>
-			<td align="left">
-				<input id="idImagen" type="file" name="imagen" onchange="javascript:cargoImagen();">
-				<input id="idNomImg" name="marcaSenial.nombreImagen" type="hidden">
+			<td class="botoneralNegritaRight" height="10px"><bean:message key='SIIG.label.Imagen'/> Nueva</td>
+			<td align="left" height="10px">
+				<div id="divImagen">
+					<input id="idImagen" type="file" name="imagen" onchange="javascript:cargoImagen();">
+					<input id="idNomImg" name="marcaSenial.nombreImagen" type="hidden">
+				</div>
+				<br>
+				
+				<div id="divImagenAnterior" style="display: none">
+					<input type="checkbox" name="utilizarImagenAnterior" id="checkUtilizarImagenAnterior" onclick="javascript:utilizarImagenAnteriorFunc(this.value);"> <span class="botoneralNegritaRight">Utilizar imagen anterior</span>
+				</div>
 			</td>
-		</tr>			
+		</tr>
+		<tr id="trImagen" style="display: none">
+			<td class="botoneralNegritaRight"><bean:message key='SIIG.label.Imagen'/> Anterior</td>
+			<td align="left">
+				<img id="idImg" alt="" src="" height="20%" width="20%" style="display:none">
+			</td>
+		</tr>		
 		<tr>
 			<td height="20" colspan="2"></td>
 		</tr>
@@ -141,7 +209,7 @@
 							Fecha Vencimiento
 						</td>
 						<td colspan="2" align="left">
-							<input id="datepicker2" type="text" name="marcaSenial.boletaDeposito.fechaVencimiento" readonly="readonly" class="botonerab">
+							<input id="datepicker2" type="text" name="marcaSenial.boletaDeposito.fechaVencimiento" class="botonerab">
 							<img alt="" src="<html:rewrite page='/imagenes/calendar/calendar2.gif'/>" align="top" width='17' height='21'>						
 						</td>																		
 					</tr>					
@@ -166,4 +234,7 @@
 		</tr>									
 	</table>
 
+	<script>
+		obtenerMarcaSenial();
+	</script>
 </html:form>

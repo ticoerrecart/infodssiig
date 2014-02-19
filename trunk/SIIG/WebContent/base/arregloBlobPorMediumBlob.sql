@@ -1,0 +1,5 @@
+ALTER TABLE `x071vm20_siig`.`senial` 
+CHANGE COLUMN `imagen` `imagen` MEDIUMBLOB NULL DEFAULT NULL ;
+
+ALTER TABLE `x071vm20_siig`.`marca` 
+CHANGE COLUMN `imagen` `imagen` MEDIUMBLOB NULL DEFAULT NULL ;

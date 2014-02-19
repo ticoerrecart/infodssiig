@@ -129,6 +129,10 @@ public class Constantes {
 	public static final String EXITO_ALTA_MARCA = "La Marca se ha dado de alta con exito";
 
 	public static final String EXITO_ALTA_SENIAL = "La Señal se ha dado de alta con exito";
+
+	public static final String EXITO_RENOVACION_MARCA = "La Marca se ha renovado con exito";
+
+	public static final String EXITO_RENOVACION_SENIAL = "La Señal se ha renovado con exito";
 	// FIN MARCA SEÑAL
 
 	// AUTORIZACION
@@ -158,11 +162,11 @@ public class Constantes {
 	public static final String NRO_GUIA_EXISTENTE = "El número de Guía ya existe, especifique otro";
 
 	public static final String EXITO_ALTA_GUIA = "La Guía se ha dado de alta con exito";
-	
+
 	public static final String EXITO_DEVOLUCION_GUIA = "La Guía se ha devuelto con exito";
-	
+
 	public static final String EXITO_GENERACION_BOLETA_PAGO = "La Boleta de Pago se a generado con exito";
-	
+
 	public static final String EXITO_REGISTRACION_PAGO_BOLETA = "Se a registrado el pago de la boleta con exito";
 	// FIN GUIA
 
@@ -173,7 +177,7 @@ public class Constantes {
 
 	public static final String EXITO_MODIFICACION_AUTORIZADO = "El Autorizado se ha dado modificado con exito";
 	// FIN AUTORIZADO
-	
+
 	// TIPOANIMAL
 	public static final String EXISTE_TIPO_ANIMAL = "Ya existe un Tipo de Animal con éste Nombre";
 
@@ -184,34 +188,31 @@ public class Constantes {
 
 	// DENUNCIA
 	public static final String EXISTE_DENUNCIA = "Ya existe una Denuncia con este número";
-	
+
 	public static final String ERROR_ALTA_DENUNCIA = "Ha ocurrido un error en el alta de la denuncia";
 
 	public static final Object EXITO_ALTA_DENUNCIA = "La Denuncia se ha dado de alta con exito";
-	
-	// FIN DENUNCIA	
-	
-	//REPORTES
+
+	// FIN DENUNCIA
+
+	// REPORTES
 	public static final String REPORTE_VENCIMIENTO_MARCAS_SENIALES = "reporteVencimientoMarcasSeniales";
-	
+
 	public static final String REPORTE_GUIAS_LEGALIZADAS = "reporteGuiasLegalizadas";
-	
-	public static final String REPORTE_GUIAS_DEVUELTAS = "reporteGuiasDevueltas";	
-	
+
+	public static final String REPORTE_GUIAS_DEVUELTAS = "reporteGuiasDevueltas";
+
 	public static final String REPORTE_GUIAS_REGISTRADAS = "reporteGuiasRegistradas";
-	
+
 	public static final String REPORTE_GUIAS_CANCELADAS = "reporteGuiasCanceladas";
-	
+
 	public static final String REPORTE_PRODUCTOR_PERIODO_DESTINO = "reporteProductorPeriodoDestino";
-	//FIN REPORTES
-	
-	//STOCK ANIMAL DE PRODUCTOR EN ESTABLECIMIENTO
+	// FIN REPORTES
+
+	// STOCK ANIMAL DE PRODUCTOR EN ESTABLECIMIENTO
 	public static final String EXITO_ALTA_STOCK = "El Stock se ha dado de alta con exito";
-	
+
 	public static final String EXITO_MODIFICACION_STOCK = "El Stock se ha modificado con exito";
-	//FIN STOCK ANIMAL DE PRODUCTOR EN ESTABLECIMIENTO
+	// FIN STOCK ANIMAL DE PRODUCTOR EN ESTABLECIMIENTO
 
-	
-
-	
 }

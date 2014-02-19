@@ -109,11 +109,15 @@ public class AutorizacionAction extends ValidadorAction {
 
 			AutorizacionFachada autorizacionFachada = (AutorizacionFachada) ctx
 					.getBean("autorizacionFachada");
+			TipoAutorizacionFachada tipoAutorizacionFachada = (TipoAutorizacionFachada) ctx
+					.getBean("tipoAutorizacionFachada");
 			AutorizacionForm autorizacionForm = (AutorizacionForm) form;
 
 			autorizacionFachada.altaAutorizacion(autorizacionForm
 					.getAutorizacion());
 
+			request.setAttribute("tiposAutorizacion",
+					tipoAutorizacionFachada.getTiposAutorizacionDTO());
 			request.setAttribute("exitoGrabado",
 					Constantes.EXITO_ALTA_AUTORIZACION);
 		} catch (Throwable t) {

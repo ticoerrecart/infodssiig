@@ -3,6 +3,7 @@ package ar.com.siig.negocio;
 import java.sql.Blob;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.DiscriminatorValue;
@@ -35,6 +36,7 @@ public abstract class MarcaSenial implements Comparable<MarcaSenial>{
 	
 	private Date fechaVencimiento;
 	
+	@Column(columnDefinition="mediumblob")
 	private Blob imagen;
 
 	private String nombreImagen;
