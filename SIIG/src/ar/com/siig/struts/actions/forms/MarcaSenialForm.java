@@ -8,16 +8,18 @@ import ar.com.siig.dto.MarcaSenialDTO;
 public class MarcaSenialForm extends ActionForm {
 
 	private MarcaSenialDTO marcaSenial;
-	
+
 	private FormFile imagen;
 
 	private String nombreImagen;
-	
-	public MarcaSenialForm(){
-		
+
+	private boolean utilizarImagenAnterior;
+
+	public MarcaSenialForm() {
+
 		marcaSenial = new MarcaSenialDTO();
 	}
-	
+
 	public MarcaSenialDTO getMarcaSenial() {
 		return marcaSenial;
 	}
@@ -41,4 +43,13 @@ public class MarcaSenialForm extends ActionForm {
 	public void setNombreImagen(String nombreImagen) {
 		this.nombreImagen = nombreImagen;
 	}
+
+	public boolean isUtilizarImagenAnterior() {
+		return utilizarImagenAnterior;
+	}
+
+	public void setUtilizarImagenAnterior(boolean utilizarImagenAnterior) {
+		this.utilizarImagenAnterior = utilizarImagenAnterior;
+	}
+
 }

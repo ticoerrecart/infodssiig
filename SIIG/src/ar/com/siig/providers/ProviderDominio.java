@@ -1,5 +1,6 @@
 package ar.com.siig.providers;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,8 +23,8 @@ import ar.com.siig.enums.TipoEstadoGuia;
 import ar.com.siig.negocio.AnimalEnEstablecimiento;
 import ar.com.siig.negocio.Autorizado;
 import ar.com.siig.negocio.BoletaDeposito;
-import ar.com.siig.negocio.Denuncia;
 import ar.com.siig.negocio.Categoria;
+import ar.com.siig.negocio.Denuncia;
 import ar.com.siig.negocio.Entidad;
 import ar.com.siig.negocio.Establecimiento;
 import ar.com.siig.negocio.Guia;
@@ -38,7 +39,6 @@ import ar.com.siig.negocio.RecursosNaturales;
 import ar.com.siig.negocio.Rol;
 import ar.com.siig.negocio.Senial;
 import ar.com.siig.negocio.TipoAnimal;
-import ar.com.siig.negocio.TipoDeDenuncia;
 import ar.com.siig.negocio.Usuario;
 import ar.com.siig.negocio.VencimientoPeriodo;
 import ar.com.siig.utils.Fecha;
@@ -248,7 +248,13 @@ public abstract class ProviderDominio {
 		marca.setBoletaDeposito(ProviderDominio
 				.getBoletaDeposito(marcaSenialDTO.getBoletaDeposito()));
 		marca.setProductor(entidad);
-		marca.setNombreImagen(marcaSenialDTO.getNombreImagen());
+		String nombreImagen = marcaSenialDTO.getNombreImagen();
+		if (marcaSenialDTO.getNombreImagen().contains(File.separator)) {
+			nombreImagen = marcaSenialDTO.getNombreImagen().substring(
+					marcaSenialDTO.getNombreImagen()
+							.lastIndexOf(File.separator));
+		}
+		marca.setNombreImagen(nombreImagen);
 
 		return marca;
 	}
@@ -266,7 +272,13 @@ public abstract class ProviderDominio {
 		senial.setBoletaDeposito(ProviderDominio
 				.getBoletaDeposito(marcaSenialDTO.getBoletaDeposito()));
 		senial.setProductor(entidad);
-		senial.setNombreImagen(marcaSenialDTO.getNombreImagen());
+		String nombreImagen = marcaSenialDTO.getNombreImagen();
+		if (marcaSenialDTO.getNombreImagen().contains(File.separator)) {
+			nombreImagen = marcaSenialDTO.getNombreImagen().substring(
+					marcaSenialDTO.getNombreImagen()
+							.lastIndexOf(File.separator));
+		}
+		senial.setNombreImagen(nombreImagen);
 
 		return senial;
 	}
@@ -288,15 +300,17 @@ public abstract class ProviderDominio {
 		return boleta;
 	}
 
-	public static BoletaDeposito getBoletaDepositoParaGuias(BoletaDepositoDTO boletaDTO, List<Guia> listaGuias, Productor productor){
-		
+	public static BoletaDeposito getBoletaDepositoParaGuias(
+			BoletaDepositoDTO boletaDTO, List<Guia> listaGuias,
+			Productor productor) {
+
 		BoletaDeposito boleta = ProviderDominio.getBoletaDeposito(boletaDTO);
 		boleta.setProductor(productor);
 		boleta.setGuias(listaGuias);
-		
+
 		return boleta;
 	}
-	
+
 	public static Denuncia getDenuncia(DenunciaDTO denunciaDTO) {
 		Denuncia denuncia = new Denuncia();
 		denuncia.setNumeroDeDenuncia(denunciaDTO.getNumeroDeDenuncia());
@@ -325,13 +339,16 @@ public abstract class ProviderDominio {
 		return guia;
 	}
 
-	public static void getGuiaDevuelta(Guia guia, GuiaDTO guiaDTO, Establecimiento establecimientoOrigen,Establecimiento establecimientoDestino,TipoAnimal tipoAnimal){
-		
+	public static void getGuiaDevuelta(Guia guia, GuiaDTO guiaDTO,
+			Establecimiento establecimientoOrigen,
+			Establecimiento establecimientoDestino, TipoAnimal tipoAnimal) {
+
 		guia.setCanon(guiaDTO.getCanon());
 		guia.setCantidad(guiaDTO.getCantidad());
 		guia.setEstablecimientoOrigen(establecimientoOrigen);
 		guia.setEstablecimientoDestino(establecimientoDestino);
-		guia.setFechaTransito(Fecha.stringDDMMAAAAToUtilDate(guiaDTO.getFechaTransito()));
+		guia.setFechaTransito(Fecha.stringDDMMAAAAToUtilDate(guiaDTO
+				.getFechaTransito()));
 		guia.setFinalidad(guiaDTO.getFinalidad());
 		guia.setInteres(guiaDTO.getInteres());
 		guia.setMedioTransporte(guiaDTO.getMedioTransporte());
@@ -342,9 +359,9 @@ public abstract class ProviderDominio {
 		guia.setTipoAnimal(tipoAnimal);
 		guia.setTipoEstadoGuia(TipoEstadoGuia.DEVUELTA);
 		guia.setTrasporteACargo(guiaDTO.getTrasporteACargo());
-		
+
 	}
-	
+
 	public static Autorizado getAutorizado(AutorizadoDTO autorizadoDTO) {
 		Autorizado autorizado = new Autorizado();
 		autorizado.setNombre(autorizadoDTO.getNombre());
@@ -360,27 +377,31 @@ public abstract class ProviderDominio {
 		tipoAnimal.setValor(Double.valueOf(tipoAnimalDTO.getValor()));
 		return tipoAnimal;
 	}
-	
-	public static ProductorEnEstablecimiento getProductorEnEstablecimiento(Productor productor, 
-								Establecimiento establecimiento,TipoAnimal tipoAnimal, int stock){
-		
+
+	public static ProductorEnEstablecimiento getProductorEnEstablecimiento(
+			Productor productor, Establecimiento establecimiento,
+			TipoAnimal tipoAnimal, int stock) {
+
 		ProductorEnEstablecimiento productorEnEstablecimiento = new ProductorEnEstablecimiento();
 		productorEnEstablecimiento.setEstablecimiento(establecimiento);
 		productorEnEstablecimiento.setProductor(productor);
 		productorEnEstablecimiento.getAnimalesEnEstablecimiento().add(
-							getAnimalesEnEstablecimiento(productorEnEstablecimiento,tipoAnimal,stock));
-		
+				getAnimalesEnEstablecimiento(productorEnEstablecimiento,
+						tipoAnimal, stock));
+
 		return productorEnEstablecimiento;
 	}
-	
+
 	public static AnimalEnEstablecimiento getAnimalesEnEstablecimiento(
-			ProductorEnEstablecimiento productorEnEstablecimiento, TipoAnimal tipoAnimal,int stock){
-		
+			ProductorEnEstablecimiento productorEnEstablecimiento,
+			TipoAnimal tipoAnimal, int stock) {
+
 		AnimalEnEstablecimiento animalEnEstablecimiento = new AnimalEnEstablecimiento();
 		animalEnEstablecimiento.setStock(stock);
 		animalEnEstablecimiento.setTipoAnimal(tipoAnimal);
-		animalEnEstablecimiento.setProductorEnEstablecimiento(productorEnEstablecimiento);
-		
+		animalEnEstablecimiento
+				.setProductorEnEstablecimiento(productorEnEstablecimiento);
+
 		return animalEnEstablecimiento;
 	}
 }
