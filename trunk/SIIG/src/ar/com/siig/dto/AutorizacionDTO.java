@@ -16,12 +16,14 @@ public class AutorizacionDTO {
 
 	private EntidadDTO productor;
 
+	private String observacion;
+
 	public AutorizacionDTO() {
-		 autorizado = new AutorizadoDTO();
+		autorizado = new AutorizadoDTO();
 		tiposDeAutorizacion = (List<TipoAutorizacionDTO>) LazyList.decorate(
 				new ArrayList(),
 				FactoryUtils.instantiateFactory(TipoAutorizacionDTO.class));
-		 productor = new EntidadDTO();
+		productor = new EntidadDTO();
 	}
 
 	public Long getId() {
@@ -55,6 +57,14 @@ public class AutorizacionDTO {
 
 	public void setProductor(EntidadDTO productor) {
 		this.productor = productor;
+	}
+
+	public String getObservacion() {
+		return observacion;
+	}
+
+	public void setObservacion(String observacion) {
+		this.observacion = observacion;
 	}
 
 }
