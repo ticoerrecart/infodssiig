@@ -40,6 +40,8 @@ public class Autorizacion {
 	@JoinColumn(name = "productor_fk")
 	private Productor productor;
 
+	private String observacion;
+
 	public void addTipoDeAutorizacion(TipoAutorizacion tipoAutorizacion) {
 		if (tiposDeAutorizacion == null) {
 			tiposDeAutorizacion = new ArrayList<TipoAutorizacion>();
@@ -70,6 +72,14 @@ public class Autorizacion {
 
 	public List<TipoAutorizacion> getTiposDeAutorizacion() {
 		return tiposDeAutorizacion;
+	}
+
+	public String getObservacion() {
+		return observacion;
+	}
+
+	public void setObservacion(String observacion) {
+		this.observacion = observacion;
 	}
 
 }

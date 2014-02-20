@@ -103,6 +103,15 @@
 			</tr>
 		</c:forEach>
 
+		
+		<tr>
+			<td width="45%" class="botoneralNegritaRight">
+				Observaciones
+			</td>
+			<td align="left">
+				<textarea name="autorizacion.observacion" rows="10" cols="40" style="resize: none;">${autorizacion.observacion}</textarea>
+			</td>
+		</tr>
 		<tr>
 			<td height="20" colspan="2"><c:choose>
 				<c:when test="${metodo=='altaAutorizacion'}">

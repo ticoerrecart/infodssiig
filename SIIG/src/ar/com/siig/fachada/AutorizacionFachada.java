@@ -45,6 +45,7 @@ public class AutorizacionFachada {
 		Autorizado autorizado = autorizadoDAO.getAutorizado(autorizacionDTO
 				.getAutorizado().getId());
 		autorizacion.setAutorizado(autorizado);
+		autorizacion.setObservacion(autorizacionDTO.getObservacion());
 		for (TipoAutorizacionDTO dto : autorizacionDTO.getTiposDeAutorizacion()) {
 			if (dto != null) {
 				TipoAutorizacion tipoAutorizacion = tipoAutorizacionDAO
@@ -78,6 +79,7 @@ public class AutorizacionFachada {
 			}
 		}
 
-		autorizacionDAO.modificacionAutorizacion(autorizacionDTO, autorizaciones);
+		autorizacionDAO.modificacionAutorizacion(autorizacionDTO,
+				autorizaciones);
 	}
 }

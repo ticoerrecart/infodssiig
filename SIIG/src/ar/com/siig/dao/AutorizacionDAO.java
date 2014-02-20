@@ -51,18 +51,21 @@ public class AutorizacionDAO extends HibernateDaoSupport {
 				.getId());
 
 		// elimino TODOS los tipos de autorizaciones que existen
-		autorizacion.getTiposDeAutorizacion().removeAll(autorizacion.getTiposDeAutorizacion());
-		/*for (TipoAutorizacion tipoAutorizacion : autorizacion
-				.getTiposDeAutorizacion()) {
-			autorizacion.removeTipoDeAutorizacion(tipoAutorizacion);
-			//this.getHibernateTemplate().delete(tipoAutorizacion);
-		}*/
+		autorizacion.getTiposDeAutorizacion().removeAll(
+				autorizacion.getTiposDeAutorizacion());
+		/*
+		 * for (TipoAutorizacion tipoAutorizacion : autorizacion
+		 * .getTiposDeAutorizacion()) {
+		 * autorizacion.removeTipoDeAutorizacion(tipoAutorizacion);
+		 * //this.getHibernateTemplate().delete(tipoAutorizacion); }
+		 */
 
 		// agrego los nuevos tipos de autorizaciones
 		for (TipoAutorizacion tipoAutorizacion2 : autorizaciones) {
 			autorizacion.addTipoDeAutorizacion(tipoAutorizacion2);
 		}
 
+		autorizacion.setObservacion(autorizacionDTO.getObservacion());
 		// this.getHibernateTemplate().saveOrUpdate(autorizacion);
 	}
 }
