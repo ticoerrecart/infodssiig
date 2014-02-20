@@ -50,6 +50,11 @@ public class Guia {
 	@Column(nullable = false)
 	private Date fechaLegalizacion;
 
+	@ManyToOne()
+	@Cascade(value = CascadeType.SAVE_UPDATE)
+	@JoinColumn(name = "agenteFirmante_fk")
+	private Usuario agenteFirmante;	
+	
 	/*DATOS DE GUIA DEVUELTA*/
 	@ManyToOne()
 	@Cascade(value = CascadeType.SAVE_UPDATE)
@@ -292,5 +297,13 @@ public class Guia {
 
 	public void setBoletaDeposito(BoletaDeposito boletaDeposito) {
 		this.boletaDeposito = boletaDeposito;
+	}
+
+	public Usuario getAgenteFirmante() {
+		return agenteFirmante;
+	}
+
+	public void setAgenteFirmante(Usuario agenteFirmante) {
+		this.agenteFirmante = agenteFirmante;
 	}
 }

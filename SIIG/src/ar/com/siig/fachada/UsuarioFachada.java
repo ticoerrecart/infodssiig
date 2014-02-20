@@ -81,4 +81,8 @@ public class UsuarioFachada{
 				usuarioDTO, entidad, rol));
 	}
 
+	public List<Usuario> getAgentesFirmantes(){
+		
+		return usuarioDAO.getAgentesFirmantes();
+	}
 }

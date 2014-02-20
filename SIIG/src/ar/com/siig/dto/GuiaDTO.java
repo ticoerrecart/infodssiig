@@ -25,6 +25,8 @@ public class GuiaDTO {
 
 	private String periodo;
 	
+	private UsuarioDTO agenteFirmante;
+	
 	/*DATOS DE GUIA DEVUELTA*/
 	private EstablecimientoDTO establecimientoOrigen;
 	
@@ -66,6 +68,7 @@ public class GuiaDTO {
 		establecimientoDestino = new EstablecimientoDTO();
 		tipoAnimal = new TipoAnimalDTO();
 		boletaDeposito = new BoletaDepositoDTO();
+		agenteFirmante = new UsuarioDTO();
 	}
 	
 	public Long getId() {
@@ -263,6 +266,14 @@ public class GuiaDTO {
 
 	public void setBoletaDeposito(BoletaDepositoDTO boletaDeposito) {
 		this.boletaDeposito = boletaDeposito;
+	}
+
+	public UsuarioDTO getAgenteFirmante() {
+		return agenteFirmante;
+	}
+
+	public void setAgenteFirmante(UsuarioDTO agenteFirmante) {
+		this.agenteFirmante = agenteFirmante;
 	}	
 
 }

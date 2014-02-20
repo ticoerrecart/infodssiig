@@ -81,7 +81,9 @@ function cambiarTipoGuia(pTipoGuia){
 }
 
 function marcaSenialCallback(marcaSenial){
-	
+
+	$("#nroIntCantGuias").val("");
+	$("#nroIntNroMarcaSenial").val("");	
 	$("#nroInterno").val("");
 	
 	if(marcaSenial != null){
@@ -116,7 +118,11 @@ function marcaSenialCallback(marcaSenial){
 function recuperarCantGuiasCallback(valor){
 	
 	var nroMarcaSenial = $("#idNumMarcaSenial").val();
-	$("#nroInterno").val((valor+1)+nroMarcaSenial);
+	//$("#nroInterno").val((valor+1)+'-'+nroMarcaSenial);
+	
+	$("#nroIntCantGuias").val(valor+1);
+	$("#nroIntNroMarcaSenial").val(nroMarcaSenial);
+	$("#nroInterno").val((valor+1)+'-'+nroMarcaSenial);
 }
 
 function cambiarProductor(){
@@ -138,6 +144,9 @@ function cambiarProductor(){
 
 	$("#idMarcaSenial").val(0);
 	$("#tipoMarcaSenial").val("");
+
+	$("#nroIntCantGuias").val("");
+	$("#nroIntNroMarcaSenial").val("");	
 	$("#nroInterno").val("");
 }
 
@@ -203,9 +212,21 @@ function cambiarProductor(){
 		<tr>
 			<td width="12%" class="botoneralNegritaRight">Nro Interno</td>
 			<td width="30%" align="left">
-				<input id="nroInterno" name="guia.numeroInterno" class="botonerab" type="text" size="20">
+				<input id="nroIntCantGuias" class="botonerab" type="text" size="3" readonly="readonly" align="right">
+				<input id="nroIntNroMarcaSenial" class="botonerab" type="text" size="10" readonly="readonly">
+				<input id="nroInterno" name="guia.numeroInterno" class="botonerab" type="hidden">
 			</td>
-			<td colspan="2"></td>
+			<td width="30%" class="botoneralNegritaRight">Agente Firmante</td>
+			<td align="left">
+				<select id="agenteFirmante" name="guia.agenteFirmante.id" class="botonerab">
+					<option value="-1">-Seleccione un Agente-</option>
+					<c:forEach items="${agentesFirmantes}" var="agente">
+						<option value="${agente.id}">
+							<c:out value="${agente.nombreUsuario}"></c:out>
+						</option>
+					</c:forEach>
+				</select>				
+			</td>
 		</tr>		
 		<tr>
 			<td height="10" colspan="4"></td>

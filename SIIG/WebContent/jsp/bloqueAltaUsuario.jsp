@@ -106,6 +106,28 @@
 			</c:choose>
 		</tr>
 		<tr>
+			<td class="botoneralNegritaRight">Habilitado para firmar Guías</td>
+			<td align="left">
+				<c:choose>
+					<c:when test="${metodo=='altaUsuario'}"><!-- ALTA -->
+						<input type="checkbox" name="usuarioDTO.habilitadoFirmaGuias" class="botonerab" value="true">
+					</c:when>
+					<c:otherwise><!-- MODIFICACION -->
+						<c:choose>
+							<c:when test="${usu.habilitadoFirmaGuias}">
+									<input type="checkbox" name="usuarioDTO.habilitadoFirmaGuias" class="botonerab" 
+											checked="checked" value="true">
+								</td>
+							</c:when>
+							<c:otherwise>
+									<input type="checkbox" name="usuarioDTO.habilitadoFirmaGuias" class="botonerab" value="true">
+							</c:otherwise>
+						</c:choose>						
+					</c:otherwise>	
+				</c:choose>	
+			</td>		
+		</tr>
+		<tr>
 			<td class="botoneralNegritaRight"><bean:message key='SIIG.label.Entidad'/></td>
 			<td align="left">
 				<c:choose>

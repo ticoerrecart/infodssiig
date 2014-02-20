@@ -80,7 +80,7 @@ function cargarProductorPeriodo(idProd,periodo){
 	</tr>
 				
 	<tr>
-		<td width="40%" class="botoneralNegritaRight">Período Forestal</td>
+		<td width="40%" class="botoneralNegritaRight">Período</td>
 		<td class="botonerab" align="left">
 			<select id="periodo" class="botonerab" onchange="cambiarProductor()">
 				<c:forEach items="${periodos}" var="per">

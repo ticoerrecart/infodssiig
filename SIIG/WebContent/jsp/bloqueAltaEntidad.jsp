@@ -170,7 +170,11 @@
 			<td align="left"><html:text property="confirmacionEmail" size="30"
 				styleClass="botonerab" value="${entidad.email}" /></td>
 		</tr>
-		
+		<tr>
+			<td class="botoneralNegritaRight">Nro Expediente</td>
+			<td align="left"><html:text property="entidadDTO.nroExpediente" size="30"
+				styleClass="botonerab" value="${entidad.nroExpediente}" /></td>
+		</tr>		
 		<tr class="matriculaCuitCP">
 			<td class="botoneralNegritaRight"><bean:message key='SIIG.label.NroMatricula'/></td>
 			<td align="left"><html:text property="entidadDTO.nroMatricula" size="30"

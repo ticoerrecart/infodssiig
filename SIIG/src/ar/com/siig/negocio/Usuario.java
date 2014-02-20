@@ -26,6 +26,9 @@ public class Usuario {
 
 	@Column(nullable = false)
 	private boolean habilitado;
+	
+	@Column(nullable = false)
+	private boolean habilitadoFirmaGuias;
 
 	@ManyToOne()
 	@Cascade(value = CascadeType.SAVE_UPDATE)
@@ -83,6 +86,14 @@ public class Usuario {
 
 	public void setHabilitado(boolean habilitado) {
 		this.habilitado = habilitado;
+	}
+
+	public boolean isHabilitadoFirmaGuias() {
+		return habilitadoFirmaGuias;
+	}
+
+	public void setHabilitadoFirmaGuias(boolean habilitadoFirmaGuias) {
+		this.habilitadoFirmaGuias = habilitadoFirmaGuias;
 	}
 
 }

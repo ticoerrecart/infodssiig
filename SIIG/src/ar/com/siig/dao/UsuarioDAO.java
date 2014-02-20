@@ -7,6 +7,7 @@ import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+import ar.com.siig.dto.UsuarioDTO;
 import ar.com.siig.negocio.Usuario;
 import ar.com.siig.negocio.exception.NegocioException;
 import ar.com.siig.utils.Constantes;
@@ -62,4 +63,12 @@ public class UsuarioDAO extends HibernateDaoSupport {
 		this.getHibernateTemplate().clear();
 	}
 
+	public List<Usuario> getAgentesFirmantes(){
+		
+		Criteria criteria = getSession().createCriteria(Usuario.class);
+		criteria.add(Restrictions.eq("habilitadoFirmaGuias", true));
+		
+		List<Usuario> usuarios = criteria.list();
+		return usuarios;
+	}	
 }
