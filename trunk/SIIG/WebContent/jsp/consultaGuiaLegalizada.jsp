@@ -86,7 +86,10 @@ function volver(){
 			<td width="30%" align="left">
 				<input value="${guia.numeroInterno}" class="botonerab" type="text" size="20" readonly="readonly">
 			</td>
-			<td colspan="2"></td>
+			<td width="30%" class="botoneralNegritaRight">Agente Firmante</td>
+			<td align="left">
+				<input value="${guia.agenteFirmante.nombreUsuario}" class="botonerab" type="text" size="20" readonly="readonly">				
+			</td>
 		</tr>		
 		<tr>
 			<td height="10" colspan="4"></td>
@@ -148,7 +151,8 @@ function volver(){
 								</tr>								
 								<tr>
 									<td colspan="2">
-										<img alt="" src="../../imagenes/<c:out value='${guia.marcaSenial.nombreImagen}'></c:out>">																			
+										<img alt="" src="../../imagenes/<c:out value='${guia.marcaSenial.nombreImagen}'></c:out>"
+											height="20%" width="20%">																			
 									</td>
 								</tr>
 							</table>

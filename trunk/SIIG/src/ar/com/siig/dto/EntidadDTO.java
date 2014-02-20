@@ -24,6 +24,8 @@ public class EntidadDTO {
 	private String email;
 
 	private Long nroMatricula;
+	
+	private String nroExpediente;
 
 	private String cuit;
 
@@ -190,6 +192,14 @@ public class EntidadDTO {
 
 	public void setSeniales(List<MarcaSenialDTO> seniales) {
 		this.seniales = seniales;
+	}
+
+	public String getNroExpediente() {
+		return nroExpediente;
+	}
+
+	public void setNroExpediente(String nroExpediente) {
+		this.nroExpediente = nroExpediente;
 	}
 
 }

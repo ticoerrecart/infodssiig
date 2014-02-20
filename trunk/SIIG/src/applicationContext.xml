@@ -147,6 +147,7 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 		<constructor-arg ref="entidadDAO" />
 		<constructor-arg ref="establecimientoDAO" />
 		<constructor-arg ref="tipoAnimalDAO" />
+		<constructor-arg ref="usuarioDAO" />
 	</bean>
 
 	<bean id="tipoAnimalFachada" class="ar.com.siig.fachada.TipoAnimalFachada">

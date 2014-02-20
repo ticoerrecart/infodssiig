@@ -125,6 +125,7 @@ public abstract class ProviderDominio {
 		entidad.setTelefono(entidadDTO.getTelefono());
 		entidad.setLocalidad(localidad);
 		entidad.setNroMatricula(entidadDTO.getNroMatricula());
+		entidad.setNroExpediente(entidadDTO.getNroExpediente());
 		entidad.setCuit(entidadDTO.getCuit());
 		entidad.setCuil(entidadDTO.getCuil());
 		entidad.setDni(entidadDTO.getDni());
@@ -159,6 +160,7 @@ public abstract class ProviderDominio {
 		Usuario usuario = new Usuario();
 		usuario.setEntidad(entidad);
 		usuario.setHabilitado(usuarioDTO.isHabilitado());
+		usuario.setHabilitadoFirmaGuias(usuarioDTO.isHabilitadoFirmaGuias());
 		usuario.setNombreUsuario(usuarioDTO.getNombreUsuario());
 		usuario.setPassword(usuarioDTO.getPassword());
 		usuario.setRol(rol);
@@ -171,6 +173,7 @@ public abstract class ProviderDominio {
 
 		usuario.setEntidad(entidad);
 		usuario.setHabilitado(usuarioDTO.isHabilitado());
+		usuario.setHabilitadoFirmaGuias(usuarioDTO.isHabilitadoFirmaGuias());
 		usuario.setNombreUsuario(usuarioDTO.getNombreUsuario());
 		usuario.setPassword(usuarioDTO.getPassword());
 		usuario.setRol(rol);
@@ -323,7 +326,7 @@ public abstract class ProviderDominio {
 	}
 
 	public static Guia getGuiaLegalizada(GuiaDTO guiaDTO, Marca marca,
-			Productor productor, Senial senial) {
+			Productor productor, Senial senial, Usuario usuario) {
 
 		Guia guia = new Guia();
 		guia.setFechaLegalizacion(Fecha.stringDDMMAAAAToUtilDate(guiaDTO
@@ -335,7 +338,8 @@ public abstract class ProviderDominio {
 		guia.setProductor(productor);
 		guia.setSenial(senial);
 		guia.setTipoEstadoGuia(TipoEstadoGuia.LEGALIZADA);
-
+		guia.setAgenteFirmante(usuario);
+		
 		return guia;
 	}
 

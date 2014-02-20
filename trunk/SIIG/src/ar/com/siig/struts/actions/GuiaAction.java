@@ -32,6 +32,7 @@ import ar.com.siig.fachada.EntidadFachada;
 import ar.com.siig.fachada.EstablecimientoFachada;
 import ar.com.siig.fachada.GuiaFachada;
 import ar.com.siig.fachada.PeriodoFachada;
+import ar.com.siig.fachada.UsuarioFachada;
 import ar.com.siig.struts.actions.forms.BoletaDepositoForm;
 import ar.com.siig.struts.actions.forms.GuiaForm;
 import ar.com.siig.utils.Constantes;
@@ -52,9 +53,11 @@ public class GuiaAction extends ValidadorAction {
 			WebApplicationContext ctx = getWebApplicationContext();
 			EntidadFachada entidadFachada = (EntidadFachada) ctx.getBean("entidadFachada");
 			PeriodoFachada periodoFachada = (PeriodoFachada) ctx.getBean("periodoFachada");
+			UsuarioFachada usuarioFachada = (UsuarioFachada) ctx.getBean("usuarioFachada");
 			
 			request.setAttribute("productores", entidadFachada.getProductoresDTO());
 			request.setAttribute("periodos", periodoFachada.getPeriodosDTO());
+			request.setAttribute("agentesFirmantes", usuarioFachada.getAgentesFirmantes());
 			
 		} catch (Throwable t) {
 			MyLogger.logError(t);
@@ -594,7 +597,7 @@ public class GuiaAction extends ValidadorAction {
 			boolean ok3 = true;
 			boolean ok4 = true;
 			boolean ok5 = true;
-			boolean ok6 = true;			
+			boolean ok6 = true;
 			
 			ok = Validator.validarLongMayorQue(0, Long.toString(guia.getNumero()),
 												"Nro de Guía", error);			
@@ -612,6 +615,9 @@ public class GuiaAction extends ValidadorAction {
 			ok3 = Validator.requerido(guia.getFechaLegalizacion(), "Fecha Legalización", error);			
 			
 			ok4 = Validator.requerido(guia.getNumeroInterno(), "Nro Interno", error);
+			
+			ok6 = Validator.validarComboRequeridoSinNull("-1",Long.toString(guia.getAgenteFirmante().getId()),
+					 									"Agente Firmante",error);
 			
 			ok5 = Validator.validarRequerido(Long.toString(guia.getMarcaSenial().getId()), "Marca/Señal", error);
 			

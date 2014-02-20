@@ -92,7 +92,10 @@ function volver(){
 						<td width="30%" align="left">
 							<input value="${guia.numeroInterno}" class="botonerab" type="text" size="20" readonly="readonly">
 						</td>
-						<td colspan="2"></td>
+						<td width="20%" class="botoneralNegritaRight">Agente Firmante</td>
+						<td align="left">
+							<input value="${guia.agenteFirmante.nombreUsuario}" class="botonerab" type="text" size="20" readonly="readonly">				
+						</td>
 					</tr>		
 					<tr>
 						<td height="10" colspan="4"></td>

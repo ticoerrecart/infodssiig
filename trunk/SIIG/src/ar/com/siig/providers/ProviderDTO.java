@@ -54,7 +54,8 @@ public abstract class ProviderDTO {
 		usuarioDTO.setRol(ProviderDTO.getRolDTO(usuario.getRol()));
 		usuarioDTO.setEntidad(ProviderDTO.getEntidadDTO(usuario.getEntidad()));
 		usuarioDTO.setHabilitado(usuario.isHabilitado());
-
+		usuarioDTO.setHabilitadoFirmaGuias(usuario.isHabilitadoFirmaGuias());
+		
 		return usuarioDTO;
 	}
 
@@ -146,6 +147,7 @@ public abstract class ProviderDTO {
 		entidadDTO.setTipoEntidadDesc(entidad.getTipoEntidad());
 		entidadDTO.setTipoEntidad(entidad.getIdTipoEntidad());
 		entidadDTO.setNroMatricula(entidad.getNroMatricula());
+		entidadDTO.setNroExpediente(entidad.getNroExpediente());
 		entidadDTO.setCuit(entidad.getCuit());
 		entidadDTO.setCuil(entidad.getCuil());
 		entidadDTO.setDni(entidad.getDni());
@@ -281,7 +283,7 @@ public abstract class ProviderDTO {
 		guiaDTO.setNumeroInterno(guia.getNumeroInterno());
 		guiaDTO.setPeriodo(guia.getPeriodo());
 		guiaDTO.setProductor(ProviderDTO.getEntidadDTO(guia.getProductor()));
-		
+		guiaDTO.setAgenteFirmante(ProviderDTO.getUsuarioDTO(guia.getAgenteFirmante()));
 		
 		guiaDTO.setCanon(guia.getCanon());
 		guiaDTO.setCantidad(guia.getCantidad());

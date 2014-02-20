@@ -48,6 +48,8 @@ public class Entidad implements Comparable<Entidad> {
 	private String email;
 
 	private Long nroMatricula;
+	
+	private String nroExpediente;
 
 	private String cuit;
 	
@@ -201,6 +203,14 @@ public class Entidad implements Comparable<Entidad> {
 
 	public void setSeniales(List<Senial> seniales) {
 		this.seniales = seniales;
+	}
+
+	public String getNroExpediente() {
+		return nroExpediente;
+	}
+
+	public void setNroExpediente(String nroExpediente) {
+		this.nroExpediente = nroExpediente;
 	}
 
 }

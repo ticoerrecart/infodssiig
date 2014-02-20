@@ -83,7 +83,7 @@ function generarReporte(){
 				</tr>
 				<c:if test="${mostrarPeriodos != 'N'}">				
 					 <tr>
-						<td width="40%" class="botoneralNegritaRight">Período Forestal</td>
+						<td width="40%" class="botoneralNegritaRight">Período</td>
 						<td class="botonerab" align="left">
 							<select id="idPeriodo" class="botonerab" onchange="">
 								<option value="-1">- Seleccione un Periodo -</option>

@@ -12,6 +12,7 @@ import ar.com.siig.dao.EntidadDAO;
 import ar.com.siig.dao.EstablecimientoDAO;
 import ar.com.siig.dao.GuiaDAO;
 import ar.com.siig.dao.TipoAnimalDAO;
+import ar.com.siig.dao.UsuarioDAO;
 import ar.com.siig.dto.BoletaDepositoDTO;
 import ar.com.siig.dto.GuiaDTO;
 import ar.com.siig.enums.TipoEstadoGuia;
@@ -24,6 +25,7 @@ import ar.com.siig.negocio.Guia;
 import ar.com.siig.negocio.Productor;
 import ar.com.siig.negocio.ProductorEnEstablecimiento;
 import ar.com.siig.negocio.TipoAnimal;
+import ar.com.siig.negocio.Usuario;
 import ar.com.siig.providers.ProviderDTO;
 import ar.com.siig.providers.ProviderDominio;
 import ar.com.siig.utils.Fecha;
@@ -35,15 +37,18 @@ public class GuiaFachada {
 	private EntidadDAO entidadDAO;
 	private EstablecimientoDAO establecimientoDAO;
 	private TipoAnimalDAO tipoAnimalDAO;
+	private UsuarioDAO usuarioDAO;
 	
 	public GuiaFachada(){}
 	
-	public GuiaFachada(GuiaDAO pGuiaDAO, EntidadDAO pEntidadDAO, EstablecimientoDAO pEstablecimientoDAO, TipoAnimalDAO pTipoAnimalDAO){
+	public GuiaFachada(GuiaDAO pGuiaDAO, EntidadDAO pEntidadDAO, EstablecimientoDAO pEstablecimientoDAO, 
+						TipoAnimalDAO pTipoAnimalDAO, UsuarioDAO pUsuarioDAO){
 		
 		this.guiaDAO = pGuiaDAO;
 		this.entidadDAO = pEntidadDAO;
 		this.establecimientoDAO = pEstablecimientoDAO;
 		this.tipoAnimalDAO = pTipoAnimalDAO;
+		this.usuarioDAO = pUsuarioDAO;
 	}
 	
 	public boolean existeGuia(long nroGuia) {
@@ -54,10 +59,11 @@ public class GuiaFachada {
 		
 		Guia guia;
 		Productor productor = entidadDAO.getProductor(guiaDTO.getProductor().getId());
+		Usuario agenteFirmante = usuarioDAO.getUsuario(guiaDTO.getAgenteFirmante().getId()); 
 		if(guiaDTO.getMarcaSenial().getTipo().equals(TipoMarcaSenial.Marca.getName())){
-			guia = ProviderDominio.getGuiaLegalizada(guiaDTO,productor.getUltimaMarca(),productor,null);
+			guia = ProviderDominio.getGuiaLegalizada(guiaDTO,productor.getUltimaMarca(),productor,null,agenteFirmante);
 		}else{
-			guia = ProviderDominio.getGuiaLegalizada(guiaDTO,null,productor,productor.getUltimaSenial());
+			guia = ProviderDominio.getGuiaLegalizada(guiaDTO,null,productor,productor.getUltimaSenial(),agenteFirmante);
 		}
 		
 		guiaDAO.altaLegalizacionGuia(guia);
