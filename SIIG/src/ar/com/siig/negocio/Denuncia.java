@@ -16,6 +16,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -35,6 +36,7 @@ public class Denuncia {
 	@JoinColumn(name = "productor_fk")
 	private Entidad productor;
 
+	
 	@Column
 	private Integer numeroDeDenuncia;
 

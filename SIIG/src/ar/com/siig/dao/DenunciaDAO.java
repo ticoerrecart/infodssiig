@@ -5,13 +5,13 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Conjunction;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import ar.com.siig.dto.DenunciaDTO;
 import ar.com.siig.negocio.Denuncia;
 import ar.com.siig.negocio.Entidad;
-import ar.com.siig.negocio.Productor;
 import ar.com.siig.negocio.TipoDeDenuncia;
 import ar.com.siig.negocio.exception.NegocioException;
 import ar.com.siig.utils.Constantes;
@@ -26,10 +26,12 @@ public class DenunciaDAO extends HibernateDaoSupport {
 		return (Denuncia) getHibernateTemplate().get(Denuncia.class, id);
 	}
 
-	public boolean existeDenuncia(Integer numeroDeDenuncia, Long id) {
+	public boolean existeDenuncia(Integer numeroDeDenuncia,
+			Integer numeroDeLlamado, Long id) {
 		Criteria criteria = getSession().createCriteria(Denuncia.class);
 		Conjunction conj = Restrictions.conjunction();
 		conj.add(Restrictions.eq("numeroDeDenuncia", numeroDeDenuncia));
+		conj.add(Restrictions.eq("numeroDeLlamado", numeroDeLlamado));
 		if (id != null) {
 			conj.add(Restrictions.ne("id", id));
 		}
@@ -39,18 +41,20 @@ public class DenunciaDAO extends HibernateDaoSupport {
 		return (denuncias.size() > 0);
 	}
 
-	public void alta_modficacion_Denuncia(Denuncia denuncia, Long productorId)
-			throws NegocioException {
+	public Denuncia alta_modficacion_Denuncia(Denuncia denuncia,
+			Long productorId) throws NegocioException {
 
 		denuncia.setProductor((Entidad) this.getHibernateTemplate().get(
 				Entidad.class, productorId));
-		if (existeDenuncia(denuncia.getNumeroDeDenuncia(), denuncia.getId())) {
+		if (existeDenuncia(denuncia.getNumeroDeDenuncia(),
+				denuncia.getNumeroDeLlamado(), denuncia.getId())) {
 			throw new NegocioException(Constantes.EXISTE_DENUNCIA);
 		}
 		this.getHibernateTemplate().saveOrUpdate(denuncia);
 		this.getHibernateTemplate().flush();
 		this.getHibernateTemplate().clear();
 
+		return denuncia;
 	}
 
 	public List<TipoDeDenuncia> getTiposDeDenuncia() {
@@ -70,4 +74,13 @@ public class DenunciaDAO extends HibernateDaoSupport {
 		return tiposDeDenuncias;
 	}
 
+	public Integer getUltimoNumeroDeDenuncia() {
+		Criteria criteria = getSession().createCriteria(Denuncia.class);
+		criteria.setProjection(Projections.max("numeroDeDenuncia"));
+		Integer resul = (Integer) criteria.uniqueResult();
+		if (resul == null) {
+			return 0;
+		}
+		return resul;
+	}
 }

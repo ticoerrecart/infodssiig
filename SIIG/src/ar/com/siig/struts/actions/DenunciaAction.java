@@ -13,6 +13,7 @@ import org.springframework.web.context.WebApplicationContext;
 import ar.com.siig.dto.EntidadDTO;
 import ar.com.siig.fachada.DenunciaFachada;
 import ar.com.siig.fachada.EntidadFachada;
+import ar.com.siig.negocio.Denuncia;
 import ar.com.siig.negocio.TipoDeDenuncia;
 import ar.com.siig.negocio.exception.NegocioException;
 import ar.com.siig.struts.actions.forms.DenunciaForm;
@@ -45,6 +46,9 @@ public class DenunciaAction extends ValidadorAction {
 			List<EntidadDTO> productores = entidadFachada.getProductoresDTO();
 			request.setAttribute("productores", productores);
 
+			Integer numeroDeDenuncia = denunciaFachada
+					.getUltimoNumeroDeDenuncia() + 1;
+			request.setAttribute("numeroDeDenuncia", numeroDeDenuncia);
 		} catch (Throwable t) {
 			MyLogger.logError(t);
 			request.setAttribute("error", "Error Inesperado");
@@ -69,8 +73,18 @@ public class DenunciaAction extends ValidadorAction {
 
 			DenunciaFachada denunciaFachada = (DenunciaFachada) ctx
 					.getBean("denunciaFachada");
-			denunciaFachada.altaDenuncia(denunciaForm.getDenunciaDTO());
-			request.setAttribute("exitoGrabado", Constantes.EXITO_ALTA_DENUNCIA);
+			Denuncia denuncia = denunciaFachada.altaDenuncia(denunciaForm
+					.getDenunciaDTO());
+			if (denuncia.getNumeroDeDenuncia() > 0) {
+				request.setAttribute("exitoGrabado",
+						Constantes.EXITO_ALTA_DENUNCIA.replace("#", denuncia
+								.getNumeroDeDenuncia().toString()));
+			}
+			if (denuncia.getNumeroDeLlamado() > 0) {
+				request.setAttribute("exitoGrabado",
+						Constantes.EXITO_ALTA_DENUNCIA_LLAMADO.replace("#",
+								denuncia.getNumeroDeLlamado().toString()));
+			}
 
 		} catch (NegocioException ne) {
 			request.setAttribute("error", ne.getMessage());
@@ -93,17 +107,28 @@ public class DenunciaAction extends ValidadorAction {
 			DenunciaFachada denunciaFachada = (DenunciaFachada) ctx
 					.getBean("denunciaFachada");
 			boolean ok = true;
-			if ((denunciaForm.getDenunciaDTO().getNumeroDeDenuncia() == null || 
-					denunciaForm.getDenunciaDTO().getNumeroDeDenuncia() == 0) &&
-					(denunciaForm.getDenunciaDTO().getNumeroDeLlamado() == null || 
-					denunciaForm.getDenunciaDTO().getNumeroDeLlamado() == 0)){
-						Validator.addErrorXML(error, "Debe ingresar Numero de Denuncia y/o Numero de Llamado");
-						ok = false;
-			} 
-			
-			
-			
-			
+
+			if ((denunciaForm.getDenunciaDTO().getNumeroDeDenuncia() == null || denunciaForm
+					.getDenunciaDTO().getNumeroDeDenuncia() == 0)
+					&& (denunciaForm.getDenunciaDTO().getNumeroDeLlamado() == null || denunciaForm
+							.getDenunciaDTO().getNumeroDeLlamado() == 0)) {
+				Validator
+						.addErrorXML(error,
+								"Debe ingresar Numero de Denuncia y/o Numero de Llamado");
+				ok = false;
+			}
+
+			if (ok) {
+				if (denunciaFachada.existeDenuncia(denunciaForm
+						.getDenunciaDTO().getNumeroDeDenuncia(), denunciaForm
+						.getDenunciaDTO().getNumeroDeLlamado(), denunciaForm
+						.getDenunciaDTO().getId())) {
+					Validator.addErrorXML(error,
+							"Ya existe una Denuncia con éste número.");
+					ok = false;
+				}
+			}
+
 			boolean ok3 = Validator.requerido(denunciaForm.getDenunciaDTO()
 					.getDesde(), "Desde", error);
 			boolean ok4 = Validator.requerido(denunciaForm.getDenunciaDTO()

@@ -35,9 +35,17 @@ public class DenunciaFachada {
 		return denunciaDAO.getDenunciaPorId(id);
 	}
 
-	public void altaDenuncia(DenunciaDTO denunciaDTO)
+	public Denuncia altaDenuncia(DenunciaDTO denunciaDTO)
 			throws NegocioException {
-		List<TipoDeDenuncia> tiposDeDenuncia = denunciaDAO.getTiposDeDenuncia(denunciaDTO);
+		List<TipoDeDenuncia> tiposDeDenuncia = denunciaDAO
+				.getTiposDeDenuncia(denunciaDTO);
+		if (denunciaDTO.getNumeroDeLlamado() == null
+				|| denunciaDTO.getNumeroDeLlamado() == 0) {
+			Integer ultimoNumeroDeDenuncia = denunciaDAO
+					.getUltimoNumeroDeDenuncia() + 1;
+			denunciaDTO.setNumeroDeDenuncia(ultimoNumeroDeDenuncia);
+		}
+
 		Denuncia denuncia = ProviderDominio.getDenuncia(denunciaDTO);
 
 		denuncia.setAvistajeDePerros(denunciaDTO.getAvistajePerros());
@@ -51,21 +59,23 @@ public class DenunciaFachada {
 			denunciaPerros.setCapturaAvistaje("CAPTURA");
 			denunciaPerros.setDenuncia(denuncia);
 		}
-		
+
 		denuncia.setDañoEnHacienda(denunciaDTO.getDañosHacienda());
 		for (DenunciaHacienda denunciaHacienda : denunciaDTO.getDañosHacienda()) {
 			denunciaHacienda.setDañosMuerte("DAÑOS");
 			denunciaHacienda.setDenuncia(denuncia);
 		}
-		
+
 		denuncia.setMuerteEnHacienda(denunciaDTO.getMuertesHacienda());
-		for (DenunciaHacienda denunciaHacienda : denunciaDTO.getMuertesHacienda()) {
+		for (DenunciaHacienda denunciaHacienda : denunciaDTO
+				.getMuertesHacienda()) {
 			denunciaHacienda.setDañosMuerte("MUERTE");
 			denunciaHacienda.setDenuncia(denuncia);
 		}
-		
+
 		denuncia.setTipoDeDenuncias(tiposDeDenuncia);
-		denunciaDAO.alta_modficacion_Denuncia(denuncia,denunciaDTO.getProductorId());
+		return denunciaDAO.alta_modficacion_Denuncia(denuncia,
+				denunciaDTO.getProductorId());
 	}
 
 	public List<DenunciaDTO> getDenunciaesDTO() {
@@ -90,6 +100,13 @@ public class DenunciaFachada {
 		return denunciaDAO.getTiposDeDenuncia();
 	}
 
+	public Integer getUltimoNumeroDeDenuncia() {
+		return denunciaDAO.getUltimoNumeroDeDenuncia();
+	}
 
-
+	public boolean existeDenuncia(Integer numeroDeDenuncia,
+			Integer numeroDeLlamado, Long id) {
+		return denunciaDAO
+				.existeDenuncia(numeroDeDenuncia, numeroDeLlamado, id);
+	}
 }

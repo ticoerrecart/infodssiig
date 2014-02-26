@@ -191,7 +191,9 @@ public class Constantes {
 
 	public static final String ERROR_ALTA_DENUNCIA = "Ha ocurrido un error en el alta de la denuncia";
 
-	public static final Object EXITO_ALTA_DENUNCIA = "La Denuncia se ha dado de alta con exito";
+	public static final String EXITO_ALTA_DENUNCIA = "La Denuncia Número # se ha dado de alta con exito";
+
+	public static final String EXITO_ALTA_DENUNCIA_LLAMADO = "La Denuncia con el Número de llamado # se ha dado de alta con exito";
 
 	// FIN DENUNCIA
 
