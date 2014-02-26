@@ -70,6 +70,23 @@ function removerFila(tabla) {
 	}
 }
 
+var nroDenuncia = null;
+function cambioDenunciaLlamado(){
+	if($("#radioDenuncia").attr("checked") == "checked"){
+		if(nroDenuncia!=null){
+			$("#denuncia").val(nroDenuncia);
+		}
+		$("#tdDenuncia").show();
+		$("#tdLlamado").hide();
+	}
+	
+	if($("#radioLlamado").attr("checked") == "checked"){
+		nroDenuncia = $("#denuncia").val();
+		$("#denuncia").val("");
+		$("#tdDenuncia").hide();
+		$("#tdLlamado").show();
+	}
+}
 </script>
 
 
@@ -108,14 +125,15 @@ function removerFila(tabla) {
 	
 	
 		<tr>
-			<td width="20%" class="botoneralNegritaRight">Denuncia N°</td>
-			<td width="20%" >
-				<html:text size="23" styleClass="botonerab" property="denunciaDTO.numeroDeDenuncia"
-							onkeypress="return evitarAutoSubmit(event)"/>
+			<td width="20%" class="botoneralNegritaRight">Denuncia N° <input type="radio" name="denunciaLlamado" id="radioDenuncia" checked="checked" onclick="cambioDenunciaLlamado()"></td>
+			<td width="20%" id="tdDenuncia">
+				<html:text size="23" styleId="denuncia" styleClass="botonerab" property="denunciaDTO.numeroDeDenuncia"
+							onkeypress="return evitarAutoSubmit(event)" value="${numeroDeDenuncia}"/>
 			</td>
-			
-			<td width="20%" class="botoneralNegritaRight">Llamado N°</td>
-			<td width="20%" align="left">
+		</tr>
+		<tr>		
+			<td width="20%" class="botoneralNegritaRight">Llamado N° <input type="radio" name="denunciaLlamado" id="radioLlamado" onclick="cambioDenunciaLlamado()"> </td>
+			<td width="20%" id="tdLlamado" style="display: none">
 				<html:text styleClass="botonerab" property="denunciaDTO.numeroDeLlamado"
 							onkeypress="return evitarAutoSubmit(event)"/>
 			</td>
