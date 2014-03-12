@@ -18,6 +18,7 @@ import ar.com.siig.dto.RolDTO;
 import ar.com.siig.dto.TipoAnimalDTO;
 import ar.com.siig.dto.UsuarioDTO;
 import ar.com.siig.dto.VencimientoPeriodoDTO;
+import ar.com.siig.enums.TipoDeDenunciaEnum;
 import ar.com.siig.enums.TipoDeEntidad;
 import ar.com.siig.enums.TipoEstadoGuia;
 import ar.com.siig.negocio.AnimalEnEstablecimiento;
@@ -321,6 +322,8 @@ public abstract class ProviderDominio {
 		denuncia.setDesde(Fecha.stringDDMMAAAAToUtilDate(denunciaDTO.getDesde()));
 		denuncia.setHasta(Fecha.stringDDMMAAAAToUtilDate(denunciaDTO.getHasta()));
 		denuncia.setLugar(denunciaDTO.getLugar());
+		denuncia.setTipoDeDenuncia(TipoDeDenunciaEnum.valueOf(denunciaDTO
+				.getTipoDeDenuncia()));
 		return denuncia;
 
 	}
@@ -339,7 +342,7 @@ public abstract class ProviderDominio {
 		guia.setSenial(senial);
 		guia.setTipoEstadoGuia(TipoEstadoGuia.LEGALIZADA);
 		guia.setAgenteFirmante(usuario);
-		
+
 		return guia;
 	}
 

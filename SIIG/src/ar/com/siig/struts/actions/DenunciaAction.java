@@ -1,5 +1,6 @@
 package ar.com.siig.struts.actions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,10 @@ import org.apache.struts.action.ActionMapping;
 import org.springframework.web.context.WebApplicationContext;
 
 import ar.com.siig.dto.EntidadDTO;
+import ar.com.siig.enums.Edad;
+import ar.com.siig.enums.Sexo;
+import ar.com.siig.enums.Tamano;
+import ar.com.siig.enums.TipoDeDenunciaEnum;
 import ar.com.siig.fachada.DenunciaFachada;
 import ar.com.siig.fachada.EntidadFachada;
 import ar.com.siig.negocio.Denuncia;
@@ -49,6 +54,32 @@ public class DenunciaAction extends ValidadorAction {
 			Integer numeroDeDenuncia = denunciaFachada
 					.getUltimoNumeroDeDenuncia() + 1;
 			request.setAttribute("numeroDeDenuncia", numeroDeDenuncia);
+
+			List<TipoDeDenunciaEnum> tiposDeDenunciasEnum = new ArrayList<TipoDeDenunciaEnum>();
+			tiposDeDenunciasEnum.add(TipoDeDenunciaEnum.PERROS);
+			tiposDeDenunciasEnum.add(TipoDeDenunciaEnum.ROBO);
+			tiposDeDenunciasEnum.add(TipoDeDenunciaEnum.OTRO);
+			request.setAttribute("tiposDeDenunciasEnum", tiposDeDenunciasEnum);
+
+			List<Sexo> sexos = new ArrayList<Sexo>();
+			sexos.add(Sexo.MACHO);
+			sexos.add(Sexo.HEMBRA);
+			sexos.add(Sexo.INDEFINIDO);
+			request.setAttribute("sexos", sexos);
+
+			List<Tamano> tamanos = new ArrayList<Tamano>();
+			tamanos.add(Tamano.CHICO);
+			tamanos.add(Tamano.GRANDE);
+			tamanos.add(Tamano.MEDIANO);
+			tamanos.add(Tamano.INDEFINIDO);
+			request.setAttribute("tamanos", tamanos);
+
+			List<Edad> edades = new ArrayList<Edad>();
+			edades.add(Edad.ADULTO);
+			edades.add(Edad.CACHORRO);
+			edades.add(Edad.INDEFINIDO);
+			request.setAttribute("edades", edades);
+
 		} catch (Throwable t) {
 			MyLogger.logError(t);
 			request.setAttribute("error", "Error Inesperado");

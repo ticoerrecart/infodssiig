@@ -7,7 +7,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,13 +15,13 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.CollectionOfElements;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+
+import ar.com.siig.enums.TipoDeDenunciaEnum;
 
 @Entity
 public class Denuncia {
@@ -36,7 +35,6 @@ public class Denuncia {
 	@JoinColumn(name = "productor_fk")
 	private Entidad productor;
 
-	
 	@Column
 	private Integer numeroDeDenuncia;
 
@@ -52,7 +50,12 @@ public class Denuncia {
 	@Column(nullable = false)
 	private String lugar;
 
-	
+	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
+	private TipoDeDenunciaEnum tipoDeDenuncia;
+
+	@Column
+	private String observaciones;
 
 	@ManyToMany
 	@JoinTable(name = "denuncia_tipodedenuncia", joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = { @JoinColumn(name = "tipo_denuncia_fk") })
@@ -75,7 +78,11 @@ public class Denuncia {
 	@OneToMany(mappedBy = "denuncia")
 	@Cascade(value = { CascadeType.SAVE_UPDATE, CascadeType.DELETE_ORPHAN })
 	private List<DenunciaHacienda> muerteEnHacienda;
-	
+
+	@OneToMany(mappedBy = "denuncia")
+	@Cascade(value = { CascadeType.SAVE_UPDATE, CascadeType.DELETE_ORPHAN })
+	private List<Robo> robo;
+
 	public Long getId() {
 		return id;
 	}
@@ -172,6 +179,28 @@ public class Denuncia {
 		this.tipoDeDenuncias = tipoDeDenuncias;
 	}
 
+	public TipoDeDenunciaEnum getTipoDeDenuncia() {
+		return tipoDeDenuncia;
+	}
 
-	
+	public void setTipoDeDenuncia(TipoDeDenunciaEnum tipoDeDenuncia) {
+		this.tipoDeDenuncia = tipoDeDenuncia;
+	}
+
+	public List<Robo> getRobo() {
+		return robo;
+	}
+
+	public void setRobo(List<Robo> robo) {
+		this.robo = robo;
+	}
+
+	public String getObservaciones() {
+		return observaciones;
+	}
+
+	public void setObservaciones(String observaciones) {
+		this.observaciones = observaciones;
+	}
+
 }

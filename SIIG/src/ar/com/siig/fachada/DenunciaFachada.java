@@ -7,9 +7,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ar.com.siig.dao.DenunciaDAO;
 import ar.com.siig.dto.DenunciaDTO;
+import ar.com.siig.enums.TipoDeDenunciaEnum;
 import ar.com.siig.negocio.Denuncia;
 import ar.com.siig.negocio.DenunciaHacienda;
 import ar.com.siig.negocio.DenunciaPerros;
+import ar.com.siig.negocio.Robo;
 import ar.com.siig.negocio.TipoDeDenuncia;
 import ar.com.siig.negocio.exception.NegocioException;
 import ar.com.siig.providers.ProviderDTO;
@@ -48,32 +50,54 @@ public class DenunciaFachada {
 
 		Denuncia denuncia = ProviderDominio.getDenuncia(denunciaDTO);
 
-		denuncia.setAvistajeDePerros(denunciaDTO.getAvistajePerros());
-		for (DenunciaPerros denunciaPerros : denunciaDTO.getAvistajePerros()) {
-			denunciaPerros.setCapturaAvistaje("AVISTAJE");
-			denunciaPerros.setDenuncia(denuncia);
+		if (TipoDeDenunciaEnum.PERROS.name().equalsIgnoreCase(
+				denunciaDTO.getTipoDeDenuncia())) {
+			denuncia.setAvistajeDePerros(denunciaDTO.getAvistajePerros());
+			for (DenunciaPerros denunciaPerros : denunciaDTO
+					.getAvistajePerros()) {
+				denunciaPerros.setCapturaAvistaje("AVISTAJE");
+				denunciaPerros.setDenuncia(denuncia);
+			}
+
+			denuncia.setCapturaDePerros(denunciaDTO.getCapturaPerros());
+			for (DenunciaPerros denunciaPerros : denunciaDTO.getCapturaPerros()) {
+				denunciaPerros.setCapturaAvistaje("CAPTURA");
+				denunciaPerros.setDenuncia(denuncia);
+			}
+
+			denuncia.setDañoEnHacienda(denunciaDTO.getDañosHacienda());
+			for (DenunciaHacienda denunciaHacienda : denunciaDTO
+					.getDañosHacienda()) {
+				denunciaHacienda.setDañosMuerte("DAÑOS");
+				denunciaHacienda.setDenuncia(denuncia);
+			}
+
+			denuncia.setMuerteEnHacienda(denunciaDTO.getMuertesHacienda());
+			for (DenunciaHacienda denunciaHacienda : denunciaDTO
+					.getMuertesHacienda()) {
+				denunciaHacienda.setDañosMuerte("MUERTE");
+				denunciaHacienda.setDenuncia(denuncia);
+			}
+
+			denuncia.setTipoDeDenuncias(tiposDeDenuncia);
+			
+			denuncia.setObservaciones(denunciaDTO.getObservaciones());
 		}
 
-		denuncia.setCapturaDePerros(denunciaDTO.getCapturaPerros());
-		for (DenunciaPerros denunciaPerros : denunciaDTO.getCapturaPerros()) {
-			denunciaPerros.setCapturaAvistaje("CAPTURA");
-			denunciaPerros.setDenuncia(denuncia);
+		if (TipoDeDenunciaEnum.ROBO.name().equalsIgnoreCase(
+				denunciaDTO.getTipoDeDenuncia())) {
+			for (Robo robo : denunciaDTO.getRobos()) {
+				robo.setDenuncia(denuncia);
+			}
+
+			denuncia.setRobo(denunciaDTO.getRobos());
 		}
 
-		denuncia.setDañoEnHacienda(denunciaDTO.getDañosHacienda());
-		for (DenunciaHacienda denunciaHacienda : denunciaDTO.getDañosHacienda()) {
-			denunciaHacienda.setDañosMuerte("DAÑOS");
-			denunciaHacienda.setDenuncia(denuncia);
+		if (TipoDeDenunciaEnum.OTRO.name().equalsIgnoreCase(
+				denunciaDTO.getTipoDeDenuncia())) {
+			denuncia.setObservaciones(denunciaDTO.getObservaciones());
 		}
 
-		denuncia.setMuerteEnHacienda(denunciaDTO.getMuertesHacienda());
-		for (DenunciaHacienda denunciaHacienda : denunciaDTO
-				.getMuertesHacienda()) {
-			denunciaHacienda.setDañosMuerte("MUERTE");
-			denunciaHacienda.setDenuncia(denuncia);
-		}
-
-		denuncia.setTipoDeDenuncias(tiposDeDenuncia);
 		return denunciaDAO.alta_modficacion_Denuncia(denuncia,
 				denunciaDTO.getProductorId());
 	}
