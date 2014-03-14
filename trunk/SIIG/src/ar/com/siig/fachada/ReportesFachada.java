@@ -53,8 +53,12 @@ public class ReportesFachada {
 					if (tipoGuia.equals("Canceladas")) {
 						nombreReporte = Constantes.REPORTE_GUIAS_CANCELADAS;
 					} else {
-						throw new NegocioException("No existe el reporte para "
-								+ tipoGuia);
+						if (tipoGuia.equals("EstadoGralGuias")) {
+							nombreReporte = Constantes.REPORTE_ESTADO_GRAL_GUIAS;
+						} else {						
+							throw new NegocioException("No existe el reporte para "
+									+ tipoGuia);
+						}	
 					}
 				}
 			}

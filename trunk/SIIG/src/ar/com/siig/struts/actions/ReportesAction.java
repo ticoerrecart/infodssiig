@@ -109,6 +109,12 @@ public class ReportesAction extends ValidadorAction {
 							request.setAttribute("titulo",
 									"Reporte Guías Canceladas");
 						}
+						else{
+							if (tipoGuia.equals("EstadoGralGuias")) {
+								request.setAttribute("titulo",
+										"Reporte Estado General de Guías");
+							}							
+						}
 					}
 				}
 			}
