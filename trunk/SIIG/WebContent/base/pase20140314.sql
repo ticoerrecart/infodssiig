@@ -1,3 +1,9 @@
+insert into `x071vm20_siig`.`itemmenu`
+values(57,"Reporte Estado General de Guías",null,"/reportes.do?metodo=cargarReporteGuias&tipoGuia=EstadoGralGuias",38);
+
+insert into `x071vm20_siig`.`rol_item`
+values(2,57)
+
 insert into `x071vm20_siig`.`canonmarcasenial`
 values(3,250,'Alta-Marca');
 
