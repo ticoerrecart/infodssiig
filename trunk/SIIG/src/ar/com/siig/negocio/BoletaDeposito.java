@@ -1,5 +1,6 @@
 package ar.com.siig.negocio;
 
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -41,6 +42,24 @@ public class BoletaDeposito {
 	@Cascade(value = CascadeType.SAVE_UPDATE)
 	@JoinColumn(name = "productor_fk")
 	private Productor productor;	
+	
+	/*Campos utilizados para intereses*/
+	@Column(nullable = false)
+	private Date fechaGeneracion;
+	
+	/*Es el debito que se puede generar al pagar la boleta en una fecha posterior a la fecha de Vencimiento*/ 
+	@Column(nullable = false)
+	private double debitoGeneradoPorPagoAtrasado;
+	
+	/*Es el credito que se puede generar al pagar la boleta en una fecha anterior a la fecha de Vencimiento*/	
+	@Column(nullable = false)
+	private double creditoGeneradoPorPagoAdelantado;
+	
+	/*Es el debito o credito que tiene el productor en su saldo (cuenta corriente) que se puede utilizar para restar o sumar 
+	 * en el monto de la boleta, al generar la misma*/	
+	@Column(nullable = false)
+	private double debitoCreditoUsado;	
+	
 	
 	public Long getId() {
 		return id;
@@ -98,4 +117,48 @@ public class BoletaDeposito {
 		this.productor = productor;
 	}
 
+	public Date getFechaGeneracion() {
+		return fechaGeneracion;
+	}
+
+	public void setFechaGeneracion(Date fechaGeneracion) {
+		this.fechaGeneracion = fechaGeneracion;
+	}
+
+	public double getDebitoGeneradoPorPagoAtrasado() {
+		return debitoGeneradoPorPagoAtrasado;
+	}
+
+	public void setDebitoGeneradoPorPagoAtrasado(
+			double debitoGeneradoPorPagoAtrasado) {
+		this.debitoGeneradoPorPagoAtrasado = debitoGeneradoPorPagoAtrasado;
+	}
+
+	public double getCreditoGeneradoPorPagoAdelantado() {
+		return creditoGeneradoPorPagoAdelantado;
+	}
+
+	public void setCreditoGeneradoPorPagoAdelantado(
+			double creditoGeneradoPorPagoAdelantado) {
+		this.creditoGeneradoPorPagoAdelantado = creditoGeneradoPorPagoAdelantado;
+	}
+
+	public double getDebitoCreditoUsado() {
+		return debitoCreditoUsado;
+	}
+
+	public void setDebitoCreditoUsado(double debitoCreditoUsado) {
+		this.debitoCreditoUsado = debitoCreditoUsado;
+	}
+	
+	public double getMontoTotalGuias(){
+		
+		double montoTotalGuias = 0.00;
+		for (Guia guia : this.getGuias()) {
+			montoTotalGuias = montoTotalGuias + guia.getMontoTotal();
+		}
+		
+		DecimalFormat df = new DecimalFormat("#.00");
+		return new Double(df.format(montoTotalGuias).replace(",", "."));
+	}
 }

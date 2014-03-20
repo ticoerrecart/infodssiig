@@ -323,9 +323,9 @@ function volver(){
 							</td>
 						</tr>
 						<tr style="display: " class="montoTotal">
-							<td colspan="6" id="idInteres" class="botoneralNegritaRight">% de Interes</td>							
+							<td colspan="6" id="idInteres" class="botoneralNegritaRight">${guia.interes*100} % de Interes</td>							
 							<td class="botonerab">
-								$<input type="text" value="${guia.interes}" class="botonerab" size="12" readonly="readonly">
+								$<input type="text" value="${guia.monto * guia.interes}" class="botonerab" size="12" readonly="readonly">
 							</td>							
 						</tr>
 						<tr style="display: " class="montoTotal">
@@ -337,18 +337,18 @@ function volver(){
 						<tr style="display: " class="montoTotal">
 							<td colspan="6" class="botoneralNegritaRight">Monto Total</td>							
 							<td class="botonerab">
-								$<input type="text" class="botonerab" size="12" value="${guia.montoTotal}" readonly="readonly">
+								$<input type="text" class="botonerab" size="12" value="${guia.monto + (guia.monto * guia.interes)}" readonly="readonly">
 							</td>							
 						</tr>													
 						<tr>
 							<td colspan="7" height="10"></td>							
 						</tr>	
 						<script type="text/javascript">
-							var monto = <c:out value="${guia.monto}"/>
+							/*var monto = <c:out value="${guia.monto}"/>
 							var interes = <c:out value="${guia.interes}"/>
 
 							var porc = (interes/monto)*100;
-							$("#idInteres").html(porc+" % de Interes");
+							$("#idInteres").html(porc+" % de Interes");*/
 						</script>										
 					</table>	
 					

@@ -41,7 +41,7 @@ public class EntidadDTO {
 
 	private List<MarcaSenialDTO> marcas;
 	
-	private List<MarcaSenialDTO> seniales;
+	private List<MarcaSenialDTO> seniales;	
 	
 	public EntidadDTO(){
 		
@@ -200,6 +200,5 @@ public class EntidadDTO {
 
 	public void setNroExpediente(String nroExpediente) {
 		this.nroExpediente = nroExpediente;
-	}
-
+	}	
 }

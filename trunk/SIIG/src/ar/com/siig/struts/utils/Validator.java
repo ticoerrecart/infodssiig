@@ -213,6 +213,27 @@ public abstract class Validator {
 		return true;
 	}
 
+	public static boolean validarDoubleMayorOIgualQue(int numeroMinimo,
+			String entrada, String label, StringBuffer pError) {
+		if (entrada == null || entrada.equals("")) {
+			return true;
+		}
+		try {
+			double entradaDouble = Double.parseDouble(entrada);
+			if (isNaN(entradaDouble) || entradaDouble < numeroMinimo) {
+				addErrorXML(pError, label + " debe ser un número mayor o igual a "
+						+ Integer.toString(numeroMinimo));
+				return false;
+			}
+		} catch (NumberFormatException e) {
+			addErrorXML(pError,
+					" debe ser un número entero con decimales válido");
+			return false;
+		}
+
+		return true;
+	}	
+	
 	/*
 	 * Si la entrada es nula entonces se considera valido chequea que el a�o se
 	 * mayor que 1900 y menor que 2100

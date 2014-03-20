@@ -34,6 +34,9 @@
 		<convert converter="bean" match="ar.com.siig.negocio.Categoria">
 			<param name="include" value="id,descripcion" />
 		</convert>
+		<convert converter="bean" match="ar.com.siig.dto.GuiaDTO">
+			<param name="include" value="id,interes" />
+		</convert>
 
 		<create creator="spring" javascript="RolFachada">
 			<param name="beanName" value="rolFachada" />

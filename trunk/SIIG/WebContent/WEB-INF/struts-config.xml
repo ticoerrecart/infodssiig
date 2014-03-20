@@ -252,7 +252,7 @@
 			<forward name="exitoRecuperarGuiasDevueltas" path="/jsp/bloqueConsultaGuiasDevueltas.jsp" />
 			<forward name="exitoRecuperarGuiasDevueltasParaBoleta" path="/jsp/bloqueGenerarBoletaGuias.jsp" />
 			<forward name="exitoGenerarBoletaGuias" path="/guia.do?metodo=cargarConsultaGuiasDevueltas" />
-			<forward name="exitoCargarGuiaDevuelta" path=".consultaGuiaDevuelta" />											
+			<forward name="exitoCargarGuiaDevuelta" path=".consultaGuiaDevuelta" />																
 		</action>
 		
 		<action path="/boletaDeposito" type="ar.com.siig.struts.actions.GuiaAction"
@@ -261,7 +261,9 @@
 			<forward name="exitoCargarRegistrarPagoBoletas" path=".consultaGeneralGuia" />
 			<forward name="exitoRecuperarBoletasParaRegistracionPago" path="/jsp/bloqueListaBoletasParaRegistracionPago.jsp" />
 			<forward name="exitoRecuperarBoletaParaRegistracionPago" path=".cargarBoletaParaRegistracionPago" />
-			<forward name="exitoRegistrarPagoBoleta" path="/boletaDeposito.do?metodo=cargarRegistrarPagoBoletas" />					
+			<forward name="exitoRegistrarPagoBoleta" path="/boletaDeposito.do?metodo=cargarRegistrarPagoBoletas" />
+			<forward name="exitoRecuperarBoletasDePago" path="/jsp/bloqueConsultaBoletasDePago.jsp" />
+			<forward name="exitoRecuperarBoletaDePago" path=".cargarBoletaParaRegistracionPago" />								
 		</action>			
 		
 		<!-- FIN GUIA -->

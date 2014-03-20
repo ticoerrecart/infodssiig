@@ -8,6 +8,8 @@
 
 <link rel="stylesheet" href="<html:rewrite page='/css/ui-lightness/jquery-ui-1.8.10.custom.css'/>"
 	type="text/css">
+<script type="text/javascript"
+	src="<html:rewrite page='/dwr/interface/PeriodoFachada.js'/>"></script>
 
 <script>
 
@@ -42,9 +44,11 @@
 	
 	function agrElimGuia(indice,idGuia){
 
-		var i = indice;		
+		var i = indice;
+		var montoCreditoDebito = new Number($("#idCreditoDebito").val()).toFixed(2);		
 		var montoTotal = new Number($("#idMontoTotal").val()).toFixed(2);
-		var montoFila = new Number($("#monto"+idGuia).val()).toFixed(2);	
+		//var montoFila = new Number($("#monto"+idGuia).val()).toFixed(2);
+		var montoFila = new Number($("#montoTotalGuia"+idGuia).val()).toFixed(2);		
 		
 		if($('#idCheck'+i).is(':checked')){
 			
@@ -57,9 +61,13 @@
 			montoTotal = new Number(new Number(montoTotal) - new Number(montoFila)).toFixed(2);			
 		}
 
+		var montoTotalTotal = new Number(new Number(montoTotal) - new Number(montoCreditoDebito)).toFixed(2);
+		
 		$("#idMontoTotal").val(montoTotal);
 		$("#idMontoTotalStr").html("$ "+montoTotal);
-
+		
+		$("#idMontoTotalTotal").val(montoTotalTotal);
+		$("#idMontoTotalTotalStr").html("$ "+montoTotalTotal);
 	}
 
 	function submitir(){
@@ -67,6 +75,89 @@
 		$("#idProd").val($("#idProductor").val());
 		validarForm("boletaDepositoForm","../boletaDeposito","validarGenerarBoletaPagoForm","BoletaDepositoForm");
 	}	
+
+	function cambioFechaVencimiento(){
+
+		var fechaVencimiento = $('#datepicker').val();
+		var periodo = $("#periodo").val();
+		var idProductor = $("#idProductor").val();		
+		PeriodoFachada.calcularInteres2(fechaVencimiento,periodo,idProductor,calcularInteresCallback2);
+	}
+
+	function calcularInteresCallback2(listaGuiasConInteres){
+
+		var montoTotal = 0;
+		
+		for(i=0;i<listaGuiasConInteres.length;i++){
+
+			var interes = listaGuiasConInteres[i].interes;
+			var id = listaGuiasConInteres[i].id;
+			var montoGuia = $("#monto"+id).val();
+
+			//Columna "Interes %"
+			$("#divInteres"+id).html(interes*100+"%");			
+			$("#interes"+id).val(interes);
+			
+			//Columna "Monto Interes"
+			var montoInteres = new Number(new Number(montoGuia) * new Number(interes)).toFixed(2);
+			$("#divMontoInteres"+id).html("$ "+ montoInteres);
+
+			//Columna "Monto Total Guia"
+			var montoTotalGuia = new Number(new Number(montoGuia) + new Number(montoInteres)).toFixed(2);
+			$("#divMontoTotalGuia"+id).html("$ "+ montoTotalGuia);
+			$("#montoTotalGuia"+id).val(montoTotalGuia);
+
+			if($('#idCheck'+i).is(':checked')){
+
+				montoTotal = new Number(new Number(montoTotal) + new Number(montoTotalGuia)).toFixed(2);
+			}	
+		}	
+
+		var montoCreditoDebito = new Number($("#idCreditoDebito").val()).toFixed(2);
+
+		var montoTotalTotal = new Number(new Number(montoTotal) - new Number(montoCreditoDebito)).toFixed(2);
+		
+		$("#idMontoTotal").val(montoTotal);
+		$("#idMontoTotalStr").html("$ "+montoTotal);
+		
+		$("#idMontoTotalTotal").val(montoTotalTotal);
+		$("#idMontoTotalTotalStr").html("$ "+montoTotalTotal);
+	}	
+
+	function cambioCheckCreditoDebito(){
+
+		var saldoCuantaCorriente = ${productor.saldoCuentaCorriente};
+		
+		if($('#idCheckCreditoDebito').is(':checked')){
+
+			$("#idCreditoDebito").attr("readonly",false);
+			$("#idCreditoDebito").val(saldoCuantaCorriente);	
+		}
+		else{
+
+			$("#idCreditoDebito").attr("readonly",true);
+			$("#idCreditoDebito").val(0.00);
+		}
+
+		var montoTotal = new Number($("#idMontoTotal").val()).toFixed(2);
+		var montoCreditoDebito = new Number($("#idCreditoDebito").val()).toFixed(2);
+		var montoTotalTotal = new Number(new Number(montoTotal) - new Number(montoCreditoDebito)).toFixed(2);
+		
+		$("#idMontoTotalTotal").val(montoTotalTotal);
+		$("#idMontoTotalTotalStr").html("$ "+montoTotalTotal);			
+	}
+
+	function cambioMontoCreditoDebito(){
+
+		if($('#idCheckCreditoDebito').is(':checked')){
+			var montoTotal = new Number($("#idMontoTotal").val()).toFixed(2);
+			var montoCreditoDebito = new Number($("#idCreditoDebito").val()).toFixed(2);
+			var montoTotalTotal = new Number(new Number(montoTotal) - new Number(montoCreditoDebito)).toFixed(2);
+			
+			$("#idMontoTotalTotal").val(montoTotalTotal);
+			$("#idMontoTotalTotalStr").html("$ "+montoTotalTotal);
+		}				
+	}
 	
 </script>
 <input id="paramUrlSeleccionGuia" type="hidden" value="${urlSeleccionGuia}">
@@ -74,6 +165,35 @@
 <html:form action="boletaDeposito" styleId="boletaDepositoForm">
 <html:hidden property="metodo" value="generarBoletaGuias" />
 <html:hidden property="boletaDeposito.productor.id" value="" styleId="idProd"/>
+
+
+<div id="dialogo" style="display: none" >
+
+
+	<table border="0" class="cuadrado" align="center" width="80%" cellpadding="2">
+		<tr>
+			<td height="10"></td>
+		</tr>	
+		<tr>
+			<td class="botoneralNegrita">
+				<div id="idInteresDialogo"></div>
+			</td>							
+		</tr>		
+		<tr>
+			<td height="10"></td>
+		</tr>
+		<tr>
+			<td height="10">
+				<input type="button" class="botonerab" value="Cerrar" onclick="javascript:cerrarVentanaPagoBoleta();">			
+			</td>
+		</tr>		
+		<tr>
+			<td height="10"></td>
+		</tr>		
+	</table>	
+</div>
+
+
 <table border="0" class="cuadradoSinBorde" align="center" width="100%" cellpadding="2" cellspacing="1">
 
 <c:choose>
@@ -87,7 +207,7 @@
 <c:otherwise>
 	<tr >
 		<td colspan="2">
-			<table border="0" class="cuadrado" align="center" width="80%" cellpadding="2" cellspacing="1">
+			<table border="0" class="cuadrado" align="center" width="90%" cellpadding="2" cellspacing="1">
 			<tr>
 				<td height="10"></td>
 			</tr>			
@@ -98,12 +218,26 @@
 				</td>
 				<td class="botoneralNegrita">
 					Fecha Vencimiento
-					<input id="datepicker" class="botonerab" type="text" size="20" readonly="readonly" name="boletaDeposito.fechaVencimiento">						
+					<input id="datepicker" class="botonerab" type="text" size="20" readonly="readonly" name="boletaDeposito.fechaVencimiento"
+						onchange="cambioFechaVencimiento()">						
 					<img alt="" src="<html:rewrite page='/imagenes/calendar/calendar2.gif'/>" align="top" width='17' height='21'>					
 				</td>
 			</tr>
 			<tr>
-				<td height="10"></td>
+				<td height="15"></td>
+			</tr>
+			<tr>
+				<td colspan="2" class="botoneralNegrita">
+					<c:if test="${productor.saldoCuentaCorriente < 0}">		
+						<div class="rojoAdvertencia">El Productor posee $${productor.saldoCuentaCorriente} de débito en su cuenta corriente</div>
+					</c:if>
+					<c:if test="${productor.saldoCuentaCorriente >= 0}">
+						<div class="verdeExito">El Productor posee $${productor.saldoCuentaCorriente} de crédito en su cuenta corriente</div>
+					</c:if>						
+				</td>
+			</tr>
+			<tr>
+				<td height="15"></td>
 			</tr>			
 			</table>
 		</td>
@@ -119,17 +253,14 @@
 	</tr>				
 	<tr>
 		<td colspan="2">
-			<table border="0" class="cuadrado" align="center" width="80%" cellpadding="2" cellspacing="1">						
+			<table border="0" class="cuadrado" align="center" width="90%" cellpadding="2" cellspacing="1">						
 				<tr>
 					<td class="azulAjustado botoneralNegrita"></td>
 					<td class="azulAjustado botoneralNegrita">
 						Número
 					</td>
 					<td class="azulAjustado botoneralNegrita">
-						Productor
-					</td>
-					<td class="azulAjustado botoneralNegrita">
-						Fecha de Devolución
+						Fecha de Tránsito
 					</td>					
 					<td class="azulAjustado botoneralNegrita">
 						Tipo de Producto
@@ -138,8 +269,17 @@
 						Cantidad
 					</td>
 					<td class="azulAjustado botoneralNegrita">
-						Monto	
+						Monto Guía	
 					</td>
+					<td class="azulAjustado botoneralNegrita">
+						Interes %
+					</td>
+					<td class="azulAjustado botoneralNegrita">
+						Monto Interes
+					</td>					
+					<td class="azulAjustado botoneralNegrita">
+						Monto Total x Guía	
+					</td>										
 				</tr>
 				<%String clase=""; %>	
 				<c:forEach items="${guias}" var="guia" varStatus="index">
@@ -158,10 +298,8 @@
 							${guia.numero}
 						</td>
 						<td>
-							${guia.productor.nombre}
-						</td>
-						<td>
-							<fmt:formatDate value="${guia.fechaTransito}" pattern="dd/MM/yyyy" />
+
+							${guia.fechaTransito}
 						</td>					
 						<td>
 							${guia.tipoAnimal.descripcion}
@@ -170,23 +308,63 @@
 							${guia.cantidad}
 						</td>
 						<td>
-							<input type="hidden" value="${guia.montoTotal}" id="monto${guia.id}">
-							$ ${guia.montoTotal}
-						</td>	
+							<input type="hidden" value="${guia.monto}" id="monto${guia.id}">
+							$ ${guia.monto}
+						</td>
+						<td>
+							<input type="hidden" value="0" id="interes${guia.id}" name="listaGuias[${index.index}].interes">
+							<div id="divInteres${guia.id}">${guia.interes*100}%</div>
+						</td>
+						<td>
+							<div id="divMontoInteres${guia.id}">
+								$ ${guia.monto * guia.interes}
+							</div>	
+						</td>						
+						<td>
+							<input type="hidden" value="${guia.monto + (guia.monto * guia.interes)}" id="montoTotalGuia${guia.id}">
+							<div id="divMontoTotalGuia${guia.id}">$ ${guia.monto + (guia.monto * guia.interes)}</div>
+						</td>														
 					</tr>
 				</c:forEach>
 				<tr>
-					<td height="10"></td>
+					<td height="10" colspan="9"></td>
 				</tr>
 				<tr>
-					<td colspan="6" class="botoneralNegritaRight">
-						<input type="hidden" value="0" id="idMontoTotal" name="boletaDeposito.monto">
-						Monto Total
+					<td colspan="8" class="botoneralNegritaRight">
+						<input type="hidden" value="0" id="idMontoTotal">
+						Monto Total Guías
 					</td>
 					<td id="idMontoTotalStr" class="botoneralNegrita">
 						$ 0.00
 					</td>
-				</tr>								
+				</tr>
+				<tr>
+					<td colspan="8" class="botoneralNegritaRight">
+						<input type="checkbox" id="idCheckCreditoDebito" onclick="cambioCheckCreditoDebito()">
+						<input type="hidden" value="${productor.saldoCuentaCorriente}" name="saldoCuentaCorrienteProductor">
+						Desea utilizar el Crédito/Débito									
+					</td>
+					<td id="idCreditoDebitoStr" class="botoneralNegrita">					
+						$ <input type="text" value="0.00" id="idCreditoDebito" class="botonerab" size="6" readonly="readonly" 
+								onblur="cambioMontoCreditoDebito()" name="boletaDeposito.debitoCreditoUsado">
+					</td>
+				</tr>
+				<tr>
+					<td colspan="7">
+					</td>
+					<td class="botoneralNegrita" colspan="2">
+						<hr>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="8" class="botoneralNegritaRight">
+						<input type="hidden" value="0" id="idMontoTotalTotal" name="boletaDeposito.monto">
+						Monto Total
+					</td>
+					<td id="idMontoTotalTotalStr" class="botoneralNegrita">					
+						$ 0.00
+					</td>
+				</tr>																				
 			</table>
 		</td>
 	</tr>

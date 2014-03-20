@@ -22,6 +22,7 @@ import ar.com.siig.negocio.Categoria;
 import ar.com.siig.negocio.Guia;
 import ar.com.siig.negocio.Marca;
 import ar.com.siig.negocio.MarcaSenial;
+import ar.com.siig.negocio.Productor;
 import ar.com.siig.providers.ProviderDTO;
 import ar.com.siig.struts.utils.Validator;
 import ar.com.siig.dto.BoletaDepositoDTO;
@@ -303,7 +304,7 @@ public class GuiaAction extends ValidadorAction {
 			request.setAttribute("periodos", periodoFachada.getPeriodosDTO());
 			
 			if(urlSeleccionGuia != null && urlSeleccionGuia.equals("cargarGuiaDevuelta")){
-				request.setAttribute("titulo", "Consulta de Guías Devueltas");
+				request.setAttribute("titulo", "Consulta de Guías Registradas");
 			}else{
 				request.setAttribute("titulo", "Generar Boletas de Pago");
 			}
@@ -354,12 +355,23 @@ public class GuiaAction extends ValidadorAction {
 		try {
 			WebApplicationContext ctx = getWebApplicationContext();
 			GuiaFachada guiaFachada = (GuiaFachada) ctx.getBean("guiaFachada");
+			PeriodoFachada periodoFachada = (PeriodoFachada) ctx.getBean("periodoFachada");
+			EntidadFachada entidadFachada = (EntidadFachada) ctx.getBean("entidadFachada");
+			
 			String idProductor = request.getParameter("idProductor");
 			String periodo = request.getParameter("periodo");			
 			String urlSeleccionGuia = request.getParameter("urlSeleccionGuia");
 			
-			List<Guia> listaGuiasDevueltas = guiaFachada.recuperarGuiasDevueltasImpagas(Long.valueOf(idProductor),periodo);
+			List<GuiaDTO> listaGuiasDevueltas = guiaFachada.recuperarGuiasDevueltasImpagasDTO(Long.valueOf(idProductor),periodo);
+			Productor productor = entidadFachada.getProductor(Long.valueOf(idProductor));
+			
+			/*for (GuiaDTO guia : listaGuiasDevueltas) {				
+				double interes = periodoFachada.calcularInteres(guia.getFechaTransito(), periodo);
+				guia.setInteres(interes);
+			}*/
+			
 			request.setAttribute("guias", listaGuiasDevueltas);
+			request.setAttribute("productor", productor);
 			request.setAttribute("urlSeleccionGuia", urlSeleccionGuia);
 			
 		} catch (Throwable t) {
@@ -370,6 +382,8 @@ public class GuiaAction extends ValidadorAction {
 
 		return mapping.findForward(strForward);
 	}	
+	
+	
 	
 	@SuppressWarnings("unchecked")
 	public ActionForward generarBoletaGuias(ActionMapping mapping,
@@ -511,11 +525,21 @@ public class GuiaAction extends ValidadorAction {
 			WebApplicationContext ctx = getWebApplicationContext();
 			GuiaFachada guiaFachada = (GuiaFachada) ctx.getBean("guiaFachada");
 			String idBoleta = request.getParameter("idBoleta");
+			String consultaBoletaPago = request.getParameter("consultaBoletaPago");
 			
 			BoletaDeposito boleta = guiaFachada.recuperarBoleta(Long.valueOf(idBoleta));
 			
 			request.setAttribute("boleta", boleta);
-
+			request.setAttribute("consulta", false);
+			request.setAttribute("titulo", "Registrar Pago de Boleta");
+			request.setAttribute("volver", "/boletaDeposito.do?metodo=cargarRegistrarPagoBoletas");
+			
+			if(consultaBoletaPago != null && consultaBoletaPago.equals("consulta")){
+				//strForward = "exitoRecuperarBoletaDePago";
+				request.setAttribute("volver", "/guia.do?metodo=cargarConsultaBoletasDePago&urlDetalle=recuperarBoletasDePago");
+				request.setAttribute("consulta", true);
+				request.setAttribute("titulo", "Consulta Boleta de Pago");
+			}
 			
 		} catch (Throwable t) {
 			MyLogger.logError(t);
@@ -537,11 +561,17 @@ public class GuiaAction extends ValidadorAction {
 			String idBoleta = request.getParameter("idBoleta");
 			String fechaPago = request.getParameter("fechaPago");
 			
-			guiaFachada.registrarPagoBoleta(Long.valueOf(idBoleta),fechaPago);
+			double montoInteresDiferencia = guiaFachada.registrarPagoBoleta(Long.valueOf(idBoleta),fechaPago);
 			
 			request.setAttribute("exitoGrabado",
 					Constantes.EXITO_REGISTRACION_PAGO_BOLETA);
-
+			
+			if(montoInteresDiferencia < 0){
+				request.setAttribute("debitoGenerado","Se ha generado un débito por $ "+(montoInteresDiferencia*-1));				
+			}
+			if(montoInteresDiferencia > 0){
+				request.setAttribute("creditoGenerado","Se ha generado un crédito por $ "+montoInteresDiferencia);				
+			}
 			
 		} catch (Throwable t) {
 			MyLogger.logError(t);
@@ -551,6 +581,69 @@ public class GuiaAction extends ValidadorAction {
 
 		return mapping.findForward(strForward);
 	}	
+	
+	@SuppressWarnings("unchecked")
+	public ActionForward cargarConsultaBoletasDePago(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+
+		String strForward = "exitoConsultaGeneralGuia";
+
+		try {
+			WebApplicationContext ctx = getWebApplicationContext();
+			EntidadFachada entidadFachada = (EntidadFachada) ctx.getBean("entidadFachada");
+			PeriodoFachada periodoFachada = (PeriodoFachada) ctx.getBean("periodoFachada");
+			
+			String idProd = request.getParameter("idProductor");
+			String periodo = request.getParameter("periodo");
+			String urlDetalle = request.getParameter("urlDetalle");			
+			//String urlSeleccionGuia = request.getParameter("urlSeleccionGuia");			
+			
+			request.setAttribute("idProductor", idProd);
+			request.setAttribute("periodo", periodo);
+			request.setAttribute("productores", entidadFachada.getProductoresDTO());
+			request.setAttribute("periodos", periodoFachada.getPeriodosDTO());
+			
+			request.setAttribute("titulo", "Consulta de Boletas de Pago");
+			
+			request.setAttribute("urlDetalle","../../boletaDeposito.do?metodo="+urlDetalle);
+			//request.setAttribute("urlSeleccionGuia",urlSeleccionGuia);			
+			
+		} catch (Throwable t) {
+			MyLogger.logError(t);
+			request.setAttribute("error", "Error Inesperado");
+			strForward = "error";
+		}
+
+		return mapping.findForward(strForward);
+	}	
+	
+	@SuppressWarnings("unchecked")
+	public ActionForward recuperarBoletasDePago(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String strForward = "exitoRecuperarBoletasDePago";
+
+		try {
+			WebApplicationContext ctx = getWebApplicationContext();
+			GuiaFachada guiaFachada = (GuiaFachada) ctx.getBean("guiaFachada");
+			String idProductor = request.getParameter("idProductor");
+			String periodo = request.getParameter("periodo");			
+			//String urlSeleccionGuia = request.getParameter("urlSeleccionGuia");
+			
+			List<BoletaDeposito> listaGuiasCanceladas = guiaFachada.recuperarBoletas(Long.valueOf(idProductor));	
+			request.setAttribute("boletas", listaGuiasCanceladas);
+			//request.setAttribute("urlSeleccionGuia", urlSeleccionGuia);
+			
+		} catch (Throwable t) {
+			MyLogger.logError(t);
+			request.setAttribute("error", "Error Inesperado");
+			strForward = "error";
+		}
+
+		return mapping.findForward(strForward);
+	}		
+	
+	
 	
 	public boolean validarGenerarBoletaPagoForm(StringBuffer error, ActionForm form) {
 
@@ -563,6 +656,8 @@ public class GuiaAction extends ValidadorAction {
 			boolean ok = true;
 			boolean ok1 = true;
 			boolean ok2 = true;
+			boolean ok3 = true;
+			boolean ok4 = true;
 			
 			if(listaGuias.size() == 0){
 				
@@ -574,7 +669,21 @@ public class GuiaAction extends ValidadorAction {
 			
 			ok2 = Validator.requerido(boleta.getFechaVencimiento(), "Fecha de Vencimiento", error);
 			
-			return ok && ok1 && ok2;			
+			if(boletaDepositoForm.getSaldoCuentaCorrienteProductor() < 0){
+				if(boleta.getDebitoCreditoUsado() < boletaDepositoForm.getSaldoCuentaCorrienteProductor()){
+					Validator.addErrorXML(error, "El Debito utilizado debe ser mayor o igual al que posee el productor");
+					ok3 = false;					
+				}
+			}else{
+				if(boleta.getDebitoCreditoUsado() > boletaDepositoForm.getSaldoCuentaCorrienteProductor()){
+					Validator.addErrorXML(error, "El Credito utilizado debe ser menor o igual al que posee el productor");
+					ok3 = false;					
+				}				
+			}
+			
+			ok4 = Validator.validarDoubleMayorOIgualQue(0, String.valueOf(boleta.getMonto()), "Monto Total", error);
+			
+			return ok && ok1 && ok2 && ok3 && ok4;			
 			
 		} catch (Throwable t) {
 			MyLogger.logError(t);

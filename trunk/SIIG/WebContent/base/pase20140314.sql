@@ -52,3 +52,18 @@ CREATE TABLE `x071vm20_siig`.`Robo` (
   KEY `FK26F36A7E6C07D8` (`denuncia_fk`),
   CONSTRAINT `FK26F36A7E6C07D8` FOREIGN KEY (`denuncia_fk`) REFERENCES `denuncia` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+
+ALTER TABLE `x071vm20_siig`.`boletadeposito` 
+ADD COLUMN `fechaGeneracion` DATETIME NOT NULL;
+
+ALTER TABLE `x071vm20_siig`.`boletadeposito` 
+ADD COLUMN `debitoGeneradoPorPagoAtrasado` double NOT NULL;
+
+ALTER TABLE `x071vm20_siig`.`boletadeposito` 
+ADD COLUMN `creditoGeneradoPorPagoAdelantado` double NOT NULL;
+
+ALTER TABLE `x071vm20_siig`.`boletadeposito` 
+ADD COLUMN `debitoCreditoUsado` double NOT NULL;
+
+ALTER TABLE `x071vm20_siig`.`entidad` 
+ADD COLUMN `saldoCuentaCorriente` double NOT NULL;

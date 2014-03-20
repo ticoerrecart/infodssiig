@@ -68,7 +68,7 @@ public class Entidad implements Comparable<Entidad> {
 
 	@OneToMany(mappedBy = "productor")
 	@Cascade(value = {CascadeType.SAVE_UPDATE,CascadeType.DELETE_ORPHAN })
-	private List<Senial> seniales;	
+	private List<Senial> seniales;		
 	
 	/**
 	 * Cada subclase debe implementar éste método.
@@ -211,6 +211,5 @@ public class Entidad implements Comparable<Entidad> {
 
 	public void setNroExpediente(String nroExpediente) {
 		this.nroExpediente = nroExpediente;
-	}
-
+	}	
 }

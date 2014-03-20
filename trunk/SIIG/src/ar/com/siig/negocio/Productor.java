@@ -27,7 +27,9 @@ public class Productor extends Entidad {
 	
 	@OneToMany(mappedBy = "productor")
 	@Cascade(value = { CascadeType.SAVE_UPDATE, CascadeType.DELETE_ORPHAN })
-	private List<BoletaDeposito> boletasDeposito;	
+	private List<BoletaDeposito> boletasDeposito;		
+	
+	private double saldoCuentaCorriente;	
 	
 	public String getTipoEntidad() {
 		return TipoDeEntidad.PRD.getDescripcion();
@@ -89,4 +91,11 @@ public class Productor extends Entidad {
 		this.boletasDeposito = boletasDeposito;
 	}
 	
+	public double getSaldoCuentaCorriente() {
+		return saldoCuentaCorriente;
+	}
+
+	public void setSaldoCuentaCorriente(double saldoCuentaCorriente) {
+		this.saldoCuentaCorriente = saldoCuentaCorriente;
+	}	
 }

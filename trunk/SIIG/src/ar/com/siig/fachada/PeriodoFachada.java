@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import ar.com.siig.dao.PeriodoDAO;
+import ar.com.siig.dto.GuiaDTO;
 import ar.com.siig.dto.PeriodoDTO;
 import ar.com.siig.negocio.Periodo;
 import ar.com.siig.negocio.VencimientoPeriodo;
@@ -22,12 +23,22 @@ import org.springframework.transaction.annotation.Transactional;
 public class PeriodoFachada{
 
 	private PeriodoDAO PeriodoDAO;
-
+	private GuiaFachada guiaFachada;
+	
 	public PeriodoFachada() {
 	}
 
 	public PeriodoFachada(PeriodoDAO laPeriodoAO) {
 		this.PeriodoDAO = laPeriodoAO;
+		//this.guiaFachada = pGuiaFachada;
+	}
+
+	public GuiaFachada getGuiaFachada() {
+		return guiaFachada;
+	}
+
+	public void setGuiaFachada(GuiaFachada guiaFachada) {
+		this.guiaFachada = guiaFachada;
 	}
 
 	public List<Periodo> getPeriodos(){
@@ -82,28 +93,31 @@ public class PeriodoFachada{
 		PeriodoDAO.alta_modficacion_Periodo(ProviderDominio.getPeriodo(Periodo,PeriodoDTO));		
 	}
 	
-	public double calcularInteres(String pFechaTransito, String pPeriodo){
+	public double calcularInteres(String pFechaVencimiento, String pFechaTransito, String pPeriodo){
 		
 		//pPeriodo="2012-2013";
 		//String f1 = "12/07/2013";
 		//Date fechaHoy = Fecha.stringDDMMAAAAToUtilDate(f1);
 		
-		Calendar fechaHoy = Calendar.getInstance();
+		//Calendar fechaHoy = Calendar.getInstance();
+		Date fechaVencimiento = Fecha.stringDDMMAAAAToUtilDate(pFechaVencimiento);
 		Date fechaTransito = Fecha.stringDDMMAAAAToUtilDate(pFechaTransito);
 		
 		Periodo periodo = PeriodoDAO.getPeriodoPorPeriodo(pPeriodo);
-		int intervalos = recuperarFechaVencimiento(0,periodo,fechaTransito,fechaHoy.getTime());
-		//int intervalos = recuperarFechaVencimiento(0,periodo,fechaTransito,fechaHoy);
+		int intervalos = recuperarFechaVencimiento(0,periodo,fechaTransito,fechaVencimiento);
+		//int intervalos = recuperarFechaVencimiento(0,periodo,fechaTransito,fechaHoy.getTime());
 
 		String a = "01/07/"+pPeriodo.substring(5);
 		Date fechaFinPeriodo = Fecha.stringDDMMAAAAToUtilDate(a);
 		
 		//Por si la fecha de hoy no se corresponde con el periodo de la guia en cuestion
-		if(fechaFinPeriodo.before(fechaHoy.getTime())){
+		//if(fechaFinPeriodo.before(fechaHoy.getTime())){
+		if(fechaFinPeriodo.before(fechaVencimiento)){
 			Integer anioPeriodo = new Integer(pPeriodo.substring(5));
 			anioPeriodo++;
 			Periodo periodoSiguiente = PeriodoDAO.getPeriodoPorPeriodo(pPeriodo.substring(5)+"-"+anioPeriodo);
-			intervalos = recuperarFechaVencimiento(intervalos,periodoSiguiente,fechaTransito,fechaHoy.getTime());
+			//intervalos = recuperarFechaVencimiento(intervalos,periodoSiguiente,fechaTransito,fechaHoy.getTime());
+			intervalos = recuperarFechaVencimiento(intervalos,periodoSiguiente,fechaTransito,fechaVencimiento);
 		}
 
 		switch (intervalos){
@@ -113,6 +127,18 @@ public class PeriodoFachada{
 		default:return 1.0;
 		}
 	}	
+	
+	public List<GuiaDTO> calcularInteres2(String pFechaVencimiento, String pPeriodo, Long idProductor){
+		
+		List<GuiaDTO> listaGuiasDevueltas = guiaFachada.recuperarGuiasDevueltasImpagasDTO(idProductor,pPeriodo);		
+		
+		for (GuiaDTO guia : listaGuiasDevueltas) {				
+			double interes = calcularInteres(pFechaVencimiento,guia.getFechaTransito(), pPeriodo);
+			guia.setInteres(interes);
+		}	
+		
+		return listaGuiasDevueltas;
+	}
 	
 	public int recuperarFechaVencimiento(int pIntervalo, Periodo periodo, Date fechaTransito, Date fechaHoy){
 		

@@ -14,6 +14,8 @@ public class ProductorDTO extends EntidadDTO {
 	
 	private List<BoletaDepositoDTO> boletasDeposito;
 	
+	private double saldoCuentaCorriente;	
+	
 	public ProductorDTO(){
 		
 		autorizaciones = new ArrayList<AutorizacionDTO>();
@@ -54,4 +56,11 @@ public class ProductorDTO extends EntidadDTO {
 		this.boletasDeposito = boletasDeposito;
 	}	
 	
+	public double getSaldoCuentaCorriente() {
+		return saldoCuentaCorriente;
+	}
+
+	public void setSaldoCuentaCorriente(double saldoCuentaCorriente) {
+		this.saldoCuentaCorriente = saldoCuentaCorriente;
+	}	
 }

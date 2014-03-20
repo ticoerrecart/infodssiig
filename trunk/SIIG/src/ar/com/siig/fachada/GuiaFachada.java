@@ -38,6 +38,7 @@ public class GuiaFachada {
 	private EstablecimientoDAO establecimientoDAO;
 	private TipoAnimalDAO tipoAnimalDAO;
 	private UsuarioDAO usuarioDAO;
+	private PeriodoFachada periodoFachada;
 	
 	public GuiaFachada(){}
 	
@@ -51,6 +52,10 @@ public class GuiaFachada {
 		this.usuarioDAO = pUsuarioDAO;
 	}
 	
+	public void setPeriodoFachada(PeriodoFachada periodoFachada) {
+		this.periodoFachada = periodoFachada;
+	}
+
 	public boolean existeGuia(long nroGuia) {
 		return guiaDAO.existeGuia(nroGuia);
 	}
@@ -114,6 +119,16 @@ public class GuiaFachada {
 	public List<Guia> recuperarGuiasDevueltasImpagas(Long idProductor, String periodo){
 		return guiaDAO.recuperarGuias(idProductor,periodo,TipoEstadoGuia.DEVUELTA,false);
 	}
+
+	public List<GuiaDTO> recuperarGuiasDevueltasImpagasDTO(Long idProductor, String periodo){
+		List<Guia> lista = guiaDAO.recuperarGuias(idProductor,periodo,TipoEstadoGuia.DEVUELTA,false);
+		List<GuiaDTO> listaDTO = new ArrayList<GuiaDTO>();
+		for (Guia guia : lista) {
+			listaDTO.add(ProviderDTO.getGuiaDTO(guia));
+		}
+
+		return listaDTO;
+	}	
 	
 	public List<Guia> recuperarGuiasDevueltas(Long idProductor, String periodo){
 		List<Guia> list = new ArrayList<Guia>();
@@ -147,14 +162,23 @@ public class GuiaFachada {
 		Productor productor = entidadDAO.getProductor(boletaDTO.getProductor().getId());
 		List<Guia> listaGuias = new ArrayList<Guia>();
 		for (GuiaDTO guiaDTO : listaGuiasDTO) {
-			listaGuias.add(guiaDAO.recuperarGuia(guiaDTO.getId()));
+			Guia guia = guiaDAO.recuperarGuia(guiaDTO.getId());
+			guia.setInteres(guiaDTO.getInteres());//Seteo el interes que se pudo haber generado en cada guia.
+			listaGuias.add(guia);
 		}
+
+		boletaDTO.setFechaGeneracion(Fecha.getFechaDDMMAAAASlash(
+				Fecha.dateToStringDDMMAAAA(Fecha.getFechaHoy())));
+		
 		BoletaDeposito boleta = ProviderDominio.getBoletaDepositoParaGuias(boletaDTO,listaGuias,productor);
 		
 		//Seteo la boleta generada en el productor
 		productor.getBoletasDeposito().add(boleta);
 		
-		//Seteo la boleta generada en cada una de las guias que componen la boleta
+		//Actualizo el saldo de la cuenta corriente del productor, con lo que use en la boleta de pago 
+		productor.setSaldoCuentaCorriente(productor.getSaldoCuentaCorriente()-boletaDTO.getDebitoCreditoUsado());
+		
+		//Seteo la boleta generada en cada una de las guias que componen la boleta		
 		for (Guia guia : listaGuias) {
 			guia.setBoletaDeposito(boleta);
 		}		
@@ -170,10 +194,39 @@ public class GuiaFachada {
 		return guiaDAO.recuperarBoleta(idBoleta);
 	}
 	
-	public void registrarPagoBoleta(Long idBoleta, String fechaPago){
+	public double registrarPagoBoleta(Long idBoleta, String pFechaPago){
 		
 		BoletaDeposito boleta = guiaDAO.recuperarBoleta(idBoleta);
-		boleta.setFechaPago(Fecha
-				.stringDDMMAAAAToUtilDate(fechaPago));
+		Productor productor = entidadDAO.getProductor(boleta.getProductor().getId());
+		Date fechaPago = Fecha.stringDDMMAAAAToUtilDate(pFechaPago);
+		double montoInteresDiferencia = 0.00;
+		
+		for (Guia guia : boleta.getGuias()) {
+			
+			String fechaTransito = Fecha.getFechaDDMMAAAASlash(Fecha.dateToStringDDMMAAAA(guia.getFechaTransito()));
+			
+			double interes = periodoFachada.calcularInteres(pFechaPago, fechaTransito, guia.getPeriodo());
+			
+			double montoInteresReal = guia.getMonto()*interes;
+			
+			montoInteresDiferencia = montoInteresDiferencia + guia.getMontoInteres()-montoInteresReal;
+		}
+		
+		boleta.setFechaPago(fechaPago);
+		productor.setSaldoCuentaCorriente(productor.getSaldoCuentaCorriente()+montoInteresDiferencia);
+		
+		if(montoInteresDiferencia < 0){
+			boleta.setDebitoGeneradoPorPagoAtrasado(montoInteresDiferencia);
+		}
+		if(montoInteresDiferencia > 0){
+			boleta.setCreditoGeneradoPorPagoAdelantado(montoInteresDiferencia);
+		}
+		
+		return montoInteresDiferencia;
 	}
+	
+	public List<BoletaDeposito> recuperarBoletas(Long idProductor){
+		
+		return guiaDAO.recuperarBoletas(idProductor);
+	}	
 }

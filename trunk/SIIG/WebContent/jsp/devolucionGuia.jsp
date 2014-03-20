@@ -116,10 +116,10 @@ function actualizarMontoTotal(){
 	
 	$("#idMonto").val(monto);
 
-	calcularInteres();
+	//calcularInteres();
 }
 
-function calcularInteres(){
+/*function calcularInteres(){
 
 	var montoTotal = $("#idMonto").val();
 	var fechaTransito = $("#datepicker").val();
@@ -130,7 +130,6 @@ function calcularInteres(){
 		PeriodoFachada.calcularInteres(fechaTransito,periodo,calcularInteresCallback);
 		
 	}else{
-		//$(".montoTotal").hide();
 		$("#idInteres").html(" % de Interés");
 		$("#idValorInteres").val(0.00);
 		$("#idMontoTotal").val(0.00);		
@@ -150,7 +149,7 @@ function calcularInteresCallback(interes){
 	var montoTotal = new Number(new Number(monto) + new Number(interes)).toFixed(2);
 	
 	$("#idMontoTotal").val(montoTotal);
-}
+}*/
 
 function cambioEstablecimientoOrigen(){
 
@@ -333,7 +332,7 @@ function submitir(){
 						<td colspan="2"></td>
 						<td width="20%" class="botoneralNegritaRight">Fecha de Transito</td>
 						<td align="left">				
-							<input id="datepicker" name="guia.fechaTransito" class="botonerab" type="text" size="20" readonly="readonly" onchange="calcularInteres();">						
+							<input id="datepicker" name="guia.fechaTransito" class="botonerab" type="text" size="20" readonly="readonly">						
 							<img alt="" src="<html:rewrite page='/imagenes/calendar/calendar2.gif'/>" align="top" width='17' height='21'>
 						</td>						
 					</tr>	
@@ -502,11 +501,6 @@ function submitir(){
 							<td>
 								<select id="idCategoria" class="botonerab" onchange="cambioCategoria();" disabled="disabled">
 									<option value="-1">-Seleccione-</option>
-									<!--<c:forEach items="${categorias}" var="cat">
-										<option value="${cat.id}">
-											<c:out value="${cat.descripcion}"></c:out>
-										</option>
-									</c:forEach>-->
 								</select>
 							</td>
 							<td>
@@ -533,25 +527,7 @@ function submitir(){
 							<td>
 								$<input type="text" name="guia.monto" class="botonerab" size="12" id="idMonto" readonly="readonly">
 							</td>
-						</tr>
-						<tr style="display: " class="montoTotal">
-							<td colspan="7" id="idInteres" class="botoneralNegritaRight">% de Interes</td>							
-							<td class="botonerab">
-								$<input type="text" name="guia.interes" class="botonerab" size="12" id="idValorInteres" readonly="readonly">
-							</td>							
-						</tr>
-						<tr style="display: " class="montoTotal">
-							<td colspan="5"></td>							
-							<td colspan="3">
-								<hr>
-							</td>							
-						</tr>
-						<tr style="display: " class="montoTotal">
-							<td colspan="7" class="botoneralNegritaRight">Monto Total</td>							
-							<td class="botonerab">
-								$<input type="text" class="botonerab" size="12" id="idMontoTotal" readonly="readonly">
-							</td>							
-						</tr>													
+						</tr>					
 						<tr>
 							<td colspan="8" height="10"></td>							
 						</tr>											

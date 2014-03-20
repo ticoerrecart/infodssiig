@@ -116,6 +116,7 @@ public abstract class ProviderDominio {
 		if (TipoDeEntidad.PRD.getName().equalsIgnoreCase(
 				entidadDTO.getTipoEntidad())) {
 			entidad = new Productor();
+			
 		} else {
 			entidad = new RecursosNaturales();
 		}
@@ -152,6 +153,7 @@ public abstract class ProviderDominio {
 		entidad.setDni(entidadDTO.getDni());
 		entidad.setTipoDocumento(entidadDTO.getTipoDocumento());
 		entidad.setCodigoPostal(entidadDTO.getCodigoPostal());
+		
 		return entidad;
 	}
 
@@ -300,7 +302,12 @@ public abstract class ProviderDominio {
 		boleta.setId(boletaDTO.getId());
 		boleta.setMonto(boletaDTO.getMonto());
 		boleta.setNumero(boletaDTO.getNumero());
-
+		boleta.setFechaGeneracion(Fecha.stringDDMMAAAAToUtilDate(boletaDTO
+					.getFechaGeneracion()));
+		boleta.setDebitoGeneradoPorPagoAtrasado(boletaDTO.getDebitoGeneradoPorPagoAtrasado());
+		boleta.setCreditoGeneradoPorPagoAdelantado(boletaDTO.getCreditoGeneradoPorPagoAdelantado());
+		boleta.setDebitoCreditoUsado(boletaDTO.getDebitoCreditoUsado());
+		
 		return boleta;
 	}
 
