@@ -28,6 +28,7 @@ import ar.com.siig.struts.utils.Validator;
 import ar.com.siig.dto.BoletaDepositoDTO;
 import ar.com.siig.dto.GuiaDTO;
 import ar.com.siig.dto.MarcaSenialDTO;
+import ar.com.siig.enums.TipoBoletaDeposito;
 import ar.com.siig.fachada.CategoriaFachada;
 import ar.com.siig.fachada.EntidadFachada;
 import ar.com.siig.fachada.EstablecimientoFachada;
@@ -501,7 +502,7 @@ public class GuiaAction extends ValidadorAction {
 			String periodo = request.getParameter("periodo");			
 			String urlSeleccionGuia = request.getParameter("urlSeleccionGuia");
 			
-			List<BoletaDeposito> listaBoletas = guiaFachada.recuperarBoletasImpagas(Long.valueOf(idProductor));
+			List<BoletaDeposito> listaBoletas = guiaFachada.recuperarBoletasImpagas(Long.valueOf(idProductor),TipoBoletaDeposito.PAGO_GUIAS);
 			
 			request.setAttribute("boletas", listaBoletas);
 
@@ -630,7 +631,7 @@ public class GuiaAction extends ValidadorAction {
 			String periodo = request.getParameter("periodo");			
 			//String urlSeleccionGuia = request.getParameter("urlSeleccionGuia");
 			
-			List<BoletaDeposito> listaGuiasCanceladas = guiaFachada.recuperarBoletas(Long.valueOf(idProductor));	
+			List<BoletaDeposito> listaGuiasCanceladas = guiaFachada.recuperarBoletas(Long.valueOf(idProductor),TipoBoletaDeposito.PAGO_GUIAS);	
 			request.setAttribute("boletas", listaGuiasCanceladas);
 			//request.setAttribute("urlSeleccionGuia", urlSeleccionGuia);
 			
@@ -643,7 +644,57 @@ public class GuiaAction extends ValidadorAction {
 		return mapping.findForward(strForward);
 	}		
 	
+	@SuppressWarnings("unchecked")
+	public ActionForward cargarGenerarBoletaInteres(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+
+		String strForward = "exitoCargarGenerarBoletaInteres";
+
+		try {
+			WebApplicationContext ctx = getWebApplicationContext();
+			EntidadFachada entidadFachada = (EntidadFachada) ctx.getBean("entidadFachada");
+
+			request.setAttribute("productores", entidadFachada.getProductoresDTO());
+					
+		} catch (Throwable t) {
+			MyLogger.logError(t);
+			request.setAttribute("error", "Error Inesperado");
+			strForward = "error";
+		}
+
+		return mapping.findForward(strForward);
+	}	
 	
+	@SuppressWarnings("unchecked")
+	public ActionForward generarBoletaInteres(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+
+		String strForward = "exitoGenerarBoletaInteres";
+
+		try {
+			BoletaDepositoForm boletaDepositoForm = (BoletaDepositoForm) form;
+			WebApplicationContext ctx = getWebApplicationContext();
+			GuiaFachada guiaFachada = (GuiaFachada) ctx.getBean("guiaFachada");
+			
+			// valido nuevamente por seguridad.  
+			if (!validarGenerarBoletaPagoInteresesForm(new StringBuffer(), boletaDepositoForm)) {
+				throw new Exception("Error de Seguridad");
+			}
+			guiaFachada.generarBoletaInteres(boletaDepositoForm.getBoletaDeposito());
+			
+			request.setAttribute("exitoGrabado",
+					Constantes.EXITO_GENERACION_BOLETA_PAGO_INTERESES);			
+			
+		} catch (Throwable t) {
+			MyLogger.logError(t);
+			request.setAttribute("error", "Error Inesperado");
+			strForward = "error";
+		}
+
+		return mapping.findForward(strForward);
+	}	
 	
 	public boolean validarGenerarBoletaPagoForm(StringBuffer error, ActionForm form) {
 
@@ -799,4 +850,57 @@ public class GuiaAction extends ValidadorAction {
 		}
 	}	
 	
+	public boolean validarGenerarBoletaPagoInteresesForm(StringBuffer error, ActionForm form) {
+
+		try {
+			BoletaDepositoForm boletaDepositoForm = (BoletaDepositoForm) form;
+			BoletaDepositoDTO boleta = boletaDepositoForm.getBoletaDeposito();
+			WebApplicationContext ctx = getWebApplicationContext();
+			EntidadFachada entidadFachada = (EntidadFachada) ctx.getBean("entidadFachada");
+			GuiaFachada guiaFachada = (GuiaFachada) ctx.getBean("guiaFachada");
+			
+			Productor productor = entidadFachada.getProductor(boleta.getProductor().getId());
+			
+			boolean ok1 = true;
+			boolean ok2 = true;
+			boolean ok3 = true;
+			boolean ok4 = true;
+			boolean ok5 = true;
+			
+			ok1 = Validator.validarLongMayorQue(0, String.valueOf(boleta.getNumero()), "Número de Boleta", error);
+			
+			if(ok1){
+				ok1 = !guiaFachada.existeNroBoleta(boleta.getNumero());
+
+				if (!ok1) {
+					Validator.addErrorXML(error, Constantes.NRO_BOLETA_EXISTENTE);
+				}				
+			}
+			
+			ok5 = Validator.validarComboRequeridoSinNull("-1",Long.toString(boleta.getProductor().getId()),
+					 "Productor",error);			
+			
+			if(ok5){
+				if(productor.getSaldoCuentaCorriente() >= 0){
+					Validator.addErrorXML(error, "El Productor debe tener deuda para generar una boleta de pago");
+				}
+			}
+			
+			ok2 = Validator.requerido(boleta.getFechaVencimiento(), "Fecha de Vencimiento", error);
+			
+			if(boleta.getMonto() > boletaDepositoForm.getSaldoCuentaCorrienteProductor()){
+				Validator.addErrorXML(error, "El Monto de la Boleta debe ser menor o igual a la deuda del Productor");
+				ok3 = false;					
+			}
+			
+			ok4 = Validator.validarDoubleMayorQue(0, String.valueOf(boleta.getMonto()), "Monto", error);
+			
+			return ok1 && ok2 && ok3 && ok4 && ok5;			
+			
+		} catch (Throwable t) {
+			MyLogger.logError(t);
+			Validator.addErrorXML(error, "Error Inesperado");
+			return false;
+		}
+	}	
 }

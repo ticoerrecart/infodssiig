@@ -167,7 +167,11 @@ public class Constantes {
 
 	public static final String EXITO_GENERACION_BOLETA_PAGO = "La Boleta de Pago se a generado con exito";
 
+	public static final String EXITO_GENERACION_BOLETA_PAGO_INTERESES = "La Boleta de Pago de Intereses se a generado con exito";	
+	
 	public static final String EXITO_REGISTRACION_PAGO_BOLETA = "Se a registrado el pago de la boleta con exito";
+	
+	public static final String NRO_BOLETA_EXISTENTE = "El número de boleta ya existe, especifique otro";	
 	// FIN GUIA
 
 	// AUTORIZADO

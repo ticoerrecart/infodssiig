@@ -263,7 +263,10 @@
 			<forward name="exitoRecuperarBoletaParaRegistracionPago" path=".cargarBoletaParaRegistracionPago" />
 			<forward name="exitoRegistrarPagoBoleta" path="/boletaDeposito.do?metodo=cargarRegistrarPagoBoletas" />
 			<forward name="exitoRecuperarBoletasDePago" path="/jsp/bloqueConsultaBoletasDePago.jsp" />
-			<forward name="exitoRecuperarBoletaDePago" path=".cargarBoletaParaRegistracionPago" />								
+			<forward name="exitoRecuperarBoletaDePago" path=".cargarBoletaParaRegistracionPago" />
+			
+			<forward name="exitoCargarGenerarBoletaInteres" path=".generarBoletaInteres" />
+			<forward name="exitoGenerarBoletaInteres" path="/boletaDeposito.do?metodo=cargarGenerarBoletaInteres" />															
 		</action>			
 		
 		<!-- FIN GUIA -->

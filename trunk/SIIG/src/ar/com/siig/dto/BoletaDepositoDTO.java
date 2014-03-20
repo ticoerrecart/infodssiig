@@ -3,6 +3,8 @@ package ar.com.siig.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import ar.com.siig.enums.TipoBoletaDeposito;
+
 public class BoletaDepositoDTO {
 
 	private Long id;
@@ -30,6 +32,8 @@ public class BoletaDepositoDTO {
 	/*Es el debito o credito que tiene el productor en su saldo (cuenta corriente) que se puede utilizar para restar o sumar 
 	 * en el monto de la boleta, al generar la misma*/	
 	private double debitoCreditoUsado;	
+	
+	private TipoBoletaDeposito tipoBoleta;
 	
 	public BoletaDepositoDTO(){
 		
@@ -125,5 +129,13 @@ public class BoletaDepositoDTO {
 
 	public void setDebitoCreditoUsado(double debitoCreditoUsado) {
 		this.debitoCreditoUsado = debitoCreditoUsado;
+	}
+
+	public TipoBoletaDeposito getTipoBoleta() {
+		return tipoBoleta;
+	}
+
+	public void setTipoBoleta(TipoBoletaDeposito tipoBoleta) {
+		this.tipoBoleta = tipoBoleta;
 	}
 }

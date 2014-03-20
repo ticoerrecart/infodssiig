@@ -307,6 +307,7 @@ public abstract class ProviderDominio {
 		boleta.setDebitoGeneradoPorPagoAtrasado(boletaDTO.getDebitoGeneradoPorPagoAtrasado());
 		boleta.setCreditoGeneradoPorPagoAdelantado(boletaDTO.getCreditoGeneradoPorPagoAdelantado());
 		boleta.setDebitoCreditoUsado(boletaDTO.getDebitoCreditoUsado());
+		boleta.setTipoBoleta(boletaDTO.getTipoBoleta());
 		
 		return boleta;
 	}
@@ -322,6 +323,15 @@ public abstract class ProviderDominio {
 		return boleta;
 	}
 
+	public static BoletaDeposito getBoletaDepositoIntereses(
+			BoletaDepositoDTO boletaDTO,Productor productor) {
+
+		BoletaDeposito boleta = ProviderDominio.getBoletaDeposito(boletaDTO);
+		boleta.setProductor(productor);
+
+		return boleta;
+	}	
+	
 	public static Denuncia getDenuncia(DenunciaDTO denunciaDTO) {
 		Denuncia denuncia = new Denuncia();
 		denuncia.setNumeroDeDenuncia(denunciaDTO.getNumeroDeDenuncia());

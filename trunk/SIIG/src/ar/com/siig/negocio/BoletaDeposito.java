@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,6 +17,8 @@ import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+
+import ar.com.siig.enums.TipoBoletaDeposito;
 
 @Entity
 public class BoletaDeposito {
@@ -60,6 +64,8 @@ public class BoletaDeposito {
 	@Column(nullable = false)
 	private double debitoCreditoUsado;	
 	
+	@Enumerated(EnumType.STRING)
+	private TipoBoletaDeposito tipoBoleta;	
 	
 	public Long getId() {
 		return id;
@@ -161,4 +167,13 @@ public class BoletaDeposito {
 		DecimalFormat df = new DecimalFormat("#.00");
 		return new Double(df.format(montoTotalGuias).replace(",", "."));
 	}
+
+	public TipoBoletaDeposito getTipoBoleta() {
+		return tipoBoleta;
+	}
+
+	public void setTipoBoleta(TipoBoletaDeposito tipoBoleta) {
+		this.tipoBoleta = tipoBoleta;
+	}
+	
 }
