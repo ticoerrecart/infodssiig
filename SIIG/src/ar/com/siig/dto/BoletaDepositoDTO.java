@@ -19,6 +19,18 @@ public class BoletaDepositoDTO {
 	
 	private ProductorDTO productor;
 	
+	private String fechaGeneracion;
+	
+	/*Es el debito que se puede generar al pagar la boleta en una fecha posterior a la fecha de Vencimiento*/ 
+	private double debitoGeneradoPorPagoAtrasado;
+	
+	/*Es el credito que se puede generar al pagar la boleta en una fecha anterior a la fecha de Vencimiento*/	
+	private double creditoGeneradoPorPagoAdelantado;
+	
+	/*Es el debito o credito que tiene el productor en su saldo (cuenta corriente) que se puede utilizar para restar o sumar 
+	 * en el monto de la boleta, al generar la misma*/	
+	private double debitoCreditoUsado;	
+	
 	public BoletaDepositoDTO(){
 		
 		guias = new ArrayList<GuiaDTO>();
@@ -79,5 +91,39 @@ public class BoletaDepositoDTO {
 
 	public void setProductor(ProductorDTO productor) {
 		this.productor = productor;
+	}
+
+	public String getFechaGeneracion() {
+		return fechaGeneracion;
+	}
+
+	public void setFechaGeneracion(String fechaGeneracion) {
+		this.fechaGeneracion = fechaGeneracion;
+	}
+
+	public double getDebitoGeneradoPorPagoAtrasado() {
+		return debitoGeneradoPorPagoAtrasado;
+	}
+
+	public void setDebitoGeneradoPorPagoAtrasado(
+			double debitoGeneradoPorPagoAtrasado) {
+		this.debitoGeneradoPorPagoAtrasado = debitoGeneradoPorPagoAtrasado;
+	}
+
+	public double getCreditoGeneradoPorPagoAdelantado() {
+		return creditoGeneradoPorPagoAdelantado;
+	}
+
+	public void setCreditoGeneradoPorPagoAdelantado(
+			double creditoGeneradoPorPagoAdelantado) {
+		this.creditoGeneradoPorPagoAdelantado = creditoGeneradoPorPagoAdelantado;
+	}
+
+	public double getDebitoCreditoUsado() {
+		return debitoCreditoUsado;
+	}
+
+	public void setDebitoCreditoUsado(double debitoCreditoUsado) {
+		this.debitoCreditoUsado = debitoCreditoUsado;
 	}
 }

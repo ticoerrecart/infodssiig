@@ -58,14 +58,21 @@
 	}
 
 	function volver(){
-
-		parent.location=contextRoot() + "/boletaDeposito.do?metodo=cargarRegistrarPagoBoletas";
+		/*var metodoVolver = "cargarRegistrarPagoBoletas";
+		if($('#volver').val() != null || $('#volver').val() != ""){
+			metodoVolver = $('#volver').val();
+		}*/
+		
+		var metodoVolver = $('#volver').val();
+		//parent.location=contextRoot() + "/boletaDeposito.do?metodo="+metodoVolver;
+		parent.location = contextRoot() + metodoVolver;
 	}
 	
 </script>
 <input id="paramUrlSeleccionGuia" type="hidden" value="${urlSeleccionGuia}">
 <input type="hidden" value="${boleta.id}" id="idBoleta">
 <input type="hidden" value="${boleta.productor.id}" id="idProductor">
+<input type="hidden" value="${volver}" id="volver">
 
 <div id="dialogo" style="display: none" >
 	<br>
@@ -111,7 +118,9 @@
 
 <table border="0" class="cuadrado" align="center" width="80%" cellpadding="2" cellspacing="1">
 	<tr>
-		<td class="azulAjustado" colspan="3">Registrar Pago de Boleta</td>
+		<td class="azulAjustado" colspan="3">
+			<c:out value="${titulo}"></c:out>
+		</td>
 	</tr>
 	<tr>
 		<td height="20" colspan="3"></td>
@@ -120,22 +129,62 @@
 		<td colspan="2">
 			<table border="0" class="cuadrado" align="center" width="80%" cellpadding="2" cellspacing="1">
 			<tr>
-				<td height="10"></td>
+				<td height="10" colspan="4"></td>
 			</tr>			
 			<tr>
-				<td class="botoneralNegrita">
+				<td class="botoneralNegritaRight" width="15%">
 					Número
+				</td>
+				<td width="25%" align="left">	
 					<input type="text" value="${boleta.numero}" class="botonerab" size="10" readonly="readonly">
 				</td>
-				<td class="botoneralNegrita">
+				<td class="botoneralNegritaRight" width="25%">
 					Fecha Vencimiento
+				</td>
+				<td width="35%" align="left">					
 					<input class="botonerab" type="text" size="20" readonly="readonly" 
 						value='<fmt:formatDate value="${boleta.fechaVencimiento}" pattern="dd/MM/yyyy" />'>											
 					<img alt="" src="<html:rewrite page='/imagenes/calendar/calendar2.gif'/>" align="top" width='17' height='21'>					
 				</td>
 			</tr>
 			<tr>
-				<td height="10"></td>
+				<td class="botoneralNegritaRight" width="15%">
+					Productor
+				</td>
+				<td width="25%" align="left">	
+					<input type="text" value="${boleta.productor.nombre}" class="botonerab" size="20" readonly="readonly">
+				</td>
+				<td colspan="2">
+					
+				</td>
+			</tr>			
+			<c:if test="${consulta}">
+				<tr>
+					<td class="botoneralNegritaRight" width="15%">
+						Estado:
+					</td>
+					<td width="25%" align="left">						
+						<c:choose>
+						 <c:when test="${boleta.fechaPago != null}">
+						 	<div class="verdeExitoLeft">Pagada</div>
+						 </c:when>
+						 <c:otherwise>
+						 	<div class="rojoAdvertenciaLeft">Impaga</div>
+						 </c:otherwise>
+						</c:choose>						
+					</td>
+					<td class="botoneralNegritaRight" width="25%">
+						Fecha Pago
+					</td>
+					<td width="35%" align="left">						
+						<input class="botonerab" type="text" size="20" readonly="readonly" 
+							value='<fmt:formatDate value="${boleta.fechaPago}" pattern="dd/MM/yyyy" />'>											
+						<img alt="" src="<html:rewrite page='/imagenes/calendar/calendar2.gif'/>" align="top" width='17' height='21'>					
+					</td>
+				</tr>			
+			</c:if>			
+			<tr>
+				<td height="10" colspan="4"></td>
 			</tr>			
 			</table>
 		</td>
@@ -157,10 +206,7 @@
 						Número
 					</td>
 					<td class="azulAjustado botoneralNegrita">
-						Productor
-					</td>
-					<td class="azulAjustado botoneralNegrita">
-						Fecha de Devolución
+						Fecha de Transito
 					</td>					
 					<td class="azulAjustado botoneralNegrita">
 						Tipo de Producto
@@ -169,8 +215,17 @@
 						Cantidad
 					</td>
 					<td class="azulAjustado botoneralNegrita">
-						Monto	
+						Monto Guía	
 					</td>
+					<td class="azulAjustado botoneralNegrita">
+						Interes %
+					</td>
+					<td class="azulAjustado botoneralNegrita">
+						Monto Interes
+					</td>					
+					<td class="azulAjustado botoneralNegrita">
+						Monto Total x Guía	
+					</td>						
 				</tr>
 				<%String clase=""; %>	
 				<c:forEach items="${boleta.guias}" var="guia" varStatus="index">
@@ -183,9 +238,6 @@
 							${guia.numero}
 						</td>
 						<td>
-							${guia.productor.nombre}
-						</td>
-						<td>
 							<fmt:formatDate value="${guia.fechaTransito}" pattern="dd/MM/yyyy" />
 						</td>					
 						<td>
@@ -195,15 +247,54 @@
 							${guia.cantidad}
 						</td>
 						<td>
-							$ ${guia.montoTotal}
-						</td>	
-					</tr>
+							$ ${guia.monto}
+						</td>
+						<td>
+							<div id="divInteres${guia.id}">${guia.interes*100}%</div>
+						</td>
+						<td>
+							$ ${guia.montoInteres}	
+						</td>						
+						<td>
+							<input type="hidden" value="${guia.montoTotal}" id="montoTotalGuia${guia.id}">
+							<div id="divMontoTotalGuia${guia.id}">$ ${guia.montoTotal}</div>
+						</td>							
+					</tr>					
 				</c:forEach>
 				<tr>
-					<td height="10"></td>
+					<td height="10" colspan="8"></td>
 				</tr>
 				<tr>
-					<td colspan="5" class="botoneralNegritaRight">
+					<td colspan="7" class="botoneralNegritaRight">
+						Monto Total Guías
+					</td>
+					<td class="botoneralNegrita">
+						$ ${boleta.montoTotalGuias}
+					</td>
+				</tr>
+				<tr>
+					<td colspan="7" class="botoneralNegritaRight"></td>
+					<td class="botoneralNegritaLeft">
+						-
+					</td>
+				</tr>				
+				<tr>
+					<td colspan="7" class="botoneralNegritaRight">
+						Créditos/Débitos Usados
+					</td>
+					<td class="botoneralNegrita">
+						$ ${boleta.debitoCreditoUsado}
+					</td>
+				</tr>				
+				<tr>
+					<td colspan="6">
+					</td>
+					<td class="botoneralNegrita" colspan="2">
+						<hr>
+					</td>
+				</tr>								
+				<tr>
+					<td colspan="7" class="botoneralNegritaRight">
 						Monto Total
 					</td>
 					<td id="idMontoTotalStr" class="botoneralNegrita">
@@ -218,7 +309,9 @@
 	</tr>
 	<tr>
 		<td colspan="2">
-			<input type="button" value="Registrar Pago" class="botonerab" onclick="javascript:abrirVentanaRegistrarPago();">
+			<c:if test="${!consulta}">
+				<input type="button" value="Registrar Pago" class="botonerab" onclick="javascript:abrirVentanaRegistrarPago();">
+			</c:if>	
 			<input type="button" value="Volver" class="botonerab" onclick="javascript:volver();">
 		</td>
 	</tr>

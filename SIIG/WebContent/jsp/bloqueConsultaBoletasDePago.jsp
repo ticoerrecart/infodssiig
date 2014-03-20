@@ -5,10 +5,10 @@
 <script type="text/javascript" src="<html:rewrite page='/js/funcUtiles.js'/>"></script>
 
 <script>
-	function recuperarGuia(id){
-		//parent.location=contextRoot() + '${fwdDetalle}' + '&id=' + id;
-		var urlSeleccionGuia = $('#paramUrlSeleccionGuia').val();
-		parent.location=contextRoot() + "/guia.do?metodo="+urlSeleccionGuia+"&id="+id;
+	function recuperarBoleta(id){
+
+		//parent.location=contextRoot() + "/guia.do?metodo="+urlSeleccionGuia+"&id="+id;
+		parent.location=contextRoot() + "/boletaDeposito.do?metodo=recuperarBoletaParaRegistracionPago&idBoleta="+id+"&consultaBoletaPago=consulta";
 	}
 
 	var clase;
@@ -29,7 +29,7 @@
 <input id="paramUrlSeleccionGuia" type="hidden" value="${urlSeleccionGuia}">
 <table border="0" class="cuadrado" align="center" width="80%" cellpadding="2" cellspacing="1">		
 	<c:choose>
-		<c:when test="${empty guias}">
+		<c:when test="${empty boletas}">
 			<tr>
 				<td height="15">
 					No existen datos
@@ -37,79 +37,57 @@
 			</tr>
 		</c:when>
 		<c:otherwise>
-			<tr>
-					<c:if test="${urlSeleccionGuia == ''}">
-						<td class="azulAjustado botoneralNegrita"></td>
-					</c:if>			
+				<tr>			
 					<td class="azulAjustado botoneralNegrita">
 						Número
 					</td>
 					<td class="azulAjustado botoneralNegrita">
-						Fecha de Devolución
-					</td>					
-					<td class="azulAjustado botoneralNegrita">
-						Tipo de Producto
+						Fecha Vencimiento
 					</td>
 					<td class="azulAjustado botoneralNegrita">
-						Cantidad
-					</td>
-					<td class="azulAjustado botoneralNegrita">
-						Nro Boleta
+						Nros de Guías
 					</td>					
 					<td class="azulAjustado botoneralNegrita">
-						Monto Total		
+						Monto Total
 					</td>
 					<td class="azulAjustado botoneralNegrita">
-						Estado		
-					</td>					
-					<c:if test="${urlSeleccionGuia != ''}">
-						<td class="azulAjustado botoneralNegrita"></td>
-					</c:if>	
+						Estado
+					</td>										
+					<td class="azulAjustado botoneralNegrita"></td>
 				</tr>
 			<%String clase=""; %>	
-			<c:forEach items="${guias}" var="guia" varStatus="index">
+			<c:forEach items="${boletas}" var="boleta" varStatus="index">
 				<%clase=(clase.equals("")?"par":""); %>
 				<tr class="<%=clase%>" onmouseover="javascript:pintarFila('idTr<c:out value='${index.index}'></c:out>');"
 					onmouseout="javascript:despintarFila('idTr<c:out value='${index.index}'></c:out>');"
-					id="idTr<c:out value='${index.index}'></c:out>">
-					<c:if test="${urlSeleccionGuia == ''}">
-						<td>						
-							<input type="checkbox">						
-						</td>
-					</c:if>						
+					id="idTr<c:out value='${index.index}'></c:out>">						
 					<td>
-						${guia.numero}
+						${boleta.numero}
 					</td>
 					<td>
-						<fmt:formatDate value="${guia.fechaTransito}" pattern="dd/MM/yyyy" />
+						<fmt:formatDate value="${boleta.fechaVencimiento}" pattern="dd/MM/yyyy" />
+					</td>
+					<td>
+						<c:forEach items="${boleta.guias}" var="guia" varStatus="index">
+						${guia.numero} - 
+						</c:forEach>
 					</td>					
 					<td>
-						${guia.tipoAnimal.descripcion}
-					</td>
-					<td>
-						${guia.cantidad}
-					</td>
-					<td>
-						${guia.boletaDeposito.numero}
-					</td>					
-					<td>
-						$ ${guia.monto + (guia.monto * guia.interes)}
+						$ ${boleta.monto}
 					</td>
 					<td>
 						<c:choose>
-						 <c:when test="${guia.boletaDeposito != null && guia.boletaDeposito.fechaPago != null}">
+						 <c:when test="${boleta.fechaPago != null}">
 						 	<div class="verdeExito">Pagada</div>
 						 </c:when>
 						 <c:otherwise>
 						 	<div class="rojoAdvertencia">Impaga</div>
 						 </c:otherwise>
 						</c:choose>
-					</td>					
-					<c:if test="${urlSeleccionGuia != ''}">
-						<td>						
-							<a href="javascript:recuperarGuia(${guia.id});">Seleccionar</a>						
-						</td>
-					</c:if>		
+					</td>										
+					<td>						
+						<a href="javascript:recuperarBoleta(${boleta.id});">Seleccionar</a>						
+					</td>	
 				</tr>
 			</c:forEach>
 		</c:otherwise>

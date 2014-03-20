@@ -230,7 +230,12 @@ public abstract class ProviderDTO {
 		boletaDTO.setId(boleta.getId());
 		boletaDTO.setMonto(boleta.getMonto());
 		boletaDTO.setNumero(boleta.getNumero());
-
+		boletaDTO.setFechaGeneracion(Fecha.getFechaDDMMAAAASlash(Fecha
+				.dateToStringDDMMAAAA(boleta.getFechaGeneracion())));
+		boletaDTO.setDebitoGeneradoPorPagoAtrasado(boleta.getDebitoGeneradoPorPagoAtrasado());
+		boletaDTO.setCreditoGeneradoPorPagoAdelantado(boleta.getCreditoGeneradoPorPagoAdelantado());
+		boletaDTO.setDebitoCreditoUsado(boleta.getDebitoCreditoUsado());
+		
 		return boletaDTO;
 	}
 

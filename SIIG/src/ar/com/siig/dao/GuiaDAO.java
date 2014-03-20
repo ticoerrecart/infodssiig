@@ -49,10 +49,11 @@ public class GuiaDAO extends HibernateDaoSupport {
 	
 	public List<Guia> recuperarGuiasCanceladas(Long idProductor,String periodo) {
 		Criteria criteria = getSession().createCriteria(Guia.class);
+		criteria.createAlias("boletaDeposito", "bd");
 		criteria.add(Restrictions.eq("productor.id", idProductor));
 		criteria.add(Restrictions.eq("periodo", periodo));		
 		criteria.add(Restrictions.eq("tipoEstadoGuia", TipoEstadoGuia.DEVUELTA));
-		criteria.add(Restrictions.isNotNull("boletaDeposito.fechaPago"));	
+		criteria.add(Restrictions.isNotNull("bd.fechaPago"));	
 		List<Guia> guias = criteria.list();	
 		return guias;
 	}	
@@ -78,5 +79,13 @@ public class GuiaDAO extends HibernateDaoSupport {
 		return (BoletaDeposito)getHibernateTemplate().get(BoletaDeposito.class,idBoleta);
 	}
 
-
+	public List<BoletaDeposito> recuperarBoletas(Long idProductor){
+		
+		Criteria criteria = getSession().createCriteria(BoletaDeposito.class);
+		criteria.add(Restrictions.eq("productor.id", idProductor));
+		
+		List<BoletaDeposito> boletas = criteria.list();	
+		
+		return boletas;
+	}
 }

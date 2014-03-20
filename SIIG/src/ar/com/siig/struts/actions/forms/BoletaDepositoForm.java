@@ -14,6 +14,7 @@ public class BoletaDepositoForm extends ActionForm {
 
 	private BoletaDepositoDTO boletaDeposito;
 	private List<GuiaDTO> listaGuias;
+	private double saldoCuentaCorrienteProductor;
 	
 	public BoletaDepositoForm(){
 		
@@ -49,5 +50,17 @@ public class BoletaDepositoForm extends ActionForm {
 			}
 		}
 		listaGuias.removeAll(listaEliminar);
+	}
+
+
+	public double getSaldoCuentaCorrienteProductor() {
+		return saldoCuentaCorrienteProductor;
+	}
+
+
+	public void setSaldoCuentaCorrienteProductor(
+			double saldoCuentaCorrienteProductor) {
+		this.saldoCuentaCorrienteProductor = saldoCuentaCorrienteProductor;
 	}	
+	
 }

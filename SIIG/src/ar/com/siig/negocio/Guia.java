@@ -1,5 +1,6 @@
 package ar.com.siig.negocio;
 
+import java.text.DecimalFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -285,11 +286,6 @@ public class Guia {
 	public void setTipoEstadoGuia(TipoEstadoGuia tipoEstadoGuia) {
 		this.tipoEstadoGuia = tipoEstadoGuia;
 	}
-	
-	public double getMontoTotal(){
-		
-		return this.getMonto()+this.getInteres();
-	}
 
 	public BoletaDeposito getBoletaDeposito() {
 		return boletaDeposito;
@@ -305,5 +301,18 @@ public class Guia {
 
 	public void setAgenteFirmante(Usuario agenteFirmante) {
 		this.agenteFirmante = agenteFirmante;
+	}
+	
+	public double getMontoInteres(){
+		
+		DecimalFormat df = new DecimalFormat("#.00");
+		return new Double(df.format(this.getMonto()*this.getInteres()).replace(",", "."));
+	}	
+	
+	public double getMontoTotal(){
+
+		DecimalFormat df = new DecimalFormat("#.00");
+		return new Double(df.format(this.getMonto()+this.getMontoInteres()).replace(",", "."));		
+		//return this.getMonto()+this.getMontoInteres();
 	}
 }
