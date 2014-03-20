@@ -65,5 +65,8 @@ ADD COLUMN `creditoGeneradoPorPagoAdelantado` double NOT NULL;
 ALTER TABLE `x071vm20_siig`.`boletadeposito` 
 ADD COLUMN `debitoCreditoUsado` double NOT NULL;
 
+ALTER TABLE `x071vm20_siig`.`boletadeposito` 
+ADD COLUMN `tipoBoleta` VARCHAR(255) NULL;
+
 ALTER TABLE `x071vm20_siig`.`entidad` 
 ADD COLUMN `saldoCuentaCorriente` double NOT NULL;

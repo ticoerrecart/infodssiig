@@ -197,7 +197,12 @@
 		extends=".base">
 		<put name="title" value="SIIGs" />
 		<put name="body" value="/jsp/cargarBoletaParaRegistracionPago.jsp" />
-	</definition>		
+	</definition>	
+	<definition name=".generarBoletaInteres"
+		extends=".base">
+		<put name="title" value="SIIGs" />
+		<put name="body" value="/jsp/generarBoletaInteres.jsp" />
+	</definition>			
 	<!-- FIN GUIA -->
 
 

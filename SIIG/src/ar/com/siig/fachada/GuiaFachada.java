@@ -15,6 +15,7 @@ import ar.com.siig.dao.TipoAnimalDAO;
 import ar.com.siig.dao.UsuarioDAO;
 import ar.com.siig.dto.BoletaDepositoDTO;
 import ar.com.siig.dto.GuiaDTO;
+import ar.com.siig.enums.TipoBoletaDeposito;
 import ar.com.siig.enums.TipoEstadoGuia;
 import ar.com.siig.enums.TipoFinalidad;
 import ar.com.siig.enums.TipoMarcaSenial;
@@ -170,6 +171,8 @@ public class GuiaFachada {
 		boletaDTO.setFechaGeneracion(Fecha.getFechaDDMMAAAASlash(
 				Fecha.dateToStringDDMMAAAA(Fecha.getFechaHoy())));
 		
+		boletaDTO.setTipoBoleta(TipoBoletaDeposito.PAGO_GUIAS);
+		
 		BoletaDeposito boleta = ProviderDominio.getBoletaDepositoParaGuias(boletaDTO,listaGuias,productor);
 		
 		//Seteo la boleta generada en el productor
@@ -184,9 +187,9 @@ public class GuiaFachada {
 		}		
 	}	
 	
-	public List<BoletaDeposito> recuperarBoletasImpagas(Long idProductor){
+	public List<BoletaDeposito> recuperarBoletasImpagas(Long idProductor, TipoBoletaDeposito tipoBoleta){
 		
-		return guiaDAO.recuperarBoletasImpagas(idProductor);
+		return guiaDAO.recuperarBoletasImpagas(idProductor,tipoBoleta);
 	}
 	
 	public BoletaDeposito recuperarBoleta(Long idBoleta){
@@ -225,8 +228,36 @@ public class GuiaFachada {
 		return montoInteresDiferencia;
 	}
 	
-	public List<BoletaDeposito> recuperarBoletas(Long idProductor){
+	public List<BoletaDeposito> recuperarBoletas(Long idProductor, TipoBoletaDeposito tipoBoleta){
 		
-		return guiaDAO.recuperarBoletas(idProductor);
-	}	
+		return guiaDAO.recuperarBoletas(idProductor,tipoBoleta);
+	}
+
+	public double getDeudaProductor(Long idProductor){
+		
+		return entidadDAO.getProductor(idProductor).getSaldoCuentaCorriente();
+	}
+	
+	public boolean existeNroBoleta(long nroBoleta){
+
+		return guiaDAO.existeNroBoleta(nroBoleta);
+	}
+	
+	public void generarBoletaInteres(BoletaDepositoDTO boletaDTO){
+		
+		Productor productor = entidadDAO.getProductor(boletaDTO.getProductor().getId());
+
+		boletaDTO.setFechaGeneracion(Fecha.getFechaDDMMAAAASlash(
+				Fecha.dateToStringDDMMAAAA(Fecha.getFechaHoy())));
+		
+		boletaDTO.setTipoBoleta(TipoBoletaDeposito.PAGO_INTERESES);
+		
+		BoletaDeposito boleta = ProviderDominio.getBoletaDepositoIntereses(boletaDTO,productor);
+		
+		//Seteo la boleta generada en el productor
+		productor.getBoletasDeposito().add(boleta);
+		
+		//Actualizo el saldo de la cuenta corriente del productor, con el monto de la boleta de pago de intereses 
+		productor.setSaldoCuentaCorriente(productor.getSaldoCuentaCorriente()+boletaDTO.getMonto());		
+	}
 }

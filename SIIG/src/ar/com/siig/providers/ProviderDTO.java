@@ -235,6 +235,7 @@ public abstract class ProviderDTO {
 		boletaDTO.setDebitoGeneradoPorPagoAtrasado(boleta.getDebitoGeneradoPorPagoAtrasado());
 		boletaDTO.setCreditoGeneradoPorPagoAdelantado(boleta.getCreditoGeneradoPorPagoAdelantado());
 		boletaDTO.setDebitoCreditoUsado(boleta.getDebitoCreditoUsado());
+		boletaDTO.setTipoBoleta(boleta.getTipoBoleta());
 		
 		return boletaDTO;
 	}

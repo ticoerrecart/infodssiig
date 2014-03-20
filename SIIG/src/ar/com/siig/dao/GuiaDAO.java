@@ -6,6 +6,7 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+import ar.com.siig.enums.TipoBoletaDeposito;
 import ar.com.siig.enums.TipoEstadoGuia;
 import ar.com.siig.negocio.BoletaDeposito;
 import ar.com.siig.negocio.Guia;
@@ -63,11 +64,12 @@ public class GuiaDAO extends HibernateDaoSupport {
 		return (Guia)getHibernateTemplate().get(Guia.class,idGuia);
 	}	
 	
-	public List<BoletaDeposito> recuperarBoletasImpagas(Long idProductor){
+	public List<BoletaDeposito> recuperarBoletasImpagas(Long idProductor, TipoBoletaDeposito tipoBoleta){
 		
 		Criteria criteria = getSession().createCriteria(BoletaDeposito.class);
 		criteria.add(Restrictions.eq("productor.id", idProductor));
 		criteria.add(Restrictions.isNull("fechaPago"));
+		criteria.add(Restrictions.eq("tipoBoleta", tipoBoleta));
 		
 		List<BoletaDeposito> boletas = criteria.list();	
 		
@@ -79,13 +81,24 @@ public class GuiaDAO extends HibernateDaoSupport {
 		return (BoletaDeposito)getHibernateTemplate().get(BoletaDeposito.class,idBoleta);
 	}
 
-	public List<BoletaDeposito> recuperarBoletas(Long idProductor){
+	public List<BoletaDeposito> recuperarBoletas(Long idProductor, TipoBoletaDeposito tipoBoleta){
 		
 		Criteria criteria = getSession().createCriteria(BoletaDeposito.class);
 		criteria.add(Restrictions.eq("productor.id", idProductor));
+		criteria.add(Restrictions.eq("tipoBoleta", tipoBoleta));
 		
 		List<BoletaDeposito> boletas = criteria.list();	
 		
 		return boletas;
 	}
+	
+	public boolean existeNroBoleta(long nroBoleta){
+
+		Criteria criteria = getSession().createCriteria(BoletaDeposito.class);
+		criteria.add(Restrictions.eq("numero", nroBoleta));
+ 
+		List<BoletaDeposito> boletas = criteria.list();
+
+		return (boletas.size() > 0);	
+	}	
 }

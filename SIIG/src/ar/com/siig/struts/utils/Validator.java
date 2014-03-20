@@ -185,7 +185,7 @@ public abstract class Validator {
 				return false;
 			}
 		} catch (NumberFormatException e) {
-			addErrorXML(pError, " debe ser un número entero");
+			addErrorXML(pError, label + " debe ser un número entero");
 			return false;
 		}
 
