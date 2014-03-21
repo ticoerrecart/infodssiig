@@ -469,6 +469,7 @@ public class GuiaAction extends ValidadorAction {
 			
 			String idProd = request.getParameter("idProductor");
 			String periodo = request.getParameter("periodo");
+			String urlDetalle = request.getParameter("urlDetalle");
 			//String urlSeleccionGuia = request.getParameter("urlSeleccionGuia");
 			//String urlDetalle = request.getParameter("urlDetalle");
 			
@@ -477,7 +478,7 @@ public class GuiaAction extends ValidadorAction {
 			request.setAttribute("productores", entidadFachada.getProductoresDTO());
 			request.setAttribute("periodos", periodoFachada.getPeriodosDTO());			
 			
-			request.setAttribute("urlDetalle","../../boletaDeposito.do?metodo=recuperarBoletasParaRegistracionPago");
+			request.setAttribute("urlDetalle","../../boletaDeposito.do?metodo="+urlDetalle);
 			request.setAttribute("urlSeleccionGuia","");
 			request.setAttribute("titulo","Registrar Pago de Boletas");
 			
@@ -518,6 +519,30 @@ public class GuiaAction extends ValidadorAction {
 	}	
 	
 	@SuppressWarnings("unchecked")
+	public ActionForward recuperarBoletasInteresesParaRegistracionPago(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String strForward = "exitoRecuperarBoletasInteresesParaRegistracionPago";
+
+		try {
+			WebApplicationContext ctx = getWebApplicationContext();
+			GuiaFachada guiaFachada = (GuiaFachada) ctx.getBean("guiaFachada");
+			String idProductor = request.getParameter("idProductor");
+			String periodo = request.getParameter("periodo");			
+			
+			List<BoletaDeposito> listaBoletas = guiaFachada.recuperarBoletasImpagas(Long.valueOf(idProductor),TipoBoletaDeposito.PAGO_INTERESES);
+			
+			request.setAttribute("boletas", listaBoletas);
+			
+		} catch (Throwable t) {
+			MyLogger.logError(t);
+			request.setAttribute("error", "Error Inesperado");
+			strForward = "error";
+		}
+
+		return mapping.findForward(strForward);
+	}	
+	
+	@SuppressWarnings("unchecked")
 	public ActionForward recuperarBoletaParaRegistracionPago(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String strForward = "exitoRecuperarBoletaParaRegistracionPago";
@@ -533,7 +558,7 @@ public class GuiaAction extends ValidadorAction {
 			request.setAttribute("boleta", boleta);
 			request.setAttribute("consulta", false);
 			request.setAttribute("titulo", "Registrar Pago de Boleta");
-			request.setAttribute("volver", "/boletaDeposito.do?metodo=cargarRegistrarPagoBoletas");
+			request.setAttribute("volver", "/boletaDeposito.do?metodo=cargarRegistrarPagoBoletas&urlDetalle=recuperarBoletasParaRegistracionPago");
 			
 			if(consultaBoletaPago != null && consultaBoletaPago.equals("consulta")){
 				//strForward = "exitoRecuperarBoletaDePago";
@@ -695,6 +720,33 @@ public class GuiaAction extends ValidadorAction {
 
 		return mapping.findForward(strForward);
 	}	
+
+	@SuppressWarnings("unchecked")
+	public ActionForward registrarPagoBoletaIntereses(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+
+		String strForward = "exitoRegistrarPagoBoletaIntereses";
+
+		try {
+			WebApplicationContext ctx = getWebApplicationContext();
+			GuiaFachada guiaFachada = (GuiaFachada) ctx.getBean("guiaFachada");
+			String idBoleta = request.getParameter("idBoleta");
+			String fechaPago = request.getParameter("fechaPago");
+			
+			guiaFachada.registrarPagoBoletaIntereses(Long.valueOf(idBoleta),fechaPago);
+			
+			request.setAttribute("exitoGrabado",
+					Constantes.EXITO_REGISTRACION_PAGO_BOLETA);		
+			
+		} catch (Throwable t) {
+			MyLogger.logError(t);
+			request.setAttribute("error", "Error Inesperado");
+			strForward = "error";
+		}
+
+		return mapping.findForward(strForward);
+	}		
 	
 	public boolean validarGenerarBoletaPagoForm(StringBuffer error, ActionForm form) {
 

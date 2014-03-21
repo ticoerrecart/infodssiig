@@ -8,6 +8,13 @@
 <script type="text/javascript" src="<html:rewrite page='/js/validarNum.js'/>"></script>
 <script type="text/javascript"
 	src="<html:rewrite page='/js/Concurrent.Thread-full-20090713.js'/>"></script>
+	
+<script type="text/javascript" 
+		src="<html:rewrite page='/js/JQuery/ui/jquery-ui-1.8.10.custom.min.js'/>"></script>
+				
+<link rel="stylesheet" href="<html:rewrite page='/css/ui-lightness/jquery-ui-1.8.10.custom.css'/>"
+	  type="text/css">
+	
 <META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 
 <script type="text/javascript">
