@@ -71,6 +71,10 @@ ADD COLUMN `tipoBoleta` VARCHAR(255) NULL;
 ALTER TABLE `x071vm20_siig`.`entidad` 
 ADD COLUMN `saldoCuentaCorriente` double NOT NULL;
 
+UPDATE `x071vm20_siig`.`itemmenu` 
+SET `url`='/boletaDeposito.do?metodo=cargarRegistrarPagoBoletas&urlDetalle=recuperarBoletasParaRegistracionPago' 
+WHERE `item`='Registrar Pago Boletas';
+
 
 
 /*MENU CONSULTAS*/
@@ -82,8 +86,8 @@ where orden is not null;
 
 INSERT INTO `x071vm20_siig`.`itemmenu` (`id`, `item`, `orden`) VALUES ('58', 'Cuenta Corriente', '25');
 INSERT INTO `x071vm20_siig`.`itemmenu` (`id`, `item`, `url`, `item_fk`) VALUES ('59', 'Consulta de Saldos', '/entidad.do?metodo=consultaSaldos', '58');
-INSERT INTO `x071vm20_siig`.`itemmenu` (`id`, `item`, `url`, `item_fk`) VALUES ('60', 'Generar Boletas de Pago Intereses', '/entidad.do?metodo=consultaSaldos', '58');
-INSERT INTO `x071vm20_siig`.`itemmenu` (`id`, `item`, `url`, `item_fk`) VALUES ('61', 'Registrar Pago de Boletas Intereses', '/entidad.do?metodo=consultaSaldos', '58');
+INSERT INTO `x071vm20_siig`.`itemmenu` (`id`, `item`, `url`, `item_fk`) VALUES ('60', 'Generar Boletas de Pago Intereses', '/boletaDeposito.do?metodo=cargarGenerarBoletaInteres', '58');
+INSERT INTO `x071vm20_siig`.`itemmenu` (`id`, `item`, `url`, `item_fk`) VALUES ('61', 'Registrar Pago de Boletas Intereses', '/boletaDeposito.do?metodo=cargarRegistrarPagoBoletas&urlDetalle=recuperarBoletasInteresesParaRegistracionPago', '58');
 
 INSERT INTO `x071vm20_siig`.`rol_item` (`rol_fk`,`item_fk`)VALUES(2,58);
 INSERT INTO `x071vm20_siig`.`rol_item` (`rol_fk`,`item_fk`)VALUES(2,59);

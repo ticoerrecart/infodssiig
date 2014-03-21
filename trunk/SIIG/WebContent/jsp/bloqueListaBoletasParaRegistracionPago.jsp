@@ -27,6 +27,7 @@
 	
 </script>
 <input id="paramUrlSeleccionGuia" type="hidden" value="${urlSeleccionGuia}">
+
 <table border="0" class="cuadrado" align="center" width="80%" cellpadding="2" cellspacing="1">		
 	<c:choose>
 		<c:when test="${empty boletas}">

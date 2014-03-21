@@ -261,8 +261,10 @@
 			<forward name="exitoGenerarBoletaGuias" path="/guia.do?metodo=cargarConsultaGuiasDevueltas" />
 			<forward name="exitoCargarRegistrarPagoBoletas" path=".consultaGeneralGuia" />
 			<forward name="exitoRecuperarBoletasParaRegistracionPago" path="/jsp/bloqueListaBoletasParaRegistracionPago.jsp" />
+			<forward name="exitoRecuperarBoletasInteresesParaRegistracionPago" path="/jsp/bloqueListaBoletasInteresesParaRegistracionPago.jsp" />			
 			<forward name="exitoRecuperarBoletaParaRegistracionPago" path=".cargarBoletaParaRegistracionPago" />
-			<forward name="exitoRegistrarPagoBoleta" path="/boletaDeposito.do?metodo=cargarRegistrarPagoBoletas" />
+			<forward name="exitoRegistrarPagoBoleta" path="/boletaDeposito.do?metodo=cargarRegistrarPagoBoletas&amp;urlDetalle=recuperarBoletasParaRegistracionPago" />
+			<forward name="exitoRegistrarPagoBoletaIntereses" path="/boletaDeposito.do?metodo=cargarRegistrarPagoBoletas&amp;urlDetalle=recuperarBoletasInteresesParaRegistracionPago" />			
 			<forward name="exitoRecuperarBoletasDePago" path="/jsp/bloqueConsultaBoletasDePago.jsp" />
 			<forward name="exitoRecuperarBoletaDePago" path=".cargarBoletaParaRegistracionPago" />
 			

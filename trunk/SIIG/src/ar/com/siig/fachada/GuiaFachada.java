@@ -260,4 +260,11 @@ public class GuiaFachada {
 		//Actualizo el saldo de la cuenta corriente del productor, con el monto de la boleta de pago de intereses 
 		productor.setSaldoCuentaCorriente(productor.getSaldoCuentaCorriente()+boletaDTO.getMonto());		
 	}
+	
+	public void registrarPagoBoletaIntereses(Long idBoleta, String pFechaPago){
+		
+		BoletaDeposito boleta = guiaDAO.recuperarBoleta(idBoleta);
+		Date fechaPago = Fecha.stringDDMMAAAAToUtilDate(pFechaPago);
+		boleta.setFechaPago(fechaPago);				
+	}
 }
