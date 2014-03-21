@@ -32,6 +32,7 @@
 		//alert($('#idImagen').val())
 		$("#idImg").attr("src","");
 		$('#idNomImg').val($('#idImagen').val());
+		$("#trImagen").hide();
 	}
 
 	function cambiarCanon(){
@@ -65,10 +66,12 @@
 		}
 	}
 
+	var nombreImagen;
 	function marcaSenialCallback(marcaSenial){
 		//alert("cbk " + marcaSenial)
 		if(marcaSenial != null){
-			$("#idImg").attr("src","../../imagenes/"+marcaSenial.nombreImagen);
+			nombreImagen = "../../imagenes/"+marcaSenial.nombreImagen;
+			$("#idImg").attr("src",nombreImagen);
 			$("#idImg").show();
 			$("#divImagenAnterior").show();
 			$("#trImagen").show();
@@ -93,10 +96,23 @@
 		var valor = $("#checkUtilizarImagenAnterior").is(':checked');
 		if(valor){
 			$("#divImagen").hide();
+			$("#idImg").attr("src",nombreImagen);
+			$("#trImagen").show();
 		}else{
 			$("#divImagen").show();
+			$("#idImg").attr("src","");
+
+			if(nombreImagen!=""){
+				if($("#idNomImg").val()==""){
+					$("#idImg").attr("src",nombreImagen);
+					$("#trImagen").show();
+				}
+			}else{
+				$("#idImg").attr("src","");				
+			}
 		}
 	}
+
 </script>
 
 <%-- errores de validaciones AJAX --%>
@@ -157,7 +173,8 @@
 			</td>
 		</tr>
 		<tr>
-			<td class="botoneralNegritaRight" height="10px"><bean:message key='SIIG.label.Imagen'/> Nueva</td>
+			<td class="botoneralNegritaRight" height="10px"><bean:message key='SIIG.label.Imagen'/> Nueva
+															(maximo 1MB)</td>
 			<td align="left" height="10px">
 				<div id="divImagen">
 					<input id="idImagen" type="file" name="imagen" onchange="javascript:cargoImagen();">
