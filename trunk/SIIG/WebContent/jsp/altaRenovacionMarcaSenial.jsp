@@ -69,6 +69,7 @@
 	var nombreImagen;
 	function marcaSenialCallback(marcaSenial){
 		//alert("cbk " + marcaSenial)
+		$("#numeroMarcaSenial").val("");
 		if(marcaSenial != null){
 			nombreImagen = "../../imagenes/"+marcaSenial.nombreImagen;
 			$("#idImg").attr("src",nombreImagen);
@@ -79,8 +80,7 @@
 			if ($("#idTipo").val()=="RenovacionMarca" || $("#idTipo").val()=="RenovacionSenial"){
 				$("#numeroMarcaSenial").val(marcaSenial.numero);
 				$("#numeroMarcaSenial").attr("readonly","readonly");
-			}else{
-				$("#numeroMarcaSenial").val("");
+			}else{				
 				$("#numeroMarcaSenial").removeAttr("readonly");
 			}
 
@@ -106,6 +106,9 @@
 				if($("#idNomImg").val()==""){
 					$("#idImg").attr("src",nombreImagen);
 					$("#trImagen").show();
+				}
+				else{
+					$("#trImagen").hide();
 				}
 			}else{
 				$("#idImg").attr("src","");				

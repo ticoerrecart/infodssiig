@@ -93,7 +93,7 @@
 				<table border="0" width="100%" align="center">
 					<tr>
 						<td>
-							<DIV class="footer"><img src="./imagenes/footerSIIM.jpg"></DIV>
+							<DIV class="footer"><img src="./imagenes/footerSIIA.jpg"></DIV>
 						</td>
 					</tr>	 
 				</table>
