@@ -70,3 +70,22 @@ ADD COLUMN `tipoBoleta` VARCHAR(255) NULL;
 
 ALTER TABLE `x071vm20_siig`.`entidad` 
 ADD COLUMN `saldoCuentaCorriente` double NOT NULL;
+
+
+
+/*MENU CONSULTAS*/
+SET SQL_SAFE_UPDATES=0;
+update `x071vm20_siig`.`itemmenu`
+set orden = orden * 10 
+where orden is not null; 
+
+
+INSERT INTO `x071vm20_siig`.`itemmenu` (`id`, `item`, `orden`) VALUES ('58', 'Cuenta Corriente', '25');
+INSERT INTO `x071vm20_siig`.`itemmenu` (`id`, `item`, `url`, `item_fk`) VALUES ('59', 'Consulta de Saldos', '/entidad.do?metodo=consultaSaldos', '58');
+INSERT INTO `x071vm20_siig`.`itemmenu` (`id`, `item`, `url`, `item_fk`) VALUES ('60', 'Generar Boletas de Pago Intereses', '/entidad.do?metodo=consultaSaldos', '58');
+INSERT INTO `x071vm20_siig`.`itemmenu` (`id`, `item`, `url`, `item_fk`) VALUES ('61', 'Registrar Pago de Boletas Intereses', '/entidad.do?metodo=consultaSaldos', '58');
+
+INSERT INTO `x071vm20_siig`.`rol_item` (`rol_fk`,`item_fk`)VALUES(2,58);
+INSERT INTO `x071vm20_siig`.`rol_item` (`rol_fk`,`item_fk`)VALUES(2,59);
+INSERT INTO `x071vm20_siig`.`rol_item` (`rol_fk`,`item_fk`)VALUES(2,60);
+INSERT INTO `x071vm20_siig`.`rol_item` (`rol_fk`,`item_fk`)VALUES(2,61);
