@@ -11,6 +11,7 @@ import org.apache.struts.action.ActionMapping;
 import org.springframework.web.context.WebApplicationContext;
 
 import ar.com.siig.dto.EntidadDTO;
+import ar.com.siig.dto.ProductorDTO;
 import ar.com.siig.dto.UsuarioDTO;
 import ar.com.siig.fachada.EntidadFachada;
 import ar.com.siig.fachada.LocalidadFachada;
@@ -241,4 +242,25 @@ public class EntidadAction extends ValidadorAction {
 		}			
 	}	
 	
+	
+	public ActionForward consultaSaldos(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		String strForward = "exitoConsultaSaldos";
+		try {
+			WebApplicationContext ctx = getWebApplicationContext();
+			
+			EntidadFachada entidadFachada = (EntidadFachada) ctx.getBean("entidadFachada");
+
+			List<EntidadDTO> productores = entidadFachada.getProductoresDTO();
+
+			request.setAttribute("productores", productores);
+			
+		} catch (Throwable t) {
+			MyLogger.logError(t);
+			request.setAttribute("error", "Error Inesperado");
+			strForward = "error";
+		}
+		return mapping.findForward(strForward);
+	}
 }

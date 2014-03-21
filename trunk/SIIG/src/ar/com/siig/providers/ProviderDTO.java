@@ -32,6 +32,7 @@ import ar.com.siig.negocio.Localidad;
 import ar.com.siig.negocio.Marca;
 import ar.com.siig.negocio.MarcaSenial;
 import ar.com.siig.negocio.Periodo;
+import ar.com.siig.negocio.Productor;
 import ar.com.siig.negocio.Provincia;
 import ar.com.siig.negocio.Rol;
 import ar.com.siig.negocio.Senial;
@@ -165,7 +166,10 @@ public abstract class ProviderDTO {
 			listaSenialesDTO.add(getMarcaSenialDTO(senial));
 		}
 		entidadDTO.setSeniales(listaSenialesDTO);
-
+		
+		if (entidad instanceof Productor){
+			entidadDTO.setSaldoCuentaCorriente(((Productor)entidad).getSaldoCuentaCorriente());	
+		} 
 		return entidadDTO;
 	}
 

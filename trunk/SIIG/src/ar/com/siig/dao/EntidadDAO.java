@@ -1,5 +1,6 @@
 package ar.com.siig.dao;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -114,6 +115,7 @@ public class EntidadDAO extends HibernateDaoSupport {
 		Criteria criteria = getSession().createCriteria(Productor.class);
 		List<Entidad> productores = criteria.list();
 
+		Collections.sort(productores);
 		return productores;
 	}
 

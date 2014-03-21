@@ -164,6 +164,7 @@
 			<forward name="exitoModificacionEntidad"
 				path="/cargarEntidadesAModificar.do?metodo=cargarEntidadesAModificar" />
 			<forward name="errorAltaEntidad" path="/entidad.do?metodo=cargarAltaEntidad" />
+			<forward name="exitoConsultaSaldos" path=".consultaSaldos" />
 		</action>
 
 		<action path="/cargarEntidadesAModificar" type="ar.com.siig.struts.actions.EntidadAction"
