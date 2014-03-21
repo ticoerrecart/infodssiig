@@ -89,20 +89,22 @@ function cargarProductorPeriodo(idProd,periodo){
 		</td>
 		<td width="15%"></td>					
 	</tr>
-				
-	<!-- <tr>
-		<td width="40%" class="botoneralNegritaRight">Período</td>
-		<td class="botonerab" align="left">
-			<select id="periodo" class="botonerab" onchange="cambiarProductor()">
-				<c:forEach items="${periodos}" var="per">
-					<option value="${per.periodo}">
-						<c:out value="${per.periodo}"></c:out>
-					</option>
-				</c:forEach>
-			</select>
-		</td>
-	</tr>
-	 --> 
+	
+	<c:if test="${mostrarPeriodos}">			
+		<tr>
+			<td width="40%" class="botoneralNegritaRight">Período</td>
+			<td class="botonerab" align="left">
+				<select id="periodo" class="botonerab" onchange="cambiarProductor()">
+					<c:forEach items="${periodos}" var="per">
+						<option value="${per.periodo}">
+							<c:out value="${per.periodo}"></c:out>
+						</option>
+					</c:forEach>
+				</select>
+			</td>
+		</tr>
+	 </c:if>
+	 
 	<tr>
 		<td height="20" colspan="3"></td>
 	</tr>

@@ -131,6 +131,8 @@ public class GuiaAction extends ValidadorAction {
 					"../../guia.do?metodo=recuperarLegalizacionGuias");
 			request.setAttribute("urlSeleccionGuia",urlSeleccionGuia);
 
+			request.setAttribute("mostrarPeriodos",true);
+			
 		} catch (Throwable t) {
 			MyLogger.logError(t);
 			request.setAttribute("error", "Error Inesperado");
@@ -314,6 +316,8 @@ public class GuiaAction extends ValidadorAction {
 					"../../guia.do?metodo="+urlDetalle);
 			request.setAttribute("urlSeleccionGuia",urlSeleccionGuia);			
 			
+			request.setAttribute("mostrarPeriodos",true);			
+			
 		} catch (Throwable t) {
 			MyLogger.logError(t);
 			request.setAttribute("error", "Error Inesperado");
@@ -482,6 +486,8 @@ public class GuiaAction extends ValidadorAction {
 			request.setAttribute("urlSeleccionGuia","");
 			request.setAttribute("titulo","Registrar Pago de Boletas");
 			
+			request.setAttribute("mostrarPeriodos",false);	
+			
 		} catch (Throwable t) {
 			MyLogger.logError(t);
 			request.setAttribute("error", "Error Inesperado");
@@ -633,7 +639,8 @@ public class GuiaAction extends ValidadorAction {
 			request.setAttribute("titulo", "Consulta de Boletas de Pago");
 			
 			request.setAttribute("urlDetalle","../../boletaDeposito.do?metodo="+urlDetalle);
-			//request.setAttribute("urlSeleccionGuia",urlSeleccionGuia);			
+
+			request.setAttribute("mostrarPeriodos",false);
 			
 		} catch (Throwable t) {
 			MyLogger.logError(t);
