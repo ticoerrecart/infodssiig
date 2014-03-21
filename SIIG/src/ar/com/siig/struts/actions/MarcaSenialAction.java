@@ -168,31 +168,38 @@ public class MarcaSenialAction extends ValidadorAction {
 			SerialBlob blob = new SerialBlob(marcaSenialForm.getImagen()
 					.getFileData());
 
-			marcaSenialFachada.altaRenovacionMarcaSenial(
-					marcaSenialForm.getMarcaSenial(),
-					marcaSenialForm.isUtilizarImagenAnterior(), blob);
+			Long tamanio = blob.length() / 1024 / 1024;
+			if (tamanio > 1) {
+				request.setAttribute(
+						"error",
+						"El tamaño de la imagen es mayor a 1MB.  Intente nuevamente con una imagen de menor tamaño.");
+			} else {
+				marcaSenialFachada.altaRenovacionMarcaSenial(
+						marcaSenialForm.getMarcaSenial(),
+						marcaSenialForm.isUtilizarImagenAnterior(), blob);
 
-			if (TipoCanonMarcaSenial.AltaMarca.getName().equals(
-					marcaSenialForm.getMarcaSenial().getTipo())) {
-				request.setAttribute("exitoGrabado",
-						Constantes.EXITO_ALTA_MARCA);
-			}
-			if (TipoCanonMarcaSenial.RenovacionMarca.getName().equals(
-					marcaSenialForm.getMarcaSenial().getTipo())) {
-				request.setAttribute("exitoGrabado",
-						Constantes.EXITO_RENOVACION_MARCA);
-			}
+				if (TipoCanonMarcaSenial.AltaMarca.getName().equals(
+						marcaSenialForm.getMarcaSenial().getTipo())) {
+					request.setAttribute("exitoGrabado",
+							Constantes.EXITO_ALTA_MARCA);
+				}
+				if (TipoCanonMarcaSenial.RenovacionMarca.getName().equals(
+						marcaSenialForm.getMarcaSenial().getTipo())) {
+					request.setAttribute("exitoGrabado",
+							Constantes.EXITO_RENOVACION_MARCA);
+				}
 
-			if (TipoCanonMarcaSenial.AltaSenial.getName().equals(
-					marcaSenialForm.getMarcaSenial().getTipo())) {
-				request.setAttribute("exitoGrabado",
-						Constantes.EXITO_ALTA_SENIAL);
-			}
+				if (TipoCanonMarcaSenial.AltaSenial.getName().equals(
+						marcaSenialForm.getMarcaSenial().getTipo())) {
+					request.setAttribute("exitoGrabado",
+							Constantes.EXITO_ALTA_SENIAL);
+				}
 
-			if (TipoCanonMarcaSenial.RenovacionSenial.getName().equals(
-					marcaSenialForm.getMarcaSenial().getTipo())) {
-				request.setAttribute("exitoGrabado",
-						Constantes.EXITO_RENOVACION_SENIAL);
+				if (TipoCanonMarcaSenial.RenovacionSenial.getName().equals(
+						marcaSenialForm.getMarcaSenial().getTipo())) {
+					request.setAttribute("exitoGrabado",
+							Constantes.EXITO_RENOVACION_SENIAL);
+				}
 			}
 		} catch (Throwable t) {
 			MyLogger.logError(t);

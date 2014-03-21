@@ -93,3 +93,11 @@ INSERT INTO `x071vm20_siig`.`rol_item` (`rol_fk`,`item_fk`)VALUES(2,58);
 INSERT INTO `x071vm20_siig`.`rol_item` (`rol_fk`,`item_fk`)VALUES(2,59);
 INSERT INTO `x071vm20_siig`.`rol_item` (`rol_fk`,`item_fk`)VALUES(2,60);
 INSERT INTO `x071vm20_siig`.`rol_item` (`rol_fk`,`item_fk`)VALUES(2,61);
+
+update boletadeposito
+set fechaGeneracion = '2014-03-21'
+where id>0;
+
+update guia
+set agenteFirmante_fk=1
+where id>1;
