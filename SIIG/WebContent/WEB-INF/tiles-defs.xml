@@ -106,6 +106,13 @@
 		<put name="title" value="SIIGs" />
 		<put name="body" value="/jsp/recuperarEntidades.jsp" />
 	</definition>
+	
+	<definition name=".consultaSaldos" extends=".base">
+		<put name="title" value="Consulta Saldo de Productores en Cuneta Corriente" />
+		<put name="body" value="/jsp/consultaSaldos.jsp" />
+	</definition>	
+	
+	
 	<!-- FIN ENTIDAD -->
 
 	<!-- USUARIO -->

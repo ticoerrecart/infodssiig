@@ -43,6 +43,8 @@ public class EntidadDTO {
 	
 	private List<MarcaSenialDTO> seniales;	
 	
+	private double saldoCuentaCorriente;	
+	
 	public EntidadDTO(){
 		
 		localidad = new LocalidadDTO();		
@@ -200,5 +202,13 @@ public class EntidadDTO {
 
 	public void setNroExpediente(String nroExpediente) {
 		this.nroExpediente = nroExpediente;
+	}
+
+	public double getSaldoCuentaCorriente() {
+		return saldoCuentaCorriente;
+	}
+
+	public void setSaldoCuentaCorriente(double saldoCuentaCorriente) {
+		this.saldoCuentaCorriente = saldoCuentaCorriente;
 	}	
 }
