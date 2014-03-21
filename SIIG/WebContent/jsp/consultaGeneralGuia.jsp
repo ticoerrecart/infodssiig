@@ -76,7 +76,7 @@ function cargarProductorPeriodo(idProd,periodo){
 	</tr>
 
 	<tr>
-		<td class="botoneralNegritaRight" width="30%">Tipo de Productor</td>
+		<td class="botoneralNegritaRight" width="40%">Tipo de Productor</td>
 		<td class="botonerab" align="left">
 			<select id="idProductor" class="botonerab" onchange="cambiarProductor()">
 				<option value="-1">-Seleccione un Productor-</option>
@@ -90,7 +90,7 @@ function cargarProductorPeriodo(idProd,periodo){
 		<td width="15%"></td>					
 	</tr>
 				
-	<tr>
+	<!-- <tr>
 		<td width="40%" class="botoneralNegritaRight">Período</td>
 		<td class="botonerab" align="left">
 			<select id="periodo" class="botonerab" onchange="cambiarProductor()">
@@ -101,7 +101,8 @@ function cargarProductorPeriodo(idProd,periodo){
 				</c:forEach>
 			</select>
 		</td>
-	</tr> 
+	</tr>
+	 --> 
 	<tr>
 		<td height="20" colspan="3"></td>
 	</tr>
