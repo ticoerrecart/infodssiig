@@ -25,6 +25,7 @@ import ar.com.siig.negocio.Senial;
 import ar.com.siig.negocio.exception.NegocioException;
 import ar.com.siig.providers.ProviderDTO;
 import ar.com.siig.providers.ProviderDominio;
+import ar.com.siig.utils.Fecha;
 import ar.com.siig.utils.InputOutput;
 import ar.com.siig.utils.MyLogger;
 
@@ -108,6 +109,9 @@ public class MarcaSenialFachada {
 		Entidad productor = this.getEntidadFachada().getEntidad(
 				marcaSenialDTO.getProductor().getId());
 
+		marcaSenialDTO.getBoletaDeposito().setFechaGeneracion(
+				Fecha.getFechaDDMMAAAASlash(Fecha.dateToStringDDMMAAAA(Fecha.getFechaHoy())));
+		
 		if (TipoCanonMarcaSenial.AltaMarca.getName().equals(
 				marcaSenialDTO.getTipo())
 				|| TipoCanonMarcaSenial.RenovacionMarca.getName().equals(
@@ -118,6 +122,7 @@ public class MarcaSenialFachada {
 				Marca marca = marcaSenialDAO.getMarcaDTO(marcaSenialDTO
 						.getProductor().getId());
 				marcaSenialDTO.setImagen(marca.getImagen());
+				marcaSenialDTO.setNombreImagen(marca.getNombreImagen());
 			}
 			productor.getMarcas().add(
 					ProviderDominio.getMarca(marcaSenialDTO, productor));
@@ -133,6 +138,7 @@ public class MarcaSenialFachada {
 				Senial senial = marcaSenialDAO.getSenialDTO(marcaSenialDTO
 						.getProductor().getId());
 				marcaSenialDTO.setImagen(senial.getImagen());
+				marcaSenialDTO.setNombreImagen(senial.getNombreImagen());
 			}
 			productor.getSeniales().add(
 					ProviderDominio.getSenial(marcaSenialDTO, productor));
