@@ -50,6 +50,9 @@
 	function obtenerMarcaSenial(){
 		var idProductor = $("#idProductor").val();
 		//alert(idProductor + "/" + $("#idTipo").val());
+		
+		$("#numeroMarcaSenial").removeAttr("readonly");
+		
 		if(idProductor!="-1"){
 			if ($("#idTipo").val()=="AltaMarca" || $("#idTipo").val()=="RenovacionMarca"){
 				MarcaSenialFachada.getMarcaDTO(idProductor,marcaSenialCallback );
@@ -88,6 +91,10 @@
 			$("#idImg").hide();
 			$("#divImagenAnterior").hide();
 			$("#trImagen").hide();
+
+			if ($("#idTipo").val()=="RenovacionMarca" || $("#idTipo").val()=="RenovacionSenial"){
+				$("#numeroMarcaSenial").attr("readonly","readonly");
+			}			
 		}
 		
 	}
