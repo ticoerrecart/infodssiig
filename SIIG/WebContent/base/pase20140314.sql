@@ -104,3 +104,6 @@ where id>1;
 
 INSERT INTO `x071vm20_siig`.`itemmenu` (`id`, `item`, `url`, `item_fk`) VALUES ('62', 'Reporte Estado General de Guías', '/reportes.do?metodo=cargarReporteGuias&tipoGuia=EstadoGralGuias', '38');
 INSERT INTO `x071vm20_siig`.`rol_item` (`rol_fk`,`item_fk`)VALUES(2,62);
+
+ALTER TABLE `x071vm20_siig`.`Usuario` 
+ADD COLUMN `habilitadoFirmaGuias` bit(1) NOT NULL;
