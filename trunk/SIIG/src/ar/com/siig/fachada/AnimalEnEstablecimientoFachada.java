@@ -1,5 +1,7 @@
 package ar.com.siig.fachada;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import ar.com.siig.dao.AnimalEnEstablecimientoDAO;
 import ar.com.siig.dao.EntidadDAO;
 import ar.com.siig.dao.EstablecimientoDAO;
@@ -13,6 +15,7 @@ import ar.com.siig.negocio.ProductorEnEstablecimiento;
 import ar.com.siig.negocio.TipoAnimal;
 import ar.com.siig.providers.ProviderDominio;
 
+@Transactional(rollbackFor = { Throwable.class })
 public class AnimalEnEstablecimientoFachada {
 
 	private AnimalEnEstablecimientoDAO animalEnEstablecimientoDAO;
