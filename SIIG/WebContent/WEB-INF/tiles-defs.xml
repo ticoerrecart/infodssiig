@@ -247,6 +247,18 @@
 		<put name="title" value="SIIGs" />
 		<put name="body" value="/jsp/altaDenuncia.jsp" />
 	</definition>
+
+	<definition name=".consultaDenuncia"
+		extends=".base">
+		<put name="title" value="SIIGs" />
+		<put name="body" value="/jsp/consultaDenuncia.jsp" />
+	</definition>
+
+	<definition name=".consultaDenunciaDetalle"
+		extends=".base">
+		<put name="title" value="SIIGs" />
+		<put name="body" value="/jsp/consultaDenunciaDetalle.jsp" />
+	</definition>
 	<!-- FIN DENUNCIA -->
 	
 	<!-- REPORTES -->

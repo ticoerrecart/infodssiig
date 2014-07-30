@@ -312,6 +312,9 @@
 			parameter="metodo" name="denunciaForm" scope="request">
 			<forward name="exitoInitAltaDenuncia" path=".altaDenuncia" />
 			<forward name="exitoAltaDenuncia" path="/denuncia.do?metodo=initAltaDenuncia" />
+			<forward name="exitoDenuncias" path=".consultaDenuncia" />
+			<forward name="exitoRecuperarDenuncias" path="/jsp/bloqueConsultaDenuncias.jsp" />
+			<forward name="exitoConsultaDenunciaDetalle" path=".consultaDenunciaDetalle" />
 		</action>
 		<!-- FIN DENUNCIA -->
 
