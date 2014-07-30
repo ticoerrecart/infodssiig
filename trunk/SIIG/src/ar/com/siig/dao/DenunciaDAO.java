@@ -1,10 +1,12 @@
 package ar.com.siig.dao;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Conjunction;
+import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
@@ -82,5 +84,19 @@ public class DenunciaDAO extends HibernateDaoSupport {
 			return 0;
 		}
 		return resul;
+	}
+
+	public List<Denuncia> recuperarDenuncias(Long idProductor, Date desde,
+			Date hasta) {
+		Criteria criteria = getSession().createCriteria(Denuncia.class);
+		criteria.add(Restrictions.eq("productor.id", idProductor));
+		if (desde != null) {
+			criteria.add(Expression.ge("desde", desde));
+		}
+		if (hasta != null) {
+			criteria.add(Expression.le("hasta", hasta));
+		}
+		List<Denuncia> denuncias = criteria.list();
+		return denuncias;
 	}
 }

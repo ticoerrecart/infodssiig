@@ -1,6 +1,7 @@
 package ar.com.siig.fachada;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +35,8 @@ public class DenunciaFachada {
 	}
 
 	public Denuncia getDenunciaPorId(Long id) {
-		return denunciaDAO.getDenunciaPorId(id);
+		Denuncia denuncia = denunciaDAO.getDenunciaPorId(id);
+		return denuncia;
 	}
 
 	public Denuncia altaDenuncia(DenunciaDTO denunciaDTO)
@@ -132,5 +134,9 @@ public class DenunciaFachada {
 			Integer numeroDeLlamado, Long id) {
 		return denunciaDAO
 				.existeDenuncia(numeroDeDenuncia, numeroDeLlamado, id);
+	}
+	
+	public List<Denuncia> recuperarDenuncias(Long idProductor, Date desde, Date hasta){
+		return denunciaDAO.recuperarDenuncias(idProductor, desde, hasta);
 	}
 }
